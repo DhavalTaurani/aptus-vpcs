@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Construction Project Form View -->
+    <record id="construction_project_form_view" model="ir.ui.view">
+        <field name="name">construction.project.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+
+            <!-- Add construction type and stage after project name -->
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="construction_type" widget="radio" options="{'horizontal': true}"/>
+            </xpath>
+            
+            <!-- Ensure stage is visible in the form -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="stage_id" options="{'no_create': True, 'no_create_edit': True}"/>
+            </xpath>
+            
+            <!-- Add construction-specific notebook page -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Construction Details" name="construction_details">
+                    <group>
+                        <group string="Site Information">
+                            <field name="site_location"/>
+                            <field name="site_coordinates" placeholder="e.g., 40.7128, -74.0060"/>
+                            <field name="site_address"/>
+                        </group>
+                        <group string="Contract Details">
+                            <field name="contract_value"/>
+                            <field name="contract_start_date"/>
+                            <field name="contract_end_date"/>
+                            <field name="contract_duration" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Financial Accounts">
+                            <field name="wip_account_id"/>
+                            <field name="retention_account_id"/>
+                        </group>
+                    </group>
+                </page>
+                <!-- <page string="Document Management" name="document_management">
+                    <field name="document_directory_ids">
+                        <list>
+                            <field name="name"/>
+                            <field name="document_type"/>
+                            <field name="document_count"/>
+                        </list>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="project_id" invisible="1"/>
+                                    <field name="parent_id"/>
+                                    <field name="document_type"/>
+                                </group>
+                                <notebook>
+                                    <page string="Documents">
+                                        <field name="attachment_ids"/>
+                                    </page>
+                                    <page string="Subdirectories">
+                                        <field name="child_ids"/>
+                                    </page>
+                                </notebook>
+                            </sheet>
+                        </form>
+                    </field>
+                </page> -->
+                
+
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Construction Project Tree View -->
+    <record id="construction_project_tree_view" model="ir.ui.view">
+        <field name="name">construction.project.tree</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project"/>
+        <field name="arch" type="xml">
+            <!-- Ensure stage_id is visible by default -->
+            <xpath expr="//field[@name='stage_id']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+            
+            <!-- Add construction-specific fields -->
+            <xpath expr="//field[@name='stage_id']" position="after">
+                <field name="construction_type" optional="show"/>
+                <field name="contract_value" widget="monetary" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Construction Project Tree View Grouped by Stage -->
+    <record id="construction_project_tree_view_group_stage" model="ir.ui.view">
+        <field name="name">construction.project.tree.group.stage</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="construction_project_tree_view"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <list position="attributes">
+                <attribute name="default_group_by">stage_id</attribute>
+            </list>
+        </field>
+    </record>
+
+    <!-- Construction Project Kanban View -->
+    <record id="construction_project_kanban_view" model="ir.ui.view">
+        <field name="name">construction.project.kanban</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+            <!-- Add field declarations -->
+            <!-- <xpath expr="//field[@name='tag_ids']" position="after"> -->
+                <!-- <field name="stage_id"/> -->
+                <!-- <field name="construction_type"/> -->
+                <!-- <field name="contract_value"/> -->
+            <!-- </xpath> -->
+            
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <div class="d-flex flex-wrap gap-1 mt-1">
+                    <t t-if="record.stage_id.raw_value">
+                        <span class="badge rounded-pill">
+                            <field name="stage_id"/>
+                        </span>
+                    </t>
+                    <t t-if="record.construction_type.raw_value">
+                        <span class="badge bg-secondary">
+                            <field name="construction_type"/>
+                        </span>
+                    </t>
+                </div>
+            </xpath>
+            
+
+            
+            <xpath expr="//div[hasclass('o_project_kanban_boxes')]" position="after">
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <strong>Contract Value:</strong>
+                        <br/>
+                        <field name="contract_value" widget="monetary"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+
+
+    <!-- Construction Projects Action -->
+    <record id="action_construction_projects" model="ir.actions.act_window">
+        <field name="name">Construction Projects</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('is_construction', '=', True)]</field>
+        <field name="context">{
+            'default_is_construction': True,
+            'search_default_my_projects': 1,
+            'group_by': ['stage_id']
+        }</field>
+        <field name="view_id" ref="construction_project_tree_view_group_stage"/>
+        <field name="search_view_id" ref="project.view_project_project_filter"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first construction project!
+            </p>
+            <p>
+                Manage your construction projects with BOQ items, cost tracking, 
+                subcontractor management, and document organization.
+            </p>
+        </field>
+    </record>
+
+    <!-- Action Views for Construction Projects -->
+    <record id="action_construction_projects_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="10"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="construction_project_tree_view_group_stage"/>
+        <field name="act_window_id" ref="action_construction_projects"/>
+    </record>
+
+    <record id="action_construction_projects_kanban_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="construction_project_kanban_view"/>
+        <field name="act_window_id" ref="action_construction_projects"/>
+    </record>
+
+    <record id="action_construction_projects_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="30"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="construction_project_form_view"/>
+        <field name="act_window_id" ref="action_construction_projects"/>
+    </record>
+
+
+    <menuitem id="menu_construction_project_list" 
+            name="Construction Projects" 
+            parent="menu_construction_projects" 
+            action="action_construction_projects" 
+            sequence="10"/>
+</odoo>

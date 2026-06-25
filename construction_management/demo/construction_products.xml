@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- PRODUCT CATEGORIES -->
+        <!-- ========================================== -->
+        
+        <record id="category_construction_materials" model="product.category">
+            <field name="name">Construction Materials</field>
+            <field name="is_construction_category">True</field>
+            <field name="construction_cost_type">material</field>
+            <field name="default_waste_factor">5.0</field>
+            <field name="default_markup_percentage">20.0</field>
+        </record>
+
+        <record id="category_concrete_materials" model="product.category">
+            <field name="name">Concrete &amp; Cement</field>
+            <field name="parent_id" ref="category_construction_materials"/>
+            <field name="is_construction_category">True</field>
+            <field name="construction_cost_type">material</field>
+            <field name="default_waste_factor">3.0</field>
+            <field name="default_markup_percentage">15.0</field>
+        </record>
+
+        <record id="category_steel_materials" model="product.category">
+            <field name="name">Steel &amp; Reinforcement</field>
+            <field name="parent_id" ref="category_construction_materials"/>
+            <field name="is_construction_category">True</field>
+            <field name="construction_cost_type">material</field>
+            <field name="default_waste_factor">2.0</field>
+            <field name="default_markup_percentage">18.0</field>
+        </record>
+
+        <record id="category_construction_labour" model="product.category">
+            <field name="name">Construction Labour</field>
+            <field name="is_construction_category">True</field>
+            <field name="construction_cost_type">labour</field>
+            <field name="default_markup_percentage">25.0</field>
+        </record>
+
+        <record id="category_construction_equipment" model="product.category">
+            <field name="name">Construction Equipment</field>
+            <field name="is_construction_category">True</field>
+            <field name="construction_cost_type">equipment</field>
+            <field name="default_markup_percentage">30.0</field>
+        </record>
+
+        <record id="category_subcontractor_services" model="product.category">
+            <field name="name">Subcontractor Services</field>
+            <field name="is_construction_category">True</field>
+            <field name="construction_cost_type">subcontractor</field>
+            <field name="default_markup_percentage">15.0</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- MATERIAL PRODUCTS -->
+        <!-- ========================================== -->
+        
+        <record id="product_cement_opc_53" model="product.template">
+            <field name="name">OPC Cement Grade 53</field>
+            <field name="categ_id" ref="category_concrete_materials"/>
+            <field name="default_code">MAT-CEM-001</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">350.0</field>
+            <field name="list_price">420.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">material</field>
+            <field name="construction_unit_cost">350.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="waste_factor">3.0</field>
+            <field name="loss_factor">1.0</field>
+            <field name="preferred_supplier_id" ref="vendor_premier_cement"/>
+            <field name="lead_time_days">7</field>
+            <field name="minimum_order_qty">50.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_premier_cement'), 'min_qty': 50.0, 'price': 350.0})]"/>
+        </record>
+
+        <record id="product_steel_tmt_bars" model="product.template">
+            <field name="name">TMT Steel Reinforcement Bars</field>
+            <field name="categ_id" ref="category_steel_materials"/>
+            <field name="default_code">MAT-STL-001</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_kgm"/>
+            <field name="uom_po_id" ref="uom.product_uom_kgm"/>
+            <field name="standard_price">65.0</field>
+            <field name="list_price">78.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">material</field>
+            <field name="construction_unit_cost">65.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="waste_factor">2.0</field>
+            <field name="loss_factor">0.5</field>
+            <field name="preferred_supplier_id" ref="vendor_steel_masters"/>
+            <field name="lead_time_days">5</field>
+            <field name="minimum_order_qty">1000.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_steel_masters'), 'min_qty': 1000.0, 'price': 65.0})]"/>
+        </record>
+
+        <record id="product_coarse_aggregate" model="product.template">
+            <field name="name">Coarse Aggregate 20mm</field>
+            <field name="categ_id" ref="category_concrete_materials"/>
+            <field name="default_code">MAT-AGG-001</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_ton"/>
+            <field name="uom_po_id" ref="uom.product_uom_ton"/>
+            <field name="standard_price">45.0</field>
+            <field name="list_price">54.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">material</field>
+            <field name="construction_unit_cost">45.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="waste_factor">5.0</field>
+            <field name="loss_factor">2.0</field>
+            <field name="preferred_supplier_id" ref="vendor_premier_cement"/>
+            <field name="lead_time_days">3</field>
+            <field name="minimum_order_qty">10.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_premier_cement'), 'min_qty': 10.0, 'price': 45.0})]"/>
+        </record>
+
+        <record id="product_fine_sand" model="product.template">
+            <field name="name">Fine Sand</field>
+            <field name="categ_id" ref="category_concrete_materials"/>
+            <field name="default_code">MAT-SND-001</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_ton"/>
+            <field name="uom_po_id" ref="uom.product_uom_ton"/>
+            <field name="standard_price">35.0</field>
+            <field name="list_price">42.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">material</field>
+            <field name="construction_unit_cost">35.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="waste_factor">4.0</field>
+            <field name="loss_factor">1.5</field>
+            <field name="preferred_supplier_id" ref="vendor_premier_cement"/>
+            <field name="lead_time_days">2</field>
+            <field name="minimum_order_qty">5.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_premier_cement'), 'min_qty': 5.0, 'price': 35.0})]"/>
+        </record>
+
+        <record id="product_bricks_clay" model="product.template">
+            <field name="name">Clay Bricks</field>
+            <field name="categ_id" ref="category_construction_materials"/>
+            <field name="default_code">MAT-BRK-001</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">0.50</field>
+            <field name="list_price">0.60</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">material</field>
+            <field name="construction_unit_cost">0.50</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="waste_factor">8.0</field>
+            <field name="loss_factor">2.0</field>
+            <field name="preferred_supplier_id" ref="vendor_building_supplies"/>
+            <field name="lead_time_days">5</field>
+            <field name="minimum_order_qty">1000.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_building_supplies'), 'min_qty': 1000.0, 'price': 0.50})]"/>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- LABOUR PRODUCTS -->
+        <!-- ========================================== -->
+        
+        <record id="product_skilled_mason" model="product.template">
+            <field name="name">Skilled Mason</field>
+            <field name="categ_id" ref="category_construction_labour"/>
+            <field name="default_code">LAB-MSN-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_hour"/>
+            <field name="uom_po_id" ref="uom.product_uom_hour"/>
+            <field name="standard_price">25.0</field>
+            <field name="list_price">30.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">labour</field>
+            <field name="construction_unit_cost">25.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="lead_time_days">1</field>
+            <field name="minimum_order_qty">8.0</field>
+        </record>
+
+        <record id="product_unskilled_helper" model="product.template">
+            <field name="name">Unskilled Helper</field>
+            <field name="categ_id" ref="category_construction_labour"/>
+            <field name="default_code">LAB-HLP-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_hour"/>
+            <field name="uom_po_id" ref="uom.product_uom_hour"/>
+            <field name="standard_price">15.0</field>
+            <field name="list_price">18.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">labour</field>
+            <field name="construction_unit_cost">15.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="lead_time_days">1</field>
+            <field name="minimum_order_qty">8.0</field>
+        </record>
+
+        <record id="product_site_supervisor" model="product.template">
+            <field name="name">Site Supervisor</field>
+            <field name="categ_id" ref="category_construction_labour"/>
+            <field name="default_code">LAB-SUP-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_hour"/>
+            <field name="uom_po_id" ref="uom.product_uom_hour"/>
+            <field name="standard_price">40.0</field>
+            <field name="list_price">48.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">labour</field>
+            <field name="construction_unit_cost">40.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="lead_time_days">1</field>
+            <field name="minimum_order_qty">8.0</field>
+        </record>
+
+        <record id="product_construction_foreman" model="product.template">
+            <field name="name">Construction Foreman</field>
+            <field name="categ_id" ref="category_construction_labour"/>
+            <field name="default_code">LAB-FOR-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_hour"/>
+            <field name="uom_po_id" ref="uom.product_uom_hour"/>
+            <field name="standard_price">35.0</field>
+            <field name="list_price">42.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">labour</field>
+            <field name="construction_unit_cost">35.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="lead_time_days">1</field>
+            <field name="minimum_order_qty">8.0</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- EQUIPMENT PRODUCTS -->
+        <!-- ========================================== -->
+        
+        <record id="product_excavator_jcb" model="product.template">
+            <field name="name">Excavator JCB 3DX</field>
+            <field name="categ_id" ref="category_construction_equipment"/>
+            <field name="default_code">EQP-EXC-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_hour"/>
+            <field name="uom_po_id" ref="uom.product_uom_hour"/>
+            <field name="standard_price">75.0</field>
+            <field name="list_price">90.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">equipment</field>
+            <field name="construction_unit_cost">75.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="preferred_supplier_id" ref="vendor_heavy_equipment_rentals"/>
+            <field name="lead_time_days">2</field>
+            <field name="minimum_order_qty">4.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_heavy_equipment_rentals'), 'min_qty': 4.0, 'price': 75.0})]"/>
+        </record>
+
+        <record id="product_concrete_mixer" model="product.template">
+            <field name="name">Concrete Mixer 10/7 CFT</field>
+            <field name="categ_id" ref="category_construction_equipment"/>
+            <field name="default_code">EQP-MIX-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_hour"/>
+            <field name="uom_po_id" ref="uom.product_uom_hour"/>
+            <field name="standard_price">35.0</field>
+            <field name="list_price">42.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">equipment</field>
+            <field name="construction_unit_cost">35.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="preferred_supplier_id" ref="vendor_heavy_equipment_rentals"/>
+            <field name="lead_time_days">1</field>
+            <field name="minimum_order_qty">4.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_heavy_equipment_rentals'), 'min_qty': 4.0, 'price': 35.0})]"/>
+        </record>
+
+        <record id="product_mobile_crane" model="product.template">
+            <field name="name">Mobile Crane 25 Ton</field>
+            <field name="categ_id" ref="category_construction_equipment"/>
+            <field name="default_code">EQP-CRN-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_hour"/>
+            <field name="uom_po_id" ref="uom.product_uom_hour"/>
+            <field name="standard_price">120.0</field>
+            <field name="list_price">144.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">equipment</field>
+            <field name="construction_unit_cost">120.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="preferred_supplier_id" ref="vendor_heavy_equipment_rentals"/>
+            <field name="lead_time_days">3</field>
+            <field name="minimum_order_qty">4.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_heavy_equipment_rentals'), 'min_qty': 4.0, 'price': 120.0})]"/>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- SUBCONTRACTOR SERVICES -->
+        <!-- ========================================== -->
+        
+        <record id="product_electrical_installation" model="product.template">
+            <field name="name">Electrical Installation Work</field>
+            <field name="categ_id" ref="category_subcontractor_services"/>
+            <field name="default_code">SUB-ELE-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">15000.0</field>
+            <field name="list_price">18000.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">15000.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="preferred_supplier_id" ref="vendor_powertech_electrical"/>
+            <field name="lead_time_days">14</field>
+            <field name="minimum_order_qty">1.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_powertech_electrical'), 'min_qty': 1.0, 'price': 15000.0})]"/>
+        </record>
+
+        <record id="product_plumbing_installation" model="product.template">
+            <field name="name">Plumbing Installation Work</field>
+            <field name="categ_id" ref="category_subcontractor_services"/>
+            <field name="default_code">SUB-PLB-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">12000.0</field>
+            <field name="list_price">14400.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">12000.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="preferred_supplier_id" ref="vendor_aquaflow_plumbing"/>
+            <field name="lead_time_days">10</field>
+            <field name="minimum_order_qty">1.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_aquaflow_plumbing'), 'min_qty': 1.0, 'price': 12000.0})]"/>
+        </record>
+
+        <record id="product_painting_finishing" model="product.template">
+            <field name="name">Painting &amp; Finishing Work</field>
+            <field name="categ_id" ref="category_subcontractor_services"/>
+            <field name="default_code">SUB-PNT-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">8000.0</field>
+            <field name="list_price">9600.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">8000.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="preferred_supplier_id" ref="vendor_elite_painting"/>
+            <field name="lead_time_days">7</field>
+            <field name="minimum_order_qty">1.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_elite_painting'), 'min_qty': 1.0, 'price': 8000.0})]"/>
+        </record>
+
+        <record id="product_hvac_installation" model="product.template">
+            <field name="name">HVAC System Installation</field>
+            <field name="categ_id" ref="category_subcontractor_services"/>
+            <field name="default_code">SUB-HVC-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">25000.0</field>
+            <field name="list_price">30000.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">25000.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="preferred_supplier_id" ref="vendor_hvac_systems"/>
+            <field name="lead_time_days">21</field>
+            <field name="minimum_order_qty">1.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_hvac_systems'), 'min_qty': 1.0, 'price': 25000.0})]"/>
+        </record>
+
+        <record id="product_flooring_installation" model="product.template">
+            <field name="name">Premium Flooring Installation</field>
+            <field name="categ_id" ref="category_subcontractor_services"/>
+            <field name="default_code">SUB-FLR-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">18000.0</field>
+            <field name="list_price">21600.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">18000.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="preferred_supplier_id" ref="vendor_flooring_specialists"/>
+            <field name="lead_time_days">14</field>
+            <field name="minimum_order_qty">1.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_flooring_specialists'), 'min_qty': 1.0, 'price': 18000.0})]"/>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- MISCELLANEOUS PRODUCTS -->
+        <!-- ========================================== -->
+        
+        <record id="product_site_office_rent" model="product.template">
+            <field name="name">Site Office Rent</field>
+            <field name="default_code">MISC-RNT-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">2500.0</field>
+            <field name="list_price">3000.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">2500.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="lead_time_days">1</field>
+            <field name="minimum_order_qty">1.0</field>
+        </record>
+
+        <record id="product_site_utilities" model="product.template">
+            <field name="name">Site Utilities (Water, Electricity)</field>
+            <field name="default_code">MISC-UTL-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">1500.0</field>
+            <field name="list_price">1800.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">1500.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="lead_time_days">1</field>
+            <field name="minimum_order_qty">1.0</field>
+        </record>
+
+        <record id="product_construction_permits" model="product.template">
+            <field name="name">Construction Permits &amp; Licenses</field>
+            <field name="default_code">MISC-PRM-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">5000.0</field>
+            <field name="list_price">6000.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">5000.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="lead_time_days">30</field>
+            <field name="minimum_order_qty">1.0</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- OVERHEAD PRODUCTS -->
+        <!-- ========================================== -->
+        
+        <record id="product_project_management" model="product.template">
+            <field name="name">Project Management Services</field>
+            <field name="default_code">OH-PMG-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">8000.0</field>
+            <field name="list_price">9600.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">8000.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="lead_time_days">1</field>
+            <field name="minimum_order_qty">1.0</field>
+        </record>
+
+        <record id="product_construction_insurance" model="product.template">
+            <field name="name">Construction Insurance</field>
+            <field name="default_code">OH-INS-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">3000.0</field>
+            <field name="list_price">3600.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">3000.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="preferred_supplier_id" ref="vendor_construction_insurance"/>
+            <field name="lead_time_days">7</field>
+            <field name="minimum_order_qty">1.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_construction_insurance'), 'min_qty': 1.0, 'price': 3000.0})]"/>
+        </record>
+
+        <record id="product_quality_control" model="product.template">
+            <field name="name">Quality Control &amp; Testing</field>
+            <field name="default_code">OH-QCT-001</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="standard_price">2000.0</field>
+            <field name="list_price">2400.0</field>
+            <field name="is_construction_item">True</field>
+            <field name="is_boq_item">True</field>
+            <field name="boq_category">service</field>
+            <field name="construction_unit_cost">2000.0</field>
+            <field name="construction_markup_percentage">20.0</field>
+            <field name="preferred_supplier_id" ref="vendor_quality_testing_labs"/>
+            <field name="lead_time_days">3</field>
+            <field name="minimum_order_qty">1.0</field>
+            <field name="seller_ids" eval="[(0, 0, {'partner_id': ref('vendor_quality_testing_labs'), 'min_qty': 1.0, 'price': 2000.0})]"/>
+        </record>
+
+    </data>
+</odoo>

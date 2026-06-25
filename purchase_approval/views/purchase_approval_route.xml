@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="purchase_team_tree" model="ir.ui.view">
+            <field name="name">purchase.team.list</field>
+            <field name="model">purchase.team</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="approver_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="purchase_team_form" model="ir.ui.view">
+            <field name="name">purchase.team.form</field>
+            <field name="model">purchase.team</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Type" class="o_purchase_team">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="approver_id"/>
+                                <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="company_id" groups="base.group_multi_company"
+                                       options="{'no_create': True}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                            </group>
+                            <group></group>
+                        </group>
+                        <group string="Approvers">
+                            <field name="approver_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="user_id"/>
+                                    <field name="role"/>
+                                    <field name="min_amount"/>
+                                    <field name="max_amount"/>
+                                    <field name="company_currency_id" column_invisible="True"/>
+                                    <field name="lock_amount_total" column_invisible="True"/>
+                                    <field name="custom_condition_code" column_invisible="True"/>
+                                </list>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_purchase_order_filter_approver" model="ir.ui.view">
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="name">view_purchase_order_filter_approver</field>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <filter name="approved" position="before">
+                    <filter name="waiting_for_approval" string="Waiting for Approval"
+                            domain="[('current_approver', '!=', False)]"/>
+                    <filter name="waiting_for_my_approval" string="Waiting for My Approval"
+                            domain="[('current_approver', '!=', False), ('current_approver.user_id', '=', uid)]"/>
+                    <separator/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="purchase_team_act_window" model="ir.actions.act_window">
+            <field name="name">Purchase Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.team</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No team found. Let's create one!
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Purchase Type" id="purchase_team_menu" action="purchase_team_act_window"
+                  parent="purchase.menu_purchase_config" sequence="50"/>
+
+
+        <record id="purchase_order_approval_form" model="ir.ui.view">
+            <field name="name">purchase.order.approval.form</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+
+                <button name="button_approve" position="attributes">
+                    <attribute name="groups"></attribute>
+                    <attribute name="invisible">state == 'cancel' or not is_current_approver</attribute>
+                </button>
+
+                <field name="currency_id" position="after">
+                    <field name="po_order_approval_route" invisible="True"/>
+                    <field name="team_id" invisible="po_order_approval_route in ['no']" required="po_order_approval_route in ['required']" options="{'no_create': True, 'no_edit': True}"/>
+                </field>
+
+                <notebook position="inside">
+                    <page name="approval_route" string="Approval Route" invisible="state in ['draft', 'sent'] and not team_id">
+                        <field name="approver_ids">
+                            <list>
+                                <field name="user_id"/>
+                                <field name="role"/>
+                                <field name="state"/>
+                            </list>
+                        </field>
+                        <field name="is_current_approver" invisible="True"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="inherit_purchase_order_kpis_tree_inherit_purchase_list" model="ir.ui.view">
+            <field name="name">purchase.order.view.list.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="current_approver" string="Current Approver" optional="show"/> 
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

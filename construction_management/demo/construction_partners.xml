@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- CUSTOMERS / CLIENTS -->
+        <!-- ========================================== -->
+        
+        <record id="partner_metro_city_development" model="res.partner">
+            <field name="name">Metro City Development Corp</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">1</field>
+            <field name="supplier_rank">0</field>
+            <field name="street">123 Business District</field>
+            <field name="city">Metro City</field>
+            <field name="zip">12345</field>
+            <field name="phone">+1-555-0101</field>
+            <field name="email">info@metrocitydev.com</field>
+            <field name="website">www.metrocitydev.com</field>
+            <field name="comment">Large commercial developer specializing in high-rise towers and mixed-use developments</field>
+        </record>
+
+        <record id="partner_skyline_properties" model="res.partner">
+            <field name="name">Skyline Properties Ltd</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">1</field>
+            <field name="supplier_rank">0</field>
+            <field name="street">456 Residential Avenue</field>
+            <field name="city">Suburbia</field>
+            <field name="zip">23456</field>
+            <field name="phone">+1-555-0102</field>
+            <field name="email">contact@skylineproperties.com</field>
+            <field name="website">www.skylineproperties.com</field>
+            <field name="comment">Residential developer focused on multi-unit complexes and affordable housing</field>
+        </record>
+
+        <record id="partner_green_valley_housing" model="res.partner">
+            <field name="name">Green Valley Housing Society</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">1</field>
+            <field name="supplier_rank">0</field>
+            <field name="street">789 Eco Drive</field>
+            <field name="city">Green Valley</field>
+            <field name="zip">34567</field>
+            <field name="phone">+1-555-0103</field>
+            <field name="email">info@greenvalleyhousing.org</field>
+            <field name="website">www.greenvalleyhousing.org</field>
+            <field name="comment">Non-profit housing society developing sustainable and eco-friendly residential communities</field>
+        </record>
+
+        <record id="partner_industrial_estates" model="res.partner">
+            <field name="name">Industrial Estates Corporation</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">1</field>
+            <field name="supplier_rank">0</field>
+            <field name="street">321 Industrial Park</field>
+            <field name="city">Manufacturing Hub</field>
+            <field name="zip">45678</field>
+            <field name="phone">+1-555-0104</field>
+            <field name="email">projects@industrialestates.com</field>
+            <field name="website">www.industrialestates.com</field>
+            <field name="comment">Industrial developer specializing in warehouses, factories, and logistics facilities</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- MATERIAL SUPPLIERS -->
+        <!-- ========================================== -->
+        
+        <record id="vendor_premier_cement" model="res.partner">
+            <field name="name">Premier Cement &amp; Building Materials Co.</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">100 Industrial Road</field>
+            <field name="city">Cement City</field>
+            <field name="zip">56789</field>
+            <field name="phone">+1-555-0201</field>
+            <field name="email">sales@premiercement.com</field>
+            <field name="website">www.premiercement.com</field>
+            <field name="comment">Leading supplier of cement, concrete, aggregates, and basic building materials</field>
+        </record>
+
+        <record id="vendor_steel_masters" model="res.partner">
+            <field name="name">Steel Masters Inc.</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">200 Steel Avenue</field>
+            <field name="city">Iron Town</field>
+            <field name="zip">67890</field>
+            <field name="phone">+1-555-0202</field>
+            <field name="email">orders@steelmasters.com</field>
+            <field name="website">www.steelmasters.com</field>
+            <field name="comment">Specialized steel supplier providing TMT bars, structural steel, and reinforcement materials</field>
+        </record>
+
+        <record id="vendor_building_supplies" model="res.partner">
+            <field name="name">Universal Building Supplies</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">300 Supply Chain Blvd</field>
+            <field name="city">Builder's Hub</field>
+            <field name="zip">78901</field>
+            <field name="phone">+1-555-0203</field>
+            <field name="email">info@universalbuilding.com</field>
+            <field name="website">www.universalbuilding.com</field>
+            <field name="comment">One-stop shop for construction materials including lumber, hardware, and finishing materials</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- EQUIPMENT RENTAL COMPANIES -->
+        <!-- ========================================== -->
+        
+        <record id="vendor_heavy_equipment_rentals" model="res.partner">
+            <field name="name">Heavy Equipment Rentals LLC</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">400 Equipment Yard</field>
+            <field name="city">Machinery Park</field>
+            <field name="zip">89012</field>
+            <field name="phone">+1-555-0301</field>
+            <field name="email">rentals@heavyequipment.com</field>
+            <field name="website">www.heavyequipment.com</field>
+            <field name="comment">Full-service equipment rental company with excavators, cranes, and construction machinery</field>
+        </record>
+
+        <record id="vendor_construction_tools" model="res.partner">
+            <field name="name">Construction Tools &amp; Equipment Co.</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">500 Tool Street</field>
+            <field name="city">Equipment City</field>
+            <field name="zip">90123</field>
+            <field name="phone">+1-555-0302</field>
+            <field name="email">sales@constructiontools.com</field>
+            <field name="website">www.constructiontools.com</field>
+            <field name="comment">Supplier of construction tools, small equipment, and safety gear</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- SUBCONTRACTORS -->
+        <!-- ========================================== -->
+        
+        <record id="vendor_powertech_electrical" model="res.partner">
+            <field name="name">PowerTech Electrical Services</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">600 Electric Avenue</field>
+            <field name="city">Power City</field>
+            <field name="zip">01234</field>
+            <field name="phone">+1-555-0401</field>
+            <field name="email">contracts@powertech.com</field>
+            <field name="website">www.powertech.com</field>
+            <field name="comment">Licensed electrical contractor specializing in commercial and residential electrical systems</field>
+        </record>
+
+        <record id="vendor_aquaflow_plumbing" model="res.partner">
+            <field name="name">AquaFlow Plumbing Solutions</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">700 Water Works Drive</field>
+            <field name="city">Plumber's Point</field>
+            <field name="zip">12340</field>
+            <field name="phone">+1-555-0402</field>
+            <field name="email">info@aquaflow.com</field>
+            <field name="website">www.aquaflow.com</field>
+            <field name="comment">Professional plumbing contractor for new construction and renovation projects</field>
+        </record>
+
+        <record id="vendor_elite_painting" model="res.partner">
+            <field name="name">Elite Painting &amp; Finishing Services</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">800 Paint Boulevard</field>
+            <field name="city">Color Town</field>
+            <field name="zip">23401</field>
+            <field name="phone">+1-555-0403</field>
+            <field name="email">jobs@elitepainting.com</field>
+            <field name="website">www.elitepainting.com</field>
+            <field name="comment">High-quality painting and finishing contractor for interior and exterior work</field>
+        </record>
+
+        <record id="vendor_hvac_systems" model="res.partner">
+            <field name="name">Climate Control HVAC Systems</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">900 Climate Drive</field>
+            <field name="city">HVAC Valley</field>
+            <field name="zip">34012</field>
+            <field name="phone">+1-555-0404</field>
+            <field name="email">service@climatecontrol.com</field>
+            <field name="website">www.climatecontrol.com</field>
+            <field name="comment">HVAC contractor specializing in heating, ventilation, and air conditioning systems</field>
+        </record>
+
+        <record id="vendor_flooring_specialists" model="res.partner">
+            <field name="name">Premium Flooring Specialists</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">1000 Floor Avenue</field>
+            <field name="city">Flooring District</field>
+            <field name="zip">40123</field>
+            <field name="phone">+1-555-0405</field>
+            <field name="email">estimates@premiumflooring.com</field>
+            <field name="website">www.premiumflooring.com</field>
+            <field name="comment">Flooring contractor specializing in hardwood, tile, carpet, and specialty flooring</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- SERVICE PROVIDERS -->
+        <!-- ========================================== -->
+        
+        <record id="vendor_construction_insurance" model="res.partner">
+            <field name="name">Construction Insurance Corp</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">1100 Insurance Plaza</field>
+            <field name="city">Risk Management City</field>
+            <field name="zip">50123</field>
+            <field name="phone">+1-555-0501</field>
+            <field name="email">policies@constructioninsurance.com</field>
+            <field name="website">www.constructioninsurance.com</field>
+            <field name="comment">Specialized insurance provider for construction projects and contractor liability</field>
+        </record>
+
+        <record id="vendor_quality_testing_labs" model="res.partner">
+            <field name="name">Quality Testing &amp; Inspection Labs</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">1200 Testing Boulevard</field>
+            <field name="city">Quality Assurance Park</field>
+            <field name="zip">60123</field>
+            <field name="phone">+1-555-0502</field>
+            <field name="email">testing@qualitylabs.com</field>
+            <field name="website">www.qualitylabs.com</field>
+            <field name="comment">Construction quality control, material testing, and inspection services</field>
+        </record>
+
+        <record id="vendor_safety_consultants" model="res.partner">
+            <field name="name">Safety First Consulting</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">1300 Safety Street</field>
+            <field name="city">Compliance City</field>
+            <field name="zip">70123</field>
+            <field name="phone">+1-555-0503</field>
+            <field name="email">consulting@safetyfirst.com</field>
+            <field name="website">www.safetyfirst.com</field>
+            <field name="comment">Construction safety consulting, training, and compliance services</field>
+        </record>
+
+        <record id="vendor_environmental_services" model="res.partner">
+            <field name="name">Environmental Solutions Inc.</field>
+            <field name="company_type">company</field>
+            <field name="customer_rank">0</field>
+            <field name="supplier_rank">1</field>
+            <field name="street">1400 Green Way</field>
+            <field name="city">Eco City</field>
+            <field name="zip">80123</field>
+            <field name="phone">+1-555-0504</field>
+            <field name="email">services@environmentalsolutions.com</field>
+            <field name="website">www.environmentalsolutions.com</field>
+            <field name="comment">Environmental consulting, waste management, and sustainability services for construction</field>
+        </record>
+
+    </data>
+</odoo>

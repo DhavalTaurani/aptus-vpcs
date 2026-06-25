@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Upload Document Wizard Form View -->
+    <record id="view_construction_upload_document_form" model="ir.ui.view">
+        <field name="name">construction.upload.document.form</field>
+        <field name="model">construction.upload.document</field>
+        <field name="arch" type="xml">
+            <form string="Upload Document">
+                <sheet>
+                    <group>
+                        <field name="project_id" required="1"/>
+                        <field name="directory_id" required="1"/>
+                        <field name="document_type" required="1"/>
+                    </group>
+                    <group string="Document Details">
+                        <field name="attachment_ids" widget="many2many_binary" options="{'mode': 'edit'}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="upload_document" string="Upload Document" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Upload Document Wizard Action -->
+    <record id="action_construction_upload_document" model="ir.actions.act_window">
+        <field name="name">Upload Document</field>
+        <field name="res_model">construction.upload.document</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_construction_upload_document_form"/>
+    </record>
+</odoo>

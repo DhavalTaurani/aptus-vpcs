@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- CONSTRUCTION PROJECTS -->
+        <!-- ========================================== -->
+        
+        <record id="project_metro_tower" model="project.project">
+            <field name="name">Metro Tower Construction</field>
+            <field name="partner_id" ref="partner_metro_city_development"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="is_construction">True</field>
+            <field name="date_start" eval="(datetime.now() + relativedelta(days=-60)).strftime('%Y-%m-%d')"/>
+            <field name="date" eval="(datetime.now() + relativedelta(days=300)).strftime('%Y-%m-%d')"/>
+            <field name="construction_type">commercial</field>
+            <field name="site_location">Downtown Metro City, Business District</field>
+            <field name="contract_value">2500000.0</field>
+            <field name="contract_start_date" eval="(datetime.now() + relativedelta(days=-60)).strftime('%Y-%m-%d')"/>
+            <field name="contract_end_date" eval="(datetime.now() + relativedelta(days=300)).strftime('%Y-%m-%d')"/>
+            <field name="description">40-story commercial tower with mixed-use retail and office spaces. Premium location in the heart of Metro City's business district.</field>
+        </record>
+
+        <record id="project_skyline_residential" model="project.project">
+            <field name="name">Skyline Residential Complex</field>
+            <field name="partner_id" ref="partner_skyline_properties"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="is_construction">True</field>
+            <field name="date_start" eval="(datetime.now() + relativedelta(days=-30)).strftime('%Y-%m-%d')"/>
+            <field name="date" eval="(datetime.now() + relativedelta(days=240)).strftime('%Y-%m-%d')"/>
+            <field name="construction_type">residential</field>
+            <field name="site_location">Suburbia Heights, Residential Zone</field>
+            <field name="contract_value">1800000.0</field>
+            <field name="contract_start_date" eval="(datetime.now() + relativedelta(days=-30)).strftime('%Y-%m-%d')"/>
+            <field name="contract_end_date" eval="(datetime.now() + relativedelta(days=240)).strftime('%Y-%m-%d')"/>
+            <field name="description">Multi-unit residential complex with 120 apartments across 6 buildings. Family-friendly community with modern amenities.</field>
+        </record>
+
+        <record id="project_green_valley_housing" model="project.project">
+            <field name="name">Green Valley Eco Housing</field>
+            <field name="partner_id" ref="partner_green_valley_housing"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="is_construction">True</field>
+            <field name="date_start" eval="datetime.now().strftime('%Y-%m-%d')"/>
+            <field name="date" eval="(datetime.now() + relativedelta(days=180)).strftime('%Y-%m-%d')"/>
+            <field name="construction_type">residential</field>
+            <field name="site_location">Green Valley, Eco-Friendly Development Zone</field>
+            <field name="contract_value">1200000.0</field>
+            <field name="contract_start_date" eval="datetime.now().strftime('%Y-%m-%d')"/>
+            <field name="contract_end_date" eval="(datetime.now() + relativedelta(days=180)).strftime('%Y-%m-%d')"/>
+            <field name="description">Sustainable housing development with 60 eco-friendly homes featuring solar panels, rainwater harvesting, and green building materials.</field>
+        </record>
+
+        <record id="project_industrial_warehouse" model="project.project">
+            <field name="name">Industrial Logistics Hub</field>
+            <field name="partner_id" ref="partner_industrial_estates"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="is_construction">True</field>
+            <field name="date_start" eval="(datetime.now() + relativedelta(days=15)).strftime('%Y-%m-%d')"/>
+            <field name="date" eval="(datetime.now() + relativedelta(days=150)).strftime('%Y-%m-%d')"/>
+            <field name="construction_type">industrial</field>
+            <field name="site_location">Industrial Park, Manufacturing Hub</field>
+            <field name="contract_value">3200000.0</field>
+            <field name="contract_start_date" eval="(datetime.now() + relativedelta(days=15)).strftime('%Y-%m-%d')"/>
+            <field name="contract_end_date" eval="(datetime.now() + relativedelta(days=150)).strftime('%Y-%m-%d')"/>
+            <field name="description">Large-scale logistics and distribution center with automated storage systems, loading docks, and office facilities.</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- BOQ TASKS FOR METRO TOWER PROJECT -->
+        <!-- ========================================== -->
+        
+        <!-- Foundation Phase -->
+        <record id="task_metro_foundation_excavation" model="project.task">
+            <field name="name">Foundation Excavation</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">MT-FND-001</field>
+            <field name="cost_code_id" ref="cost_code_excavator"/>
+            <field name="estimated_quantity">200.0</field>
+            <field name="revised_quantity">200.0</field>
+            <field name="unit_cost">75.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_hour"/>
+            <field name="physical_progress">85.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">Deep excavation for tower foundation using heavy machinery</field>
+        </record>
+
+        <record id="task_metro_foundation_concrete" model="project.task">
+            <field name="name">Foundation Concrete Work</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">MT-FND-002</field>
+            <field name="cost_code_id" ref="cost_code_cement_opc"/>
+            <field name="estimated_quantity">1200.0</field>
+            <field name="revised_quantity">1250.0</field>
+            <field name="unit_cost">350.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="physical_progress">70.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">High-grade concrete for foundation slab and footings</field>
+        </record>
+
+        <record id="task_metro_foundation_steel" model="project.task">
+            <field name="name">Foundation Steel Reinforcement</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">MT-FND-003</field>
+            <field name="cost_code_id" ref="cost_code_tmt_bars"/>
+            <field name="estimated_quantity">8000.0</field>
+            <field name="revised_quantity">8200.0</field>
+            <field name="unit_cost">65.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_kgm"/>
+            <field name="physical_progress">75.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">TMT steel bars for foundation reinforcement</field>
+        </record>
+
+        <!-- Structural Phase -->
+        <record id="task_metro_structural_concrete" model="project.task">
+            <field name="name">Structural Concrete Work</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">MT-STR-001</field>
+            <field name="cost_code_id" ref="cost_code_cement_opc"/>
+            <field name="estimated_quantity">3500.0</field>
+            <field name="revised_quantity">3600.0</field>
+            <field name="unit_cost">350.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="physical_progress">45.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">Structural concrete for columns, beams, and slabs</field>
+        </record>
+
+        <record id="task_metro_structural_steel" model="project.task">
+            <field name="name">Structural Steel Work</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">MT-STR-002</field>
+            <field name="cost_code_id" ref="cost_code_tmt_bars"/>
+            <field name="estimated_quantity">25000.0</field>
+            <field name="revised_quantity">25500.0</field>
+            <field name="unit_cost">65.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_kgm"/>
+            <field name="physical_progress">40.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">Structural steel reinforcement for high-rise construction</field>
+        </record>
+
+        <!-- MEP Phase -->
+        <record id="task_metro_electrical_work" model="project.task">
+            <field name="name">Electrical Installation</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">MT-ELE-001</field>
+            <field name="cost_code_id" ref="cost_code_electrical_work"/>
+            <field name="estimated_quantity">1.0</field>
+            <field name="revised_quantity">1.0</field>
+            <field name="unit_cost">180000.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="physical_progress">25.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">Complete electrical system for 40-story tower</field>
+        </record>
+
+        <record id="task_metro_plumbing_work" model="project.task">
+            <field name="name">Plumbing Installation</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">MT-PLB-001</field>
+            <field name="cost_code_id" ref="cost_code_plumbing_work"/>
+            <field name="estimated_quantity">1.0</field>
+            <field name="revised_quantity">1.0</field>
+            <field name="unit_cost">150000.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="physical_progress">20.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">Complete plumbing system for commercial tower</field>
+        </record>
+
+        <record id="task_metro_hvac_work" model="project.task">
+            <field name="name">HVAC System Installation</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">MT-HVC-001</field>
+            <field name="cost_code_id" ref="cost_code_hvac_work"/>
+            <field name="estimated_quantity">1.0</field>
+            <field name="revised_quantity">1.0</field>
+            <field name="unit_cost">320000.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="physical_progress">15.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">Central HVAC system for entire tower</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- BOQ TASKS FOR SKYLINE RESIDENTIAL PROJECT -->
+        <!-- ========================================== -->
+        
+        <record id="task_skyline_site_preparation" model="project.task">
+            <field name="name">Site Preparation &amp; Clearing</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">SR-SIT-001</field>
+            <field name="cost_code_id" ref="cost_code_excavator"/>
+            <field name="estimated_quantity">120.0</field>
+            <field name="revised_quantity">125.0</field>
+            <field name="unit_cost">75.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_hour"/>
+            <field name="physical_progress">95.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">Site clearing and preparation for residential complex</field>
+        </record>
+
+        <record id="task_skyline_foundation_work" model="project.task">
+            <field name="name">Foundation Work - Building A</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">SR-FND-001</field>
+            <field name="cost_code_id" ref="cost_code_cement_opc"/>
+            <field name="estimated_quantity">800.0</field>
+            <field name="revised_quantity">820.0</field>
+            <field name="unit_cost">350.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="physical_progress">60.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">Foundation concrete for first residential building</field>
+        </record>
+
+        <record id="task_skyline_masonry_work" model="project.task">
+            <field name="name">Masonry Work - Phase 1</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">SR-MAS-001</field>
+            <field name="cost_code_id" ref="cost_code_clay_bricks"/>
+            <field name="estimated_quantity">50000.0</field>
+            <field name="revised_quantity">52000.0</field>
+            <field name="unit_cost">0.50</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="physical_progress">35.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">Clay brick masonry for residential units</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- BOQ TASKS FOR GREEN VALLEY PROJECT -->
+        <!-- ========================================== -->
+        
+        <record id="task_green_valley_infrastructure" model="project.task">
+            <field name="name">Infrastructure Development</field>
+            <field name="project_id" ref="project_green_valley_housing"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">GV-INF-001</field>
+            <field name="cost_code_id" ref="cost_code_excavator"/>
+            <field name="estimated_quantity">80.0</field>
+            <field name="revised_quantity">85.0</field>
+            <field name="unit_cost">75.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_hour"/>
+            <field name="physical_progress">20.0</field>
+            <field name="boq_state">approved</field>
+            <field name="boq_description">Site infrastructure and utility preparation</field>
+        </record>
+
+        <record id="task_green_valley_eco_materials" model="project.task">
+            <field name="name">Eco-Friendly Materials</field>
+            <field name="project_id" ref="project_green_valley_housing"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">GV-ECO-001</field>
+            <field name="cost_code_id" ref="cost_code_cement_opc"/>
+            <field name="estimated_quantity">600.0</field>
+            <field name="revised_quantity">600.0</field>
+            <field name="unit_cost">350.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="physical_progress">10.0</field>
+            <field name="boq_state">submitted</field>
+            <field name="boq_description">Sustainable concrete mix for eco-friendly construction</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- BOQ TASKS FOR INDUSTRIAL PROJECT -->
+        <!-- ========================================== -->
+        
+        <record id="task_industrial_heavy_foundation" model="project.task">
+            <field name="name">Heavy-Duty Foundation</field>
+            <field name="project_id" ref="project_industrial_warehouse"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">IW-FND-001</field>
+            <field name="cost_code_id" ref="cost_code_cement_opc"/>
+            <field name="estimated_quantity">2000.0</field>
+            <field name="revised_quantity">2000.0</field>
+            <field name="unit_cost">350.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="physical_progress">0.0</field>
+            <field name="boq_state">draft</field>
+            <field name="boq_description">Heavy-duty foundation for industrial equipment</field>
+        </record>
+
+        <record id="task_industrial_steel_structure" model="project.task">
+            <field name="name">Steel Structure Framework</field>
+            <field name="project_id" ref="project_industrial_warehouse"/>
+            <field name="is_boq_item">True</field>
+            <field name="boq_code">IW-STL-001</field>
+            <field name="cost_code_id" ref="cost_code_tmt_bars"/>
+            <field name="estimated_quantity">35000.0</field>
+            <field name="revised_quantity">35000.0</field>
+            <field name="unit_cost">65.0</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_kgm"/>
+            <field name="physical_progress">0.0</field>
+            <field name="boq_state">draft</field>
+            <field name="boq_description">Structural steel framework for warehouse</field>
+        </record>
+
+    </data>
+</odoo>

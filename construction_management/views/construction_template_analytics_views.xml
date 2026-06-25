@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Template Analytics Views -->
+    <record id="view_construction_template_analytics_tree" model="ir.ui.view">
+        <field name="name">construction.template.analytics.tree</field>
+        <field name="model">construction.template.analytics</field>
+        <field name="arch" type="xml">
+            <list string="Template Analytics" default_order="template_id, period_start desc">
+                <field name="template_id"/>
+                <field name="period_start"/>
+                <field name="period_end"/>
+                <field name="projects_created"/>
+                <field name="projects_completed"/>
+                <field name="success_rate" widget="percentage"/>
+                <field name="duration_variance" widget="percentage" decoration-danger="duration_variance &gt; 20" decoration-success="duration_variance &lt; 10"/>
+                <field name="cost_variance" widget="percentage" decoration-danger="cost_variance &gt; 15" decoration-success="cost_variance &lt; 5"/>
+                <field name="performance_score" widget="percentage" decoration-danger="performance_score &lt; 60" decoration-warning="performance_score &lt; 80" decoration-success="performance_score &gt;= 80"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_construction_template_analytics_form" model="ir.ui.view">
+        <field name="name">construction.template.analytics.form</field>
+        <field name="model">construction.template.analytics</field>
+        <field name="arch" type="xml">
+            <form string="Template Analytics">
+                <header>
+                    <field name="performance_score" widget="percentpie"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="template_id" readonly="1"/>
+                        </h1>
+                        <h2>
+                            Analytics Period: <field name="period_start" readonly="1"/> - <field name="period_end" readonly="1"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group name="usage_metrics" string="Usage Metrics">
+                            <field name="projects_created"/>
+                            <field name="projects_completed"/>
+                            <field name="projects_cancelled"/>
+                            <field name="success_rate" widget="percentage"/>
+                        </group>
+                        <group name="performance_metrics" string="Performance Metrics">
+                            <field name="avg_duration_planned"/>
+                            <field name="avg_duration_actual"/>
+                            <field name="duration_variance" widget="percentage"/>
+                            <field name="avg_cost_planned" widget="monetary"/>
+                            <field name="avg_cost_actual" widget="monetary"/>
+                            <field name="cost_variance" widget="percentage"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group name="quality_metrics" string="Quality Metrics">
+                            <field name="avg_quality_score"/>
+                            <field name="customer_satisfaction"/>
+                            <field name="defect_rate" widget="percentage"/>
+                        </group>
+                        <group name="resource_metrics" string="Resource Utilization">
+                            <field name="resource_efficiency" widget="percentage"/>
+                            <field name="material_waste_percentage" widget="percentage"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Recommendations" name="recommendations">
+                            <group>
+                                <field name="recommendations" widget="text"/>
+                                <field name="improvement_areas" widget="text"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="view_construction_template_analytics_graph" model="ir.ui.view">
+        <field name="name">construction.template.analytics.graph</field>
+        <field name="model">construction.template.analytics</field>
+        <field name="arch" type="xml">
+            <graph string="Template Performance Trends" type="line">
+                <field name="period_start" type="row"/>
+                <field name="performance_score" type="measure"/>
+                <field name="template_id" type="col"/>
+            </graph>
+        </field>
+    </record>
+    
+    <record id="view_construction_template_analytics_pivot" model="ir.ui.view">
+        <field name="name">construction.template.analytics.pivot</field>
+        <field name="model">construction.template.analytics</field>
+        <field name="arch" type="xml">
+            <pivot string="Template Analytics Pivot">
+                <field name="template_id" type="row"/>
+                <field name="period_start" type="col"/>
+                <field name="projects_created" type="measure"/>
+                <field name="success_rate" type="measure"/>
+                <field name="performance_score" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    
+    <!-- Template Version Views -->
+    <record id="view_construction_template_version_tree" model="ir.ui.view">
+        <field name="name">construction.template.version.tree</field>
+        <field name="model">construction.template.version</field>
+        <field name="arch" type="xml">
+            <list string="Template Versions" default_order="template_id, version desc">
+                <field name="template_id"/>
+                <field name="version"/>
+                <field name="state" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'archived'"/>
+                <field name="created_date"/>
+                <field name="created_by"/>
+                <field name="approved_date"/>
+                <field name="approved_by"/>
+                <field name="usage_count"/>
+                <field name="performance_score" widget="percentage"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_construction_template_version_form" model="ir.ui.view">
+        <field name="name">construction.template.version.form</field>
+        <field name="model">construction.template.version</field>
+        <field name="arch" type="xml">
+            <form string="Template Version">
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_archive" string="Archive" type="object" class="btn-secondary" invisible="state == 'archived'"/>
+                    <button name="create_backup" string="Create Backup" type="object" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,archived"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group name="version_info" string="Version Information">
+                            <field name="template_id"/>
+                            <field name="version"/>
+                            <field name="created_date"/>
+                            <field name="created_by"/>
+                            <field name="previous_version_id"/>
+                        </group>
+                        <group name="approval_info" string="Approval Information">
+                            <field name="approved_date"/>
+                            <field name="approved_by"/>
+                            <field name="usage_count"/>
+                            <field name="performance_score" widget="percentage"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group name="performance_metrics" string="Performance Metrics">
+                            <field name="avg_project_duration"/>
+                            <field name="avg_cost_variance" widget="percentage"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Change Log" name="change_log">
+                            <field name="change_log" widget="text"/>
+                        </page>
+                        <page string="Backup Data" name="backup_data" invisible="template_backup_data == False">
+                            <field name="template_backup_data" widget="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Template Usage Log Views -->
+    <record id="view_construction_template_usage_log_tree" model="ir.ui.view">
+        <field name="name">construction.template.usage.log.tree</field>
+        <field name="model">construction.template.usage.log</field>
+        <field name="arch" type="xml">
+            <list string="Template Usage Log" default_order="usage_date desc">
+                    <field name="usage_date"/>
+                <field name="template_id"/>
+                <field name="project_id"/>
+                <field name="user_id"/>
+                <field name="usage_type"/>
+                <field name="creation_duration"/>
+                <field name="success" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_construction_template_usage_log_form" model="ir.ui.view">
+        <field name="name">construction.template.usage.log.form</field>
+        <field name="model">construction.template.usage.log</field>
+        <field name="arch" type="xml">
+            <form string="Template Usage Log">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            Template Usage: <field name="template_id" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group name="usage_info" string="Usage Information">
+                            <field name="usage_date"/>
+                            <field name="user_id"/>
+                            <field name="usage_type"/>
+                            <field name="project_id"/>
+                            <field name="sale_order_id"/>
+                        </group>
+                        <group name="performance_info" string="Performance Information">
+                            <field name="creation_duration"/>
+                            <field name="success"/>
+                            <field name="error_message" invisible="success == True"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Customizations" name="customizations" invisible="customizations_applied == False">
+                            <field name="customizations_applied" widget="text"/>
+                        </page>
+                        <page string="Notes" name="notes" invisible="notes == False">
+                            <field name="notes" widget="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Actions -->
+    <record id="action_construction_template_analytics" model="ir.actions.act_window">
+        <field name="name">Template Analytics</field>
+        <field name="res_model">construction.template.analytics</field>
+        <field name="view_mode">list,form,graph,pivot</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No template analytics found!
+            </p>
+            <p>
+                Template analytics are automatically generated monthly to track template performance.
+                You can also manually generate analytics for specific periods.
+            </p>
+        </field>
+    </record>
+    
+    <record id="action_construction_template_version" model="ir.actions.act_window">
+        <field name="name">Template Versions</field>
+        <field name="res_model">construction.template.version</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No template versions found!
+            </p>
+            <p>
+                Template versions are automatically created when templates are modified or backed up.
+                This provides a complete history of template changes and allows for rollback if needed.
+            </p>
+        </field>
+    </record>
+    
+    <record id="action_construction_template_usage_log" model="ir.actions.act_window">
+        <field name="name">Template Usage Log</field>
+        <field name="res_model">construction.template.usage.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No template usage logs found!
+            </p>
+            <p>
+                Template usage is automatically logged when templates are used to create projects,
+                exported, or modified. This helps track template adoption and performance.
+            </p>
+        </field>
+    </record>
+    
+</odoo>

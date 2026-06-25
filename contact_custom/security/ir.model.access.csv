@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+contact_custom.access_contact_account_type,access_contact_account_type,contact_custom.model_contact_account_type,base.group_user,1,1,1,1
+contact_custom.access_contact_account_owner,access_contact_account_owner,contact_custom.model_contact_account_owner,base.group_user,1,1,1,1

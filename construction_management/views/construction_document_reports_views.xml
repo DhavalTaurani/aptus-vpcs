@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Document Directory Graph View -->
+        <record id="view_construction_document_directory_graph" model="ir.ui.view">
+            <field name="name">construction.document.directory.graph</field>
+            <field name="model">construction.document.directory</field>
+            <field name="arch" type="xml">
+                <graph string="Document Statistics" type="bar">
+                    <field name="document_type"/>
+                    <field name="document_count" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Document Directory Pivot View -->
+        <record id="view_construction_document_directory_pivot" model="ir.ui.view">
+            <field name="name">construction.document.directory.pivot</field>
+            <field name="model">construction.document.directory</field>
+            <field name="arch" type="xml">
+                <pivot string="Document Statistics">
+                    <!-- <field name="project_id" type="row"/> -->
+                    <field name="document_type" type="col"/>
+                    <field name="document_count" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Action to view document reports -->
+        <record id="action_construction_document_directory_reports" model="ir.actions.act_window">
+            <field name="name">Document Reports</field>
+            <field name="res_model">construction.document.directory</field>
+            <field name="view_mode">graph,pivot</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Analyze document statistics.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu item for document reports -->
+        <!-- <menuitem id="menu_construction_document_reports" 
+                name="Document Reports" 
+                parent="menu_construction_document_management" 
+                action="action_construction_document_directory_reports" 
+                sequence="30"/> -->
+
+    </data>
+</odoo>

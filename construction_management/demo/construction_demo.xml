@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Load demo data in proper sequence -->
+        
+        <!-- 1. Partners (customers, vendors, subcontractors) -->
+        <data noupdate="1">
+            <record id="demo_data_loaded_partners" model="ir.config_parameter">
+                <field name="key">construction_management.demo_partners_loaded</field>
+                <field name="value">True</field>
+            </record>
+        </data>
+        
+        <!-- 2. Product categories and products -->
+        <data noupdate="1">
+            <record id="demo_data_loaded_products" model="ir.config_parameter">
+                <field name="key">construction_management.demo_products_loaded</field>
+                <field name="value">True</field>
+            </record>
+        </data>
+        
+        <!-- 3. Cost codes with hierarchy -->
+        <data noupdate="1">
+            <record id="demo_data_loaded_cost_codes" model="ir.config_parameter">
+                <field name="key">construction_management.demo_cost_codes_loaded</field>
+                <field name="value">True</field>
+            </record>
+        </data>
+        
+        <!-- 4. Projects and BOQ items -->
+        <data noupdate="1">
+            <record id="demo_data_loaded_projects" model="ir.config_parameter">
+                <field name="key">construction_management.demo_projects_loaded</field>
+                <field name="value">True</field>
+            </record>
+        </data>
+        
+        <!-- 5. Subcontractors and financial data -->
+        <data noupdate="1">
+            <record id="demo_data_loaded_subcontractors" model="ir.config_parameter">
+                <field name="key">construction_management.demo_subcontractors_loaded</field>
+                <field name="value">True</field>
+            </record>
+        </data>
+        
+        <!-- Demo data completion marker -->
+        <data noupdate="1">
+            <record id="demo_data_loaded_complete" model="ir.config_parameter">
+                <field name="key">construction_management.demo_data_loaded</field>
+                <field name="value">True</field>
+            </record>
+        </data>
+        
+    </data>
+</odoo>

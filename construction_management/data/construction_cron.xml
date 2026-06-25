@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_generate_purchase_requirements"
+            model="ir.cron">
+            <field name="name">Construction: Generate Purchase Requirements</field>
+            <field name="model_id" ref="model_project_task"/>
+            <field name="state">code</field>
+            <field name="code">
+model._cron_generate_purchase_requirements()
+            </field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="nextcall"
+                eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 12:00:00')"/>
+        </record>
+        
+        <!-- Template Backup and Analytics Cron Jobs -->
+        <record id="ir_cron_template_backup" model="ir.cron">
+            <field name="name">Construction: Template Backup</field>
+            <field name="model_id" ref="model_construction_project_template"/>
+            <field name="state">code</field>
+            <field name="code">
+# Create automated backups
+model._cron_create_template_backups()
+            </field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="nextcall" 
+                eval="(DateTime.now() + timedelta(weeks=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="ir_cron_template_analytics" model="ir.cron">
+            <field name="name">Construction: Generate Template Analytics</field>
+            <field name="model_id" ref="model_construction_project_template"/>
+            <field name="state">code</field>
+            <field name="code">
+# Generate monthly analytics via template model
+env['construction.template.analytics']._cron_generate_monthly_analytics()
+            </field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="nextcall" 
+                eval="(DateTime.now() + relativedelta(months=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="ir_cron_cleanup_old_backups" model="ir.cron">
+            <field name="name">Construction: Cleanup Old Template Backups</field>
+            <field name="model_id" ref="model_construction_project_template"/>
+            <field name="state">code</field>
+            <field name="code">
+# Cleanup old backups based on retention policy
+model._cron_cleanup_old_backups()
+            </field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="nextcall" 
+                eval="(DateTime.now() + relativedelta(months=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

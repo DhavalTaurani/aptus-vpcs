@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="report_revenue_recognition"
+            model="construction.revenue.recognition"
+            string="Revenue Recognition Report"
+            report_type="qweb-pdf"
+            name="construction_management.report_revenue_recognition_document"
+            file="construction_management.report_revenue_recognition_document"
+            print_report_name="(object.name)"
+        />
+
+        <template id="report_revenue_recognition_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>Revenue Recognition: <span t-field="o.name"/></h2>
+                            <div class="row mt32 mb32">
+                                <div class="col-auto" name="project_address">
+                                    <strong>Project:</strong> <span t-field="o.project_id.name"/><br/>
+                                    <strong>Recognition Method:</strong> <span t-field="o.recognition_method"/><br/>
+                                    <strong>Total Contract Value:</strong> <span t-field="o.total_contract_value" widget="monetary" options="{'display_currency': o.currency_id}"/><br/>
+                                    <strong>Total Estimated Cost:</strong> <span t-field="o.total_estimated_cost" widget="monetary" options="{'display_currency': o.currency_id}"/><br/>
+                                    <strong>Actual Cost to Date:</strong> <span t-field="o.actual_cost_to_date" widget="monetary" options="{'display_currency': o.currency_id}"/><br/>
+                                </div>
+                            </div>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Percentage Complete</th>
+                                        <th>Revenue to Recognize</th>
+                                        <th>Revenue Recognized</th>
+                                        <th>Revenue Remaining</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span t-field="o.percentage_complete"/>%</td>
+                                        <td><span t-field="o.revenue_to_recognize" widget="monetary" options="{'display_currency': o.currency_id}"/></td>
+                                        <td><span t-field="o.revenue_recognized" widget="monetary" options="{'display_currency': o.currency_id}"/></td>
+                                        <td><span t-field="o.revenue_remaining" widget="monetary" options="{'display_currency': o.currency_id}"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

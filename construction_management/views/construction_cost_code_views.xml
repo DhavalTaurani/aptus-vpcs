@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Construction Cost Code Tree View -->
+        <record id="view_construction_cost_code_tree" model="ir.ui.view">
+            <field name="name">construction.cost.code.tree</field>
+            <field name="model">construction.cost.code</field>
+            <field name="arch" type="xml">
+                <list string="Construction Cost Codes" decoration-muted="not active">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="cost_type"/>
+                    <field name="parent_id"/>
+                    <field name="standard_cost" optional="show"/>
+                    <field name="standard_price" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                    <field name="active" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Construction Cost Code Form View -->
+        <record id="view_construction_cost_code_form" model="ir.ui.view">
+            <field name="name">construction.cost.code.form</field>
+            <field name="model">construction.cost.code</field>
+            <field name="arch" type="xml">
+                <form string="Construction Cost Code">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Cost Code Name"/>
+                            </h1>
+                            <label for="code" class="oe_edit_only"/>
+                            <h2>
+                                <field name="code" placeholder="e.g., MAT-001"/>
+                            </h2>
+                        </div>
+                        
+                        <group>
+                            <group name="basic_info">
+                                <field name="cost_type"/>
+                                <field name="parent_id" domain="[('id', '!=', id)]"/>
+                                <field name="active"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                            <group name="product_integration">
+                                <field name="product_template_id"/>
+                                <field name="product_category_id"/>
+                                <field name="default_uom_id"/>
+                            </group>
+                        </group>
+                        
+                        <group name="pricing" string="Standard Pricing">
+                            <group>
+                                <field name="standard_cost"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="standard_price"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Description" name="description">
+                                <field name="description" placeholder="Detailed description of the cost code..."/>
+                            </page>
+                            <page string="Child Cost Codes" name="children" invisible="not child_ids">
+                                <field name="child_ids">
+                                    <list>
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                        <field name="cost_type"/>
+                                        <field name="standard_cost"/>
+                                        <field name="standard_price"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Construction Cost Code Action -->
+        <record id="action_construction_cost_code" model="ir.actions.act_window">
+            <field name="name">Cost Codes</field>
+            <field name="res_model">construction.cost.code</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_construction_cost_code_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first construction cost code!
+                </p>
+                <p>
+                    Cost codes help you categorize and track construction costs systematically.
+                    You can create hierarchical cost codes for materials, labor, equipment, and more.
+                </p>
+            </field>
+        </record>
+
+        <!-- Cost Codes Configuration Menu -->
+        <menuitem id="menu_construction_config_cost_codes" 
+                name="Cost Codes" 
+                parent="construction_management.menu_construction_configuration" 
+                action="action_construction_cost_code" 
+                sequence="25"/>
+
+    </data>
+</odoo>

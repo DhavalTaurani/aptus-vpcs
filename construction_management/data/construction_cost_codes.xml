@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Construction Cost Codes - Template System -->
+        <record id="cost_code_template_material" model="construction.cost.code">
+            <field name="name">Template Materials</field>
+            <field name="code">TPL-MAT</field>
+            <field name="cost_type">material</field>
+            <field name="description">Template cost code for construction materials</field>
+        </record>
+        
+        <record id="cost_code_template_labour" model="construction.cost.code">
+            <field name="name">Template Labour</field>
+            <field name="code">TPL-LAB</field>
+            <field name="cost_type">labour</field>
+            <field name="description">Template cost code for construction labour</field>
+        </record>
+        
+        <record id="cost_code_template_equipment" model="construction.cost.code">
+            <field name="name">Template Equipment</field>
+            <field name="code">TPL-EQP</field>
+            <field name="cost_type">equipment</field>
+            <field name="description">Template cost code for construction equipment</field>
+        </record>
+        
+        <record id="cost_code_template_subcontractor" model="construction.cost.code">
+            <field name="name">Template Subcontractor</field>
+            <field name="code">TPL-SUB</field>
+            <field name="cost_type">subcontractor</field>
+            <field name="description">Template cost code for subcontractor services</field>
+        </record>
+        
+        <record id="cost_code_template_miscellaneous" model="construction.cost.code">
+            <field name="name">Template Miscellaneous</field>
+            <field name="code">TPL-MISC</field>
+            <field name="cost_type">miscellaneous</field>
+            <field name="description">Template cost code for miscellaneous costs</field>
+        </record>
+        
+        <record id="cost_code_template_overhead" model="construction.cost.code">
+            <field name="name">Template Overhead</field>
+            <field name="code">TPL-OH</field>
+            <field name="cost_type">overhead</field>
+            <field name="description">Template cost code for overhead costs</field>
+        </record>
+        
+    </data>
+</odoo>

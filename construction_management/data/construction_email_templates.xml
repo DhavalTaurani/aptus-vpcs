@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Email Template for Template Review Request -->
+        <record id="email_template_review_request" model="mail.template">
+            <field name="name">Construction Template Review Request</field>
+            <field name="model_id" ref="model_construction_project_template"/>
+            <field name="subject">Template Review Required: {{ object.name }}</field>
+            <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object._get_reviewer_user().email_formatted }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p>Hello,</p>
+    <p>A new construction template has been submitted for review:</p>
+    
+    <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Template Name:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.name or ''">Template Name</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Category:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="dict(object._fields['construction_category'].selection)[object.construction_category] or ''">ELV</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Version:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.version or ''">1.0</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Submitted By:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.create_uid.name or ''">User Name</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Task Templates:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="len(object.task_template_ids) or 0">5</t> tasks</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>BOQ Items:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="len(object.boq_template_ids) or 0">3</t> items</td>
+        </tr>
+    </table>
+    
+    <p><strong>Description:</strong></p>
+    <p><t t-out="object.description or 'No description provided'">Template description</t></p>
+    
+    <p>Please review the template and take appropriate action.</p>
+    
+    <div style="margin: 20px 0;">
+        <a t-attf-href="/web#id={{ object.id }}&amp;model=construction.project.template&amp;view_type=form" 
+            style="background-color: #007cba; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+            Review Template
+        </a>
+    </div>
+    
+    <p>Best regards,<br/>
+    <t t-out="user.name or ''">User Name</t><br/>
+    <t t-out="user.company_id.name or ''">Company Name</t></p>
+</div>
+            </field>
+            <field name="lang">{{ object.create_uid.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        
+        <!-- Email Template for Template Approval Notification -->
+        <record id="email_template_approval_notification" model="mail.template">
+            <field name="name">Construction Template Approval Notification</field>
+            <field name="model_id" ref="model_construction_project_template"/>
+            <field name="subject">Template Approved: {{ object.name }}</field>
+            <field name="email_from">{{ (object.approved_by.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.create_uid.email_formatted }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p>Hello <t t-out="object.create_uid.name or ''">User Name</t>,</p>
+    <p>Great news! Your construction template has been approved:</p>
+    
+    <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Template Name:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.name or ''">Template Name</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Version:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.version or ''">1.0</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Approved By:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.approved_by.name or ''">Approver Name</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Approval Date:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;">
+                <t t-if="object.approved_date">
+                    <t t-out="object.approved_date.strftime('%Y-%m-%d %H:%M')">2024-01-01 10:00</t>
+                </t>
+                <t t-else="">N/A</t>
+            </td>
+        </tr>
+    </table>
+    
+    <p>The template is now available for use in construction projects. You can start using it to create new projects or share it with your team.</p>
+    
+    <div style="margin: 20px 0;">
+        <a t-attf-href="/web#id={{ object.id }}&amp;model=construction.project.template&amp;view_type=form" 
+            style="background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+            View Template
+        </a>
+    </div>
+    
+    <p>Congratulations on your approved template!</p>
+    
+    <p>Best regards,<br/>
+    <t t-out="user.name or ''">User Name</t><br/>
+    <t t-out="user.company_id.name or ''">Company Name</t></p>
+</div>
+            </field>
+            <field name="lang">{{ object.create_uid.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        
+        <!-- Email Template for Template Rejection Notification -->
+        <record id="email_template_rejection_notification" model="mail.template">
+            <field name="name">Construction Template Rejection Notification</field>
+            <field name="model_id" ref="model_construction_project_template"/>
+            <field name="subject">Template Requires Revision: {{ object.name }}</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{ object.create_uid.email_formatted }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p>Hello <t t-out="object.create_uid.name or ''">User Name</t>,</p>
+    <p>Your construction template requires revision before it can be approved:</p>
+    
+    <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Template Name:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.name or ''">Template Name</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Version:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.version or ''">1.0</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Reviewed By:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="user.name or ''">Reviewer Name</t></td>
+        </tr>
+    </table>
+    
+    <t t-if="object.review_notes">
+        <p><strong>Review Comments:</strong></p>
+        <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; margin: 20px 0; border-radius: 5px;">
+            <t t-out="object.review_notes or ''">Review comments here</t>
+        </div>
+    </t>
+    
+    <t t-if="ctx.get('rejection_reason')">
+        <p><strong>Rejection Reason:</strong></p>
+        <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; margin: 20px 0; border-radius: 5px;">
+            <t t-out="ctx.get('rejection_reason', '') or ''">Rejection reason here</t>
+        </div>
+    </t>
+    
+    <p>Please address the feedback and resubmit the template for review.</p>
+    
+    <div style="margin: 20px 0;">
+        <a t-attf-href="/web#id={{ object.id }}&amp;model=construction.project.template&amp;view_type=form" 
+            style="background-color: #ffc107; color: #212529; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+            Edit Template
+        </a>
+    </div>
+    
+    <p>Thank you for your understanding.</p>
+    
+    <p>Best regards,<br/>
+    <t t-out="user.name or ''">User Name</t><br/>
+    <t t-out="user.company_id.name or ''">Company Name</t></p>
+</div>
+            </field>
+            <field name="lang">{{ object.create_uid.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        
+        <!-- Email Template for Template Archive Notification -->
+        <record id="email_template_archive_notification" model="mail.template">
+            <field name="name">Construction Template Archive Notification</field>
+            <field name="model_id" ref="model_construction_project_template"/>
+            <field name="subject">Template Archived: {{ object.name }}</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{ object.create_uid.email_formatted }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p>Hello <t t-out="object.create_uid.name or ''">User Name</t>,</p>
+    <p>This is to inform you that the following construction template has been archived:</p>
+    
+    <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Template Name:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.name or ''">Template Name</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Version:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="object.version or ''">1.0</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Archived By:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="user.name or ''">User Name</t></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;"><strong>Archive Date:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><t t-out="datetime.datetime.now().strftime('%Y-%m-%d %H:%M')">2024-01-01 10:00</t></td>
+        </tr>
+    </table>
+    
+    <p>The template is no longer available for creating new projects. However, existing projects using this template will continue to function normally.</p>
+    
+    <p>If you need to reactivate this template, please contact your system administrator.</p>
+    
+    <p>Best regards,<br/>
+    <t t-out="user.name or ''">User Name</t><br/>
+    <t t-out="user.company_id.name or ''">Company Name</t></p>
+</div>
+            </field>
+            <field name="lang">{{ object.create_uid.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        
+        <!-- Mail Activity Type for Template Review -->
+        <record id="mail_activity_template_review" model="mail.activity.type">
+            <field name="name">Template Review</field>
+            <field name="summary">Review Construction Template</field>
+            <field name="delay_count">3</field>
+            <field name="delay_unit">days</field>
+            <field name="delay_from">current_date</field>
+            <field name="icon">fa-search</field>
+            <field name="decoration_type">warning</field>
+        </record>
+        
+    </data>
+</odoo>

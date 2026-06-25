@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cost Analysis Report Action -->
+    <record id="action_construction_cost_report" model="ir.actions.report">
+        <field name="name">Cost Analysis Report</field>
+        <field name="model">project.project</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">construction_management.construction_cost_report_template</field>
+        <field name="report_file">construction_management.construction_cost_report_template</field>
+        <field name="binding_model_id" ref="project.model_project_project"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Cost Analysis Report Template -->
+    <template id="construction_cost_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="project">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        
+                        <!-- Header -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h2>Cost Analysis Report</h2>
+                                <h3 t-field="project.name"/>
+                            </div>
+                        </div>
+                        
+                        <!-- Project Information -->
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Project Manager:</strong> <span t-field="project.user_id.name"/><br/>
+                                <strong>Customer:</strong> <span t-field="project.partner_id.name"/><br/>
+                                <strong>Contract Value:</strong> <span t-field="project.contract_value" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Start Date:</strong> <span t-field="project.contract_start_date"/><br/>
+                                <strong>End Date:</strong> <span t-field="project.contract_end_date"/><br/>
+                                <strong>Report Date:</strong> <span t-esc="datetime.datetime.now().strftime('%Y-%m-%d')"/>
+                            </div>
+                        </div>
+                        
+                        <!-- Cost Summary -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4>Cost Summary</h4>
+                                <table class="table table-sm table-bordered">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Cost Category</th>
+                                            <th>Budgeted Cost</th>
+                                            <th>Actual Cost</th>
+                                            <th>Variance</th>
+                                            <th>Variance %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="total_budgeted" t-value="0"/>
+                                        <t t-set="total_actual" t-value="0"/>
+                                        <t t-foreach="project.cost_code_ids.filtered(lambda c: c.is_category)" t-as="category">
+                                            <t t-set="budgeted" t-value="sum(project.task_ids.filtered(lambda t: t.cost_code_id.parent_id == category).mapped('total_cost'))"/>
+                                            <t t-set="actual" t-value="sum(project.task_ids.filtered(lambda t: t.cost_code_id.parent_id == category).mapped('actual_cost'))"/>
+                                            <t t-set="variance" t-value="budgeted - actual"/>
+                                            <t t-set="variance_pct" t-value="(variance / budgeted * 100) if budgeted else 0"/>
+                                            <t t-set="total_budgeted" t-value="total_budgeted + budgeted"/>
+                                            <t t-set="total_actual" t-value="total_actual + actual"/>
+                                            <tr>
+                                                <td><span t-field="category.name"/></td>
+                                                <td class="text-right"><span t-esc="budgeted" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/></td>
+                                                <td class="text-right"><span t-esc="actual" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/></td>
+                                                <td class="text-right" t-att-class="'text-success' if variance >= 0 else 'text-danger'">
+                                                    <span t-esc="variance" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/>
+                                                </td>
+                                                <td class="text-right" t-att-class="'text-success' if variance_pct >= 0 else 'text-danger'">
+                                                    <span t-esc="round(variance_pct, 2)"/>%
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="font-weight-bold">
+                                            <td>Total</td>
+                                            <td class="text-right"><span t-esc="total_budgeted" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/></td>
+                                            <td class="text-right"><span t-esc="total_actual" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/></td>
+                                            <td class="text-right" t-att-class="'text-success' if (total_budgeted - total_actual) >= 0 else 'text-danger'">
+                                                <span t-esc="total_budgeted - total_actual" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/>
+                                            </td>
+                                            <td class="text-right" t-att-class="'text-success' if ((total_budgeted - total_actual) / total_budgeted * 100) >= 0 else 'text-danger'">
+                                                <span t-esc="round(((total_budgeted - total_actual) / total_budgeted * 100) if total_budgeted else 0, 2)"/>%
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Detailed Cost Breakdown -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4>Detailed Cost Breakdown</h4>
+                                <table class="table table-sm table-bordered">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Cost Code</th>
+                                            <th>Description</th>
+                                            <th>Budgeted</th>
+                                            <th>Actual</th>
+                                            <th>Variance</th>
+                                            <th>Progress %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="project.task_ids.filtered(lambda t: t.is_boq_item)" t-as="boq_item">
+                                            <t t-set="variance" t-value="boq_item.total_cost - boq_item.actual_cost"/>
+                                            <tr>
+                                                <td><span t-field="boq_item.cost_code_id.code"/></td>
+                                                <td><span t-field="boq_item.name"/></td>
+                                                <td class="text-right"><span t-field="boq_item.total_cost" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/></td>
+                                                <td class="text-right"><span t-field="boq_item.actual_cost" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/></td>
+                                                <td class="text-right" t-att-class="'text-success' if variance >= 0 else 'text-danger'">
+                                                    <span t-esc="variance" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/>
+                                                </td>
+                                                <td class="text-right"><span t-field="boq_item.physical_progress"/>%</td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Cost Performance Indicators -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4>Cost Performance Indicators</h4>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">Cost Performance Index</h5>
+                                                <h3 class="card-text" t-att-class="'text-success' if (total_budgeted / total_actual if total_actual else 1) >= 1 else 'text-danger'">
+                                                    <span t-esc="round(total_budgeted / total_actual if total_actual else 1, 2)"/>
+                                                </h3>
+                                                <small class="text-muted">Budgeted / Actual</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">Budget Utilization</h5>
+                                                <h3 class="card-text">
+                                                    <span t-esc="round((total_actual / total_budgeted * 100) if total_budgeted else 0, 1)"/>%
+                                                </h3>
+                                                <small class="text-muted">Actual / Budgeted</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">Remaining Budget</h5>
+                                                <h3 class="card-text" t-att-class="'text-success' if (total_budgeted - total_actual) >= 0 else 'text-danger'">
+                                                    <span t-esc="total_budgeted - total_actual" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/>
+                                                </h3>
+                                                <small class="text-muted">Available Budget</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

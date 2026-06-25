@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Aptus PPT Config ELV Progressive Payment Term -->
+        <record id="aptus_ppt_config_elv" model="account.payment.term">
+            <field name="name">Aptus PPT Config ELV</field>
+            <field name="is_progressive" eval="True"/>
+            <field name="construction_category">elv</field>
+            <field name="is_template" eval="True"/>
+            <field name="display_on_invoice" eval="False"/>
+            <field name="template_description">Aptus Progressive Payment Term configuration for Extra Low Voltage (ELV) projects with 9 milestone structure</field>
+        </record>
+
+        <!-- Milestone 1: Project documentation (5%) -->
+        <record id="aptus_elv_milestone_1" model="account.payment.term.line">
+            <field name="payment_id" ref="aptus_ppt_config_elv"/>
+            <field name="value">percent</field>
+            <field name="value_amount">5.0</field>
+            <field name="nb_days">0</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">advance</field>
+            <field name="milestone_description">&lt;p&gt;Project documentation submission and approval&lt;/p&gt;</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <!-- Milestone 2: Material at site (35%) -->
+        <record id="aptus_elv_milestone_2" model="account.payment.term.line">
+            <field name="payment_id" ref="aptus_ppt_config_elv"/>
+            <field name="value">percent</field>
+            <field name="value_amount">35.0</field>
+            <field name="nb_days">15</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">material_delivery</field>
+            <field name="milestone_description">&lt;p&gt;All materials delivered and verified at project site&lt;/p&gt;</field>
+            <field name="sequence">2</field>
+        </record>
+
+        <!-- Milestone 3: Cable laying (15%) -->
+        <record id="aptus_elv_milestone_3" model="account.payment.term.line">
+            <field name="payment_id" ref="aptus_ppt_config_elv"/>
+            <field name="value">percent</field>
+            <field name="value_amount">15.0</field>
+            <field name="nb_days">30</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">installation</field>
+            <field name="milestone_description">&lt;p&gt;Cable laying work completed as per specifications&lt;/p&gt;</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <!-- Milestone 4: Termination at user side (10%) -->
+        <record id="aptus_elv_milestone_4" model="account.payment.term.line">
+            <field name="payment_id" ref="aptus_ppt_config_elv"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">45</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">testing_commissioning</field>
+            <field name="milestone_description">&lt;p&gt;Cable termination completed at user side&lt;/p&gt;</field>
+            <field name="sequence">4</field>
+        </record>
+
+        <!-- Milestone 5: Termination at server side (10%) -->
+        <record id="aptus_elv_milestone_5" model="account.payment.term.line">
+            <field name="payment_id" ref="aptus_ppt_config_elv"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">50</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">custom</field>
+            <field name="milestone_description">&lt;p&gt;Cable termination completed at server side&lt;/p&gt;</field>
+            <field name="sequence">5</field>
+        </record>
+
+        <!-- Milestone 6: Installation of devices (10%) -->
+        <record id="aptus_elv_milestone_6" model="account.payment.term.line">
+            <field name="payment_id" ref="aptus_ppt_config_elv"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">60</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">custom</field>
+            <field name="milestone_description">&lt;p&gt;All ELV devices installed and configured&lt;/p&gt;</field>
+            <field name="sequence">6</field>
+        </record>
+        <!-- Milestone 7: Testing and commissioning (5%) -->
+        <record id="aptus_elv_milestone_7" model="account.payment.term.line">
+            <field name="payment_id" ref="aptus_ppt_config_elv"/>
+            <field name="value">percent</field>
+            <field name="value_amount">5.0</field>
+            <field name="nb_days">60</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">testing_commissioning</field>
+            <field name="milestone_description">&lt;p&gt;Testing and commissioning completed&lt;/p&gt;</field>
+            <field name="sequence">7</field>
+        </record>
+        <!-- Milestone 8: Training (5%) -->
+        <record id="aptus_elv_milestone_8" model="account.payment.term.line">
+            <field name="payment_id" ref="aptus_ppt_config_elv"/>   
+            <field name="value">percent</field>
+            <field name="value_amount">5.0</field>
+            <field name="nb_days">75</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">custom</field>
+            <field name="milestone_description">&lt;p&gt;Training completed for end-users&lt;/p&gt;</field>
+            <field name="sequence">8</field>
+        </record>
+        <!-- Milestone 9: Handing over the documents (5%) -->
+        <record id="aptus_elv_milestone_9" model="account.payment.term.line">
+            <field name="payment_id" ref="aptus_ppt_config_elv"/>   
+            <field name="value">percent</field>
+            <field name="value_amount">5.0</field>
+            <field name="nb_days">90</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">custom</field>
+            <field name="milestone_description">&lt;p&gt;Handing over the documents to the customer&lt;/p&gt;</field>
+            <field name="sequence">9</field>
+        </record>
+
+    </data>
+</odoo>

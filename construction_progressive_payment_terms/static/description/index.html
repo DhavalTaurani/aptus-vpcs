@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Construction Progressive Payment</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; }
+        h3 { color: #4978a7; margin-top: 30px; }
+        .feature { background: #f8f9fa; padding: 15px; margin: 10px 0; border-left: 4px solid #3498db; }
+        .highlight { background: #e8f4fd; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        ul { padding-left: 20px; }
+        li { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Construction Progressive Payment Terms</h1>
+
+    <div class="highlight">
+        <p><strong>A milestone-based payment management system for Odoo 19 Enterprise</strong></p>
+        <p>Streamline construction billing with progressive payments, milestone tracking, and automated invoicing.</p>
+    </div>
+
+    <h2>Key Features</h2>
+
+    <div class="feature">
+        <h3>🎯 Milestone Management</h3>
+        <ul>
+            <li>Complete state workflow: Draft → Ready → Invoiced → Paid</li>
+            <li>Sub-milestone support for complex projects</li>
+            <li>Automatic status updates from sub-milestones</li>
+            <li>Real-time progress calculation with visual indicators</li>
+            <li>Flexible configuration for different milestone types and categories</li>
+        </ul>
+    </div>
+
+    <div class="feature">
+        <h3>💰 Smart Invoicing</h3>
+        <ul>
+            <li>Dedicated sale order lines for each milestone</li>
+            <li>Proportional deduction to maintain balance</li>
+            <li>Immediate payment terms for milestone invoices</li>
+            <li>Automated invoice generation on milestone readiness</li>
+            <li>Analytic distribution for project costing</li>
+            <li>Full integration with Odoo's accounting system</li>
+        </ul>
+    </div>
+
+    <div class="feature">
+        <h3>🔧 Advanced Reset Functionality</h3>
+        <ul>
+            <li>Reset invoices across draft, posted, and paid states</li>
+            <li>Automatic payment cleanup and reconciliation removal</li>
+            <li>Restore original sale order lines after reset</li>
+            <li>Ensure accounting data integrity</li>
+            <li>Independent reset for sub-milestones</li>
+        </ul>
+    </div>
+
+    <div class="feature">
+        <h3>📊 Real-time Tracking</h3>
+        <ul>
+            <li>Track invoiced vs paid amounts directly from invoice residuals</li>
+            <li>Automatic progress percentage calculation</li>
+            <li>Visual indicators with progress bars and badges</li>
+            <li>Dashboard integration with smart buttons for milestone tracking</li>
+        </ul>
+    </div>
+
+    <h2>Technical Requirements</h2>
+    <ul>
+        <li>Odoo 19.0 Enterprise Edition</li>
+        <li>Project Management modules</li>
+        <li>Accounting and Analytics modules</li>
+        <li>Sales modules</li>
+    </ul>
+
+    <h2>Installation</h2>
+    <ol>
+        <li>Install the module through the Apps menu</li>
+        <li>Complete construction project creation then set up payment terms as progressive payment term in sale order</li>
+        <li>Begin creating milestones, based on payment terms</li>
+    </ol>
+
+    <h2>Configuration Flow</h2>
+        <h3><u>Progressive Payment configuration</u></h3>
+        <li>
+            Progressive Payment Terms option which show templates of predetermine payment terms.
+            <br><br>
+            <img src="payment_option.png" alt="Payment Menu" style="width:100%; max-width:800px; border-bottom: 2px solid #000;"><br><br>
+            <img src="progressive_payment_templates.png" alt="Progressive Payment Templates" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Base on Payment terms Milestones Determine with details like percentage of milestone, <br>
+            types of milestones like material delivery, advance payment etc. and no. of days etc.,
+            <br><br>
+            <img src="milestone_show.png" alt="Milestones" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Sale Order</u></h3>
+        <li>
+            Link Progressive Payment term to the sale order for generate milestones and sub-milestones.
+            <br><br>
+            <img src="payment_progressive_term.png" alt="progressive term" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Milestone Invoice</u></h3>
+        <li>
+            For Create Milestone Invoice Make milestone in ready status.
+            <br><br>
+            <img src="milestone_ready.png" alt="milestone ready" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Create Invoice for which milestone is in ready status.
+            <br><br>
+            <img src="milestone_invoice_btn.png" alt="Invoice btn" style="width:100%; max-width:800px; border-bottom: 2px solid #000;"><br><br>
+            <img src="milestone_create_wizard.png" alt="milestone wizard" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Milestone Payment</u></h3>
+        <li>
+            Confirm the milestone invoice for payment and register payment for that invoice.
+            <br><br>
+            <img src="milestone_invoice_confirm.png" alt="confirm milestone" style="width:100%; max-width:800px; border-bottom: 2px solid #000;"><br><br>
+            <img src="milestone_payment.png" alt="milestone payment" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Payment Milestone Added in the sale order lines and amount deduct from the project total value whenever <br>milestone paid and add in order lines.
+            <br><br>
+            <img src="milestone_order_line.png" alt="sale order line" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Milestone invoice payment this way you can paid all the milestone whenever they complete.
+            <br><br>
+            <img src="milestone_invoice_status.png" alt="Invoice Milestone" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Also you can Reset to draft the milestone with reset button.
+            <br><br>
+            <img src="milestone_reset.png" alt="Milestone Reset" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Sub-Milestones</u></h3>
+        <li>
+            Add Sub milestones if you also divide the main milestone.
+            <br><br>
+            <img src="sub_milestone_config.png" alt="Sub-Milestone" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Define the name and amount of percentage for sub-milestone from main milestone.
+            <br><br>
+            <img src="sub_milestone_create.png" alt="Sub-Milestone-create" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Show the Sub-milestone and also status manage for invoice creation.
+            <br><br>
+            <img src="sub_milestone_add.png" alt="Sub-Milestone-add" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <center>
+            <section class="oe_container oe_dark" style="padding: 30px;">
+                <div class="oe_container oe_dark" style="padding: 30px;">
+                    <div class="oe_spaced">
+                        <a href="http://www.vperfectcs.com" target="_blank">
+                            <h2 class="oe_slogan" style="color:#875A7B;">
+                                <img src="VPerfectCS.jpeg" width="35%" height="50%">
+                            </h2>
+                        </a>
+                        <h3 class="oe_slogan">Veracious solutions to grow your business.</h3>
+                    </div>
+                    <div class="text-center">
+                        You can checkout our shop for demo and all apps on the below link <br/>
+                        <h3><a href="https://vpcscloud.com/shop" target="_blank">vpcscloud.com</a></h3>
+                    </div>
+                    <div class="text-center">
+                        <a href="https://vperfectcs.com/aboutus" target="_blank">
+                            <h2>About us</h2>
+                        </a>
+                        <div>
+                            <a href="http://www.vperfectcs.com/" target="_blank">
+                                Website
+                            </a> |
+                            <a href="http://www.vperfectcs.com/blog/our-blog-1" target="_blank">
+                                Blog
+                            </a> |
+                            <a href="http://www.vperfectcs.com/contactus" target="_blank">
+                                Contact us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </center>
+</body>
+</html>

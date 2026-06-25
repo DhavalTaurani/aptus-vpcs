@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherited Customer For add Reporting Field -->
+        <record id="view_sale_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_preview_sale_order']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="delivery"/>
+                    <field name="stamp_selection" />
+                </xpath>
+
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <field name="tandc_id" />
+                </xpath>
+
+                <xpath expr="//field[@name='client_order_ref']" position="after">
+                    <field name="customer_po_date" />
+                </xpath>
+
+                <!-- project in sale order -->
+                <xpath expr="//notebook//page[1]/field[@name='order_line']/list/field[@name='product_template_id']"
+                       position="before">
+                    <field name="project_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--default terms and conditions view and menu item-->
+        <record id="action_def_tandc" model="ir.actions.act_window">
+            <field name="name">Terms and Conditions</field>
+            <field name="res_model">def.tandc</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_def_tandc" name="Terms and Conditions" parent="sale.menu_sale_config" action="aptus_macrofix_customizations.action_def_tandc" sequence="10"/>
+        <!--/default terms and conditions view and menu item-->
+
+    </data>
+</odoo>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Default Progressive Payment Term with Sub-milestone Templates -->
+        <record id="progressive_payment_term_construction" model="account.payment.term">
+            <field name="name">Construction Progressive Payment</field>
+            <field name="is_progressive">True</field>
+            <field name="construction_category">generic</field>
+            <field name="is_template">True</field>
+            <field name="template_description">Standard construction payment term with sub-milestone templates</field>
+        </record>
+
+        <!-- Advance Payment Milestone -->
+        <record id="milestone_advance_payment" model="account.payment.term.line">
+            <field name="payment_id" ref="progressive_payment_term_construction"/>
+            <field name="value">percent</field>
+            <field name="value_amount">20.0</field>
+            <field name="nb_days">0</field>
+            <field name="is_milestone">True</field>
+            <field name="milestone_type">advance</field>
+            <field name="allow_sub_milestones">False</field>
+        </record>
+
+        <!-- Material Delivery Milestone with Sub-templates -->
+        <record id="milestone_material_delivery" model="account.payment.term.line">
+            <field name="payment_id" ref="progressive_payment_term_construction"/>
+            <field name="value">percent</field>
+            <field name="value_amount">30.0</field>
+            <field name="nb_days">30</field>
+            <field name="is_milestone">True</field>
+            <field name="milestone_type">material_delivery</field>
+            <field name="allow_sub_milestones">True</field>
+        </record>
+
+        <!-- Material Delivery Sub-milestone Templates -->
+        <record id="sub_template_steel_delivery" model="account.payment.term.line.sub.template">
+            <field name="payment_term_line_id" ref="milestone_material_delivery"/>
+            <field name="name">Steel Materials Delivery</field>
+            <field name="sequence">10</field>
+            <field name="percentage">40.0</field>
+            <field name="description">Delivery of steel materials to site</field>
+        </record>
+
+        <record id="sub_template_concrete_delivery" model="account.payment.term.line.sub.template">
+            <field name="payment_term_line_id" ref="milestone_material_delivery"/>
+            <field name="name">Concrete Materials Delivery</field>
+            <field name="sequence">20</field>
+            <field name="percentage">35.0</field>
+            <field name="description">Delivery of concrete materials to site</field>
+        </record>
+
+        <record id="sub_template_finishing_delivery" model="account.payment.term.line.sub.template">
+            <field name="payment_term_line_id" ref="milestone_material_delivery"/>
+            <field name="name">Finishing Materials Delivery</field>
+            <field name="sequence">30</field>
+            <field name="percentage">25.0</field>
+            <field name="description">Delivery of finishing materials to site</field>
+        </record>
+
+        <!-- Installation Milestone with Sub-templates -->
+        <record id="milestone_installation" model="account.payment.term.line">
+            <field name="payment_id" ref="progressive_payment_term_construction"/>
+            <field name="value">percent</field>
+            <field name="value_amount">35.0</field>
+            <field name="nb_days">60</field>
+            <field name="is_milestone">True</field>
+            <field name="milestone_type">installation</field>
+            <field name="allow_sub_milestones">True</field>
+        </record>
+
+        <!-- Installation Sub-milestone Templates -->
+        <record id="sub_template_structural_work" model="account.payment.term.line.sub.template">
+            <field name="payment_term_line_id" ref="milestone_installation"/>
+            <field name="name">Structural Work Completion</field>
+            <field name="sequence">10</field>
+            <field name="percentage">50.0</field>
+            <field name="description">Completion of structural installation work</field>
+        </record>
+
+        <record id="sub_template_mep_installation" model="account.payment.term.line.sub.template">
+            <field name="payment_term_line_id" ref="milestone_installation"/>
+            <field name="name">MEP Installation</field>
+            <field name="sequence">20</field>
+            <field name="percentage">30.0</field>
+            <field name="description">Mechanical, Electrical, Plumbing installation</field>
+        </record>
+
+        <record id="sub_template_finishing_work" model="account.payment.term.line.sub.template">
+            <field name="payment_term_line_id" ref="milestone_installation"/>
+            <field name="name">Finishing Work</field>
+            <field name="sequence">30</field>
+            <field name="percentage">20.0</field>
+            <field name="description">Completion of finishing work</field>
+        </record>
+
+        <!-- Testing & Commissioning Milestone -->
+        <record id="milestone_testing" model="account.payment.term.line">
+            <field name="payment_id" ref="progressive_payment_term_construction"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">90</field>
+            <field name="is_milestone">True</field>
+            <field name="milestone_type">testing_commissioning</field>
+            <field name="allow_sub_milestones">False</field>
+        </record>
+
+        <!-- Retention Milestone -->
+        <record id="milestone_retention" model="account.payment.term.line">
+            <field name="payment_id" ref="progressive_payment_term_construction"/>
+            <field name="value">percent</field>
+            <field name="value_amount">5.0</field>
+            <field name="nb_days">365</field>
+            <field name="is_milestone">True</field>
+            <field name="milestone_type">retention</field>
+            <field name="allow_sub_milestones">False</field>
+        </record>
+
+    </data>
+</odoo>

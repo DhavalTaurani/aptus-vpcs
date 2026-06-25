@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_move_line_list" model="ir.ui.view">
+        <field name="name">account.move.line.list</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <list string="Move Lines"  open_form_view="True">
+                <field name="date" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="name" optional="hide"/>
+                <field name="move_name" widget="open_move_widget" optional="show"/>
+                <!-- <field name="account_id" optional="hide"/> -->
+                <field name="product_id" optional="show"/>
+                <field name="quantity" optional="show" sum="Quantity"/>
+                <field name="price_unit" optional="show" sum="Price"/>
+                <field name="price_subtotal" widget="monetary" optional="show" sum="Total"/>
+                <field name="analytic_distribution" widget="analytic_distribution" optional="show"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_move_line_custom" model="ir.actions.act_window">
+        <field name="name">Move Lines</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="aptus_macrofix_customizations.view_account_move_line_list"/>
+        <field name="domain">[("parent_state", "=", "posted"),("move_type", "in", ["out_invoice", "out_refund", "in_invoice", "in_refund"]),("display_type", "in", ["product", "line_section", "line_note"])]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem
+        id="menu_move_line_custom"
+        name="Move Lines"
+        parent="account.account_reports_management_menu"
+        sequence="3"
+        action="action_move_line_custom"
+    />
+
+</odoo>

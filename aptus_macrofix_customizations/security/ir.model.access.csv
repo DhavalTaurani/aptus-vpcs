@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_def_tandc,access_def_tandc,model_def_tandc,,1,1,1,1
+access_hr_employee_spouse,access_hr_employee_spouse,model_hr_employee_spouse,,1,1,1,1
+access_hr_employee_child,access_hr_employee_child,model_hr_employee_child,,1,1,1,1

@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+    <record id="purchase_order_form_inherit" model="ir.ui.view">
+      <field name="name">purchase.order.form.inherit</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="aptus_macrofix_customizations.mfx_purchase_order_veiw"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='rel_sales_order']" position="after">
+          <div class="o_row">
+            <button name="action_sync_so_lines" type="object" class="btn-link oe_edit_only" icon="fa-refresh" title="Sync from Sale Order" invisible="not rel_sales_order"/>
+          </div>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

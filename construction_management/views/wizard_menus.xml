@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_wizards"
+                name="Wizards"
+                parent="menu_construction_main"
+                sequence="100"
+                groups="group_construction_manager,group_construction_admin"/>
+
+        <!-- <menuitem id="menu_assign_subcontractor"
+                name="Assign Subcontractor"
+                parent="menu_wizards"
+                action="action_assign_subcontractor"/> -->
+
+        <!-- <menuitem id="menu_construction_boq_import"
+                name="Import BOQ"
+                parent="menu_wizards"
+                action="action_construction_boq_import"/> -->
+
+        <!-- <menuitem id="menu_construction_upload_document"
+                name="Upload Document"
+                parent="menu_wizards"
+                action="action_construction_upload_document"/> -->
+
+        <menuitem id="menu_construction_template_customization"
+                name="Customize Template"
+                parent="menu_wizards"
+                action="action_construction_template_customization_wizard"/>
+
+
+    </data>
+</odoo>

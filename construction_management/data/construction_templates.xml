@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template Data with proper noupdate flags for data integrity -->
+    <data noupdate="1">
+        
+        <!-- ELV Construction Template -->
+        <record id="template_elv" model="construction.project.template">
+            <field name="name">Extra Low Voltage (ELV) Project</field>
+            <field name="construction_category">elv</field>
+            <field name="description">Standard template for Extra Low Voltage projects including CCTV, access control, fire alarm systems</field>
+            <field name="state">draft</field>
+            <field name="version">1.0</field>
+            <field name="template_data">{"version": "1.0", "category": "elv", "structure": {"phases": ["design", "installation", "testing"], "cost_categories": ["material", "labour", "equipment"], "milestones": ["design_approval", "installation_complete", "testing_complete"]}, "validation_rules": {"min_cost": 1000, "max_duration": 90, "required_approvals": ["technical", "financial"]}, "backup_config": {"auto_backup": true, "retention_days": 365, "backup_frequency": "weekly"}}</field>
+        </record>
+        
+        <!-- ELV Task Templates -->
+        <record id="elv_task_design" model="construction.task.template">
+            <field name="name">Design and Engineering</field>
+            <field name="template_id" ref="template_elv"/>
+            <field name="sequence">10</field>
+            <field name="description">System design, drawings, and engineering calculations</field>
+            <field name="is_boq_item">false</field>
+        </record>
+        
+        <record id="elv_task_cctv" model="construction.task.template">
+            <field name="name">CCTV System Installation</field>
+            <field name="template_id" ref="template_elv"/>
+            <field name="parent_template_id" ref="elv_task_design"/>
+            <field name="sequence">20</field>
+            <field name="description">CCTV cameras, DVR/NVR, and monitoring equipment</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-CCTV-001</field>
+            <field name="estimated_quantity">1</field>
+            <field name="unit_cost">5000</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <record id="elv_task_access" model="construction.task.template">
+            <field name="name">Access Control System</field>
+            <field name="template_id" ref="template_elv"/>
+            <field name="parent_template_id" ref="elv_task_design"/>
+            <field name="sequence">30</field>
+            <field name="description">Card readers, controllers, and access management software</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-ACC-001</field>
+            <field name="estimated_quantity">1</field>
+            <field name="unit_cost">3000</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <!-- MEP Construction Template -->
+        <record id="template_mep" model="construction.project.template">
+            <field name="name">Mechanical, Electrical &amp; Plumbing (MEP)</field>
+            <field name="construction_category">mep</field>
+            <field name="description">Standard template for MEP projects including HVAC, electrical, and plumbing systems</field>
+            <field name="state">draft</field>
+            <field name="version">1.0</field>
+            <field name="template_data">{"version": "1.0", "category": "mep", "structure": {"phases": ["mechanical", "electrical", "plumbing"], "cost_categories": ["material", "labour", "equipment", "subcontractor"], "milestones": ["design_approval", "mechanical_complete", "electrical_complete", "plumbing_complete"]}, "validation_rules": {"min_cost": 5000, "max_duration": 120, "required_approvals": ["technical", "safety", "financial"]}, "backup_config": {"auto_backup": true, "retention_days": 365, "backup_frequency": "weekly"}}</field>
+        </record>
+        
+        <!-- MEP Task Templates -->
+        <record id="mep_task_mechanical" model="construction.task.template">
+            <field name="name">Mechanical Systems</field>
+            <field name="template_id" ref="template_mep"/>
+            <field name="sequence">10</field>
+            <field name="description">HVAC systems, ductwork, and mechanical equipment</field>
+            <field name="is_boq_item">false</field>
+        </record>
+        
+        <record id="mep_task_hvac" model="construction.task.template">
+            <field name="name">HVAC Installation</field>
+            <field name="template_id" ref="template_mep"/>
+            <field name="parent_template_id" ref="mep_task_mechanical"/>
+            <field name="sequence">11</field>
+            <field name="description">Air conditioning units, ductwork, and ventilation systems</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">MEP-HVAC-001</field>
+            <field name="estimated_quantity">1</field>
+            <field name="unit_cost">15000</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <record id="mep_task_electrical" model="construction.task.template">
+            <field name="name">Electrical Systems</field>
+            <field name="template_id" ref="template_mep"/>
+            <field name="sequence">20</field>
+            <field name="description">Electrical wiring, panels, and power distribution</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">MEP-ELEC-001</field>
+            <field name="estimated_quantity">1</field>
+            <field name="unit_cost">8000</field>
+            <field name="cost_code_id" ref="cost_code_template_material"/>
+        </record>
+        
+        <record id="mep_task_plumbing" model="construction.task.template">
+            <field name="name">Plumbing Systems</field>
+            <field name="template_id" ref="template_mep"/>
+            <field name="sequence">30</field>
+            <field name="description">Water supply, drainage, and sanitary systems</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">MEP-PLUMB-001</field>
+            <field name="estimated_quantity">1</field>
+            <field name="unit_cost">6000</field>
+            <field name="cost_code_id" ref="cost_code_template_material"/>
+        </record>
+        
+        <!-- Civil Works Template -->
+        <record id="template_civil" model="construction.project.template">
+            <field name="name">Civil Works</field>
+            <field name="construction_category">civil</field>
+            <field name="description">Standard template for civil construction including foundations, structures, and site works</field>
+            <field name="state">draft</field>
+            <field name="version">1.0</field>
+            <field name="template_data">{"version": "1.0", "category": "civil", "structure": {"phases": ["foundation", "structure", "finishing"], "cost_categories": ["material", "labour", "equipment", "subcontractor", "overhead"], "milestones": ["foundation_complete", "structure_complete", "finishing_complete"]}, "validation_rules": {"min_cost": 10000, "max_duration": 180, "required_approvals": ["technical", "safety", "environmental", "financial"]}, "backup_config": {"auto_backup": true, "retention_days": 730, "backup_frequency": "daily"}}</field>
+        </record>
+        
+        <!-- Civil Task Templates -->
+        <record id="civil_task_foundation" model="construction.task.template">
+            <field name="name">Foundation Works</field>
+            <field name="template_id" ref="template_civil"/>
+            <field name="sequence">10</field>
+            <field name="description">Excavation, concrete foundations, and structural works</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">CIV-FOUND-001</field>
+            <field name="estimated_quantity">100</field>
+            <field name="unit_cost">150</field>
+            <field name="cost_code_id" ref="cost_code_template_material"/>
+        </record>
+        
+        <record id="civil_task_structure" model="construction.task.template">
+            <field name="name">Structural Works</field>
+            <field name="template_id" ref="template_civil"/>
+            <field name="sequence">20</field>
+            <field name="description">Concrete structures, steel framework, and masonry</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">CIV-STRUCT-001</field>
+            <field name="estimated_quantity">200</field>
+            <field name="unit_cost">200</field>
+            <field name="cost_code_id" ref="cost_code_template_material"/>
+        </record>
+        
+        <!-- General Construction Template -->
+        <record id="template_general" model="construction.project.template">
+            <field name="name">General Construction</field>
+            <field name="construction_category">general</field>
+            <field name="description">Standard template for general construction projects</field>
+            <field name="state">draft</field>
+            <field name="version">1.0</field>
+        </record>
+        
+        <!-- BOQ Templates -->
+        <record id="boq_elv_cctv" model="construction.boq.template">
+            <field name="name">CCTV Camera System</field>
+            <field name="code">ELV-CCTV-001</field>
+            <field name="template_id" ref="template_elv"/>
+            <field name="task_template_id" ref="elv_task_cctv"/>
+            <field name="quantity">10</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">500</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+            <field name="description">IP cameras with night vision and motion detection</field>
+        </record>
+        
+        <record id="boq_mep_hvac" model="construction.boq.template">
+            <field name="name">HVAC Unit</field>
+            <field name="code">MEP-HVAC-001</field>
+            <field name="template_id" ref="template_mep"/>
+            <field name="task_template_id" ref="mep_task_hvac"/>
+            <field name="quantity">5</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">3000</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+            <field name="description">Split type air conditioning units with installation</field>
+        </record>
+        
+        <!-- Cost Estimation Templates -->
+        <record id="cost_est_elv_materials" model="construction.cost.estimation.template">
+            <field name="name">ELV Materials</field>
+            <field name="template_id" ref="template_elv"/>
+            <field name="cost_category">material</field>
+            <field name="estimated_cost">10000</field>
+            <field name="contingency_percentage">15</field>
+            <field name="description">Cables, conduits, and installation materials for ELV systems</field>
+        </record>
+        
+        <record id="cost_est_elv_labour" model="construction.cost.estimation.template">
+            <field name="name">ELV Installation Labour</field>
+            <field name="template_id" ref="template_elv"/>
+            <field name="cost_category">labour</field>
+            <field name="estimated_cost">8000</field>
+            <field name="contingency_percentage">10</field>
+            <field name="description">Skilled technicians for ELV system installation and testing</field>
+        </record>
+        
+        <record id="cost_est_mep_materials" model="construction.cost.estimation.template">
+            <field name="name">MEP Materials</field>
+            <field name="template_id" ref="template_mep"/>
+            <field name="cost_category">material</field>
+            <field name="estimated_cost">25000</field>
+            <field name="contingency_percentage">12</field>
+            <field name="description">Pipes, cables, fittings, and MEP installation materials</field>
+        </record>
+        
+        <record id="cost_est_civil_materials" model="construction.cost.estimation.template">
+            <field name="name">Civil Construction Materials</field>
+            <field name="template_id" ref="template_civil"/>
+            <field name="cost_category">material</field>
+            <field name="estimated_cost">50000</field>
+            <field name="contingency_percentage">10</field>
+            <field name="description">Concrete, steel, aggregates, and civil construction materials</field>
+        </record>
+        
+        <!-- Milestone Templates - REMOVED FOR DYNAMIC MILESTONE CREATION -->
+        <!-- Milestones are now created dynamically from payment terms in progressive payment module -->
+        <!-- This eliminates static milestone templates and enables onchange functionality like sale orders -->
+        
+        <!-- Resource Allocation Templates -->
+        <record id="resource_elv_technician" model="construction.resource.allocation.template">
+            <field name="name">ELV Technician</field>
+            <field name="task_template_id" ref="elv_task_cctv"/>
+            <field name="resource_type">human</field>
+            <field name="allocated_quantity">2</field>
+            <field name="duration_days">5</field>
+            <field name="unit_cost">200</field>
+            <field name="description">Skilled ELV technicians for CCTV installation</field>
+        </record>
+        
+        <record id="resource_mep_hvac_specialist" model="construction.resource.allocation.template">
+            <field name="name">HVAC Specialist</field>
+            <field name="task_template_id" ref="mep_task_hvac"/>
+            <field name="resource_type">human</field>
+            <field name="allocated_quantity">1</field>
+            <field name="duration_days">10</field>
+            <field name="unit_cost">300</field>
+            <field name="description">HVAC specialist for system installation</field>
+        </record>
+        
+
+        
+        <!-- Template Version History -->
+        <record id="template_version_elv_1_0" model="construction.template.version">
+            <field name="template_id" ref="template_elv"/>
+            <field name="version">1.0</field>
+            <field name="state">draft</field>
+            <field name="change_log">Initial ELV template with CCTV and access control systems</field>
+            <field name="created_date" eval="datetime.now()"/>
+        </record>
+        
+        <record id="template_version_mep_1_0" model="construction.template.version">
+            <field name="template_id" ref="template_mep"/>
+            <field name="version">1.0</field>
+            <field name="state">draft</field>
+            <field name="change_log">Initial MEP template with HVAC, electrical, and plumbing systems</field>
+            <field name="created_date" eval="datetime.now()"/>
+        </record>
+        
+        <record id="template_version_civil_1_0" model="construction.template.version">
+            <field name="template_id" ref="template_civil"/>
+            <field name="version">1.0</field>
+            <field name="state">draft</field>
+            <field name="change_log">Initial civil works template with foundation and structural works</field>
+            <field name="created_date" eval="datetime.now()"/>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- COMPREHENSIVE ELV TEMPLATE WITH COMPLETE WORKFLOW -->
+        <!-- ========================================= -->
+        
+        <!-- Comprehensive ELV Construction Template -->
+        <record id="template_elv_comprehensive" model="construction.project.template">
+            <field name="name">ELV Complete Installation Project</field>
+            <field name="construction_category">elv</field>
+            <field name="description">Comprehensive ELV template covering complete installation workflow from infrastructure to configuration</field>
+            <field name="state">draft</field>
+            <field name="version">2.0</field>
+            <field name="template_data">{"version": "2.0", "category": "elv_comprehensive", "structure": {"phases": ["infrastructure", "cabling", "termination", "rack_setup", "device_installation", "configuration"], "cost_categories": ["material", "labour", "equipment", "subcontractor"], "milestones": ["infrastructure_complete", "cabling_complete", "termination_complete", "device_installation_complete", "configuration_complete"]}, "validation_rules": {"min_cost": 5000, "max_duration": 120, "required_approvals": ["technical", "safety", "financial"]}, "backup_config": {"auto_backup": true, "retention_days": 365, "backup_frequency": "weekly"}}</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- PHASE 1: TRUNKING AND CONDUITING -->
+        <!-- ========================================= -->
+        
+        <record id="elv_comp_task_trunking" model="construction.task.template">
+            <field name="name">Trunking and Conduiting</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="sequence">10</field>
+            <field name="hierarchy_level">phase</field>
+            <field name="description">Installation of cable trays, conduits, and cable management infrastructure</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-TRUNK-001</field>
+            <field name="estimated_quantity">100</field>
+            <field name="unit_cost">25</field>
+            <field name="cost_code_id" ref="cost_code_template_material"/>
+        </record>
+        
+        <!-- BOQ for Trunking -->
+        <record id="boq_elv_comp_trunking" model="construction.boq.template">
+            <field name="name">Cable Tray and Conduit System</field>
+            <field name="code">ELV-TRUNK-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_trunking"/>
+            <field name="quantity">100</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_meter"/>
+            <field name="unit_cost">25</field>
+            <field name="cost_code_id" ref="cost_code_template_material"/>
+            <field name="description">Cable trays, conduits, brackets, and mounting hardware</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- PHASE 2: CABLE PULLING/LAYING -->
+        <!-- ========================================= -->
+        
+        <record id="elv_comp_task_cabling" model="construction.task.template">
+            <field name="name">Cable Pulling/Laying</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_trunking"/>
+            <field name="sequence">20</field>
+            <field name="hierarchy_level">phase</field>
+            <field name="description">Installation and pulling of all ELV cables including data, power, and control cables</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-CABLE-001</field>
+            <field name="estimated_quantity">500</field>
+            <field name="unit_cost">15</field>
+            <field name="cost_code_id" ref="cost_code_template_material"/>
+        </record>
+        
+        <!-- BOQ for Cabling -->
+        <record id="boq_elv_comp_cabling" model="construction.boq.template">
+            <field name="name">ELV Cable Installation</field>
+            <field name="code">ELV-CABLE-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_cabling"/>
+            <field name="quantity">500</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_meter"/>
+            <field name="unit_cost">15</field>
+            <field name="cost_code_id" ref="cost_code_template_material"/>
+            <field name="description">Cat6 data cables, power cables, coaxial cables, and control cables</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- PHASE 3: USER-SIDE TERMINATION -->
+        <!-- ========================================= -->
+        
+        <record id="elv_comp_task_user_termination" model="construction.task.template">
+            <field name="name">User-Side Termination</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_cabling"/>
+            <field name="sequence">30</field>
+            <field name="hierarchy_level">work_package</field>
+            <field name="description">Termination of cables at user end points including outlets, junction boxes, and device connections</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-USER-TERM-001</field>
+            <field name="estimated_quantity">50</field>
+            <field name="unit_cost">30</field>
+            <field name="cost_code_id" ref="cost_code_template_labour"/>
+        </record>
+        
+        <!-- BOQ for User-Side Termination -->
+        <record id="boq_elv_comp_user_termination" model="construction.boq.template">
+            <field name="name">User-Side Cable Termination</field>
+            <field name="code">ELV-USER-TERM-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_user_termination"/>
+            <field name="quantity">50</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">30</field>
+            <field name="cost_code_id" ref="cost_code_template_labour"/>
+            <field name="description">RJ45 outlets, junction boxes, cable termination, and testing</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- PHASE 4: RACK INSTALLATION -->
+        <!-- ========================================= -->
+        
+        <record id="elv_comp_task_rack_installation" model="construction.task.template">
+            <field name="name">Rack Installation</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_cabling"/>
+            <field name="sequence">40</field>
+            <field name="hierarchy_level">work_package</field>
+            <field name="description">Installation and setup of server racks, power distribution, and cooling systems</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-RACK-001</field>
+            <field name="estimated_quantity">3</field>
+            <field name="unit_cost">1500</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <!-- BOQ for Rack Installation -->
+        <record id="boq_elv_comp_rack_installation" model="construction.boq.template">
+            <field name="name">Server Rack Installation</field>
+            <field name="code">ELV-RACK-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_rack_installation"/>
+            <field name="quantity">3</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">1500</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+            <field name="description">42U server racks with PDU, cooling, and cable management</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- PHASE 5: RACK SIDE TERMINATION -->
+        <!-- ========================================= -->
+        
+        <record id="elv_comp_task_rack_termination" model="construction.task.template">
+            <field name="name">Rack Side Termination</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_rack_installation"/>
+            <field name="sequence">50</field>
+            <field name="hierarchy_level">work_package</field>
+            <field name="description">Termination of all cables at rack side including patch panels and distribution panels</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-RACK-TERM-001</field>
+            <field name="estimated_quantity">3</field>
+            <field name="unit_cost">800</field>
+            <field name="cost_code_id" ref="cost_code_template_labour"/>
+        </record>
+        
+        <!-- BOQ for Rack Side Termination -->
+        <record id="boq_elv_comp_rack_termination" model="construction.boq.template">
+            <field name="name">Rack Side Cable Termination</field>
+            <field name="code">ELV-RACK-TERM-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_rack_termination"/>
+            <field name="quantity">3</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">800</field>
+            <field name="cost_code_id" ref="cost_code_template_labour"/>
+            <field name="description">Patch panels, distribution panels, cable management, and testing</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- PHASE 6: DEVICE INSTALLATION AND MOUNTING -->
+        <!-- ========================================= -->
+        
+        <!-- Main Device Installation Phase -->
+        <record id="elv_comp_task_device_installation" model="construction.task.template">
+            <field name="name">Device Installation and Mounting</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_rack_termination"/>
+            <field name="sequence">60</field>
+            <field name="hierarchy_level">phase</field>
+            <field name="description">Installation and mounting of all ELV devices including cameras, access control, network equipment</field>
+            <field name="is_boq_item">false</field>
+        </record>
+        
+        <!-- 6a. Camera Installation -->
+        <record id="elv_comp_task_camera_fixing" model="construction.task.template">
+            <field name="name">Camera Installation and Fixing</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_device_installation"/>
+            <field name="sequence">61</field>
+            <field name="hierarchy_level">work_package</field>
+            <field name="description">Installation, mounting, and fixing of CCTV cameras with proper positioning and weatherproofing</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-CAM-FIX-001</field>
+            <field name="estimated_quantity">20</field>
+            <field name="unit_cost">350</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <record id="boq_elv_comp_camera_fixing" model="construction.boq.template">
+            <field name="name">CCTV Camera Installation</field>
+            <field name="code">ELV-CAM-FIX-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_camera_fixing"/>
+            <field name="quantity">20</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">350</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+            <field name="description">IP cameras with mounting brackets, weatherproof housing, and connections</field>
+        </record>
+        
+        <!-- 6b. Access Control System Installation -->
+        <record id="elv_comp_task_acs_fixing" model="construction.task.template">
+            <field name="name">Access Control System Installation</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_device_installation"/>
+            <field name="sequence">62</field>
+            <field name="hierarchy_level">work_package</field>
+            <field name="description">Installation and fixing of access control devices including card readers, controllers, and door hardware</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-ACS-FIX-001</field>
+            <field name="estimated_quantity">15</field>
+            <field name="unit_cost">450</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <record id="boq_elv_comp_acs_fixing" model="construction.boq.template">
+            <field name="name">Access Control System Installation</field>
+            <field name="code">ELV-ACS-FIX-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_acs_fixing"/>
+            <field name="quantity">15</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">450</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+            <field name="description">Card readers, controllers, electric locks, and door sensors</field>
+        </record>
+        
+        <!-- 6c. WiFi Access Point Installation -->
+        <record id="elv_comp_task_wifi_fixing" model="construction.task.template">
+            <field name="name">WiFi Access Point Installation</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_device_installation"/>
+            <field name="sequence">63</field>
+            <field name="hierarchy_level">work_package</field>
+            <field name="description">Installation and fixing of WiFi access points with optimal coverage and PoE connections</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-WIFI-FIX-001</field>
+            <field name="estimated_quantity">12</field>
+            <field name="unit_cost">280</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <record id="boq_elv_comp_wifi_fixing" model="construction.boq.template">
+            <field name="name">WiFi Access Point Installation</field>
+            <field name="code">ELV-WIFI-FIX-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_wifi_fixing"/>
+            <field name="quantity">12</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">280</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+            <field name="description">Enterprise WiFi access points with ceiling/wall mounting and PoE</field>
+        </record>
+        
+        <!-- 6d. Network Access Point Installation -->
+        <record id="elv_comp_task_ap_fixing" model="construction.task.template">
+            <field name="name">Network Access Point Installation</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_device_installation"/>
+            <field name="sequence">64</field>
+            <field name="hierarchy_level">work_package</field>
+            <field name="description">Installation and fixing of network access points and data outlets</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-AP-FIX-001</field>
+            <field name="estimated_quantity">30</field>
+            <field name="unit_cost">120</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <record id="boq_elv_comp_ap_fixing" model="construction.boq.template">
+            <field name="name">Network Access Point Installation</field>
+            <field name="code">ELV-AP-FIX-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_ap_fixing"/>
+            <field name="quantity">30</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">120</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+            <field name="description">RJ45 outlets, face plates, and network connection points</field>
+        </record>
+        
+        <!-- 6e. Speaker Installation -->
+        <record id="elv_comp_task_speaker_fixing" model="construction.task.template">
+            <field name="name">Speaker Installation and Fixing</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_device_installation"/>
+            <field name="sequence">65</field>
+            <field name="hierarchy_level">work_package</field>
+            <field name="description">Installation and fixing of PA system speakers with proper acoustic positioning</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-SPEAK-FIX-001</field>
+            <field name="estimated_quantity">25</field>
+            <field name="unit_cost">180</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <record id="boq_elv_comp_speaker_fixing" model="construction.boq.template">
+            <field name="name">PA Speaker Installation</field>
+            <field name="code">ELV-SPEAK-FIX-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_speaker_fixing"/>
+            <field name="quantity">25</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">180</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+            <field name="description">Ceiling and wall mounted speakers with brackets and connections</field>
+        </record>
+        
+        <!-- 6f. Amplifier Installation -->
+        <record id="elv_comp_task_amplifier_fixing" model="construction.task.template">
+            <field name="name">Amplifier Installation and Fixing</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_device_installation"/>
+            <field name="sequence">66</field>
+            <field name="hierarchy_level">work_package</field>
+            <field name="description">Installation and fixing of audio amplifiers and control equipment in rack systems</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-AMP-FIX-001</field>
+            <field name="estimated_quantity">5</field>
+            <field name="unit_cost">800</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <record id="boq_elv_comp_amplifier_fixing" model="construction.boq.template">
+            <field name="name">Audio Amplifier Installation</field>
+            <field name="code">ELV-AMP-FIX-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_amplifier_fixing"/>
+            <field name="quantity">5</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">800</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+            <field name="description">Rack-mounted amplifiers with control modules and connections</field>
+        </record>
+        
+        <!-- 6g. Network Switch Installation -->
+        <record id="elv_comp_task_switch_fixing" model="construction.task.template">
+            <field name="name">Network Switch Installation</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_device_installation"/>
+            <field name="sequence">67</field>
+            <field name="hierarchy_level">work_package</field>
+            <field name="description">Installation and fixing of network switches and PoE equipment in racks</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-SWITCH-FIX-001</field>
+            <field name="estimated_quantity">8</field>
+            <field name="unit_cost">1200</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+        </record>
+        
+        <record id="boq_elv_comp_switch_fixing" model="construction.boq.template">
+            <field name="name">Network Switch Installation</field>
+            <field name="code">ELV-SWITCH-FIX-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_switch_fixing"/>
+            <field name="quantity">8</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">1200</field>
+            <field name="cost_code_id" ref="cost_code_template_equipment"/>
+            <field name="description">Managed PoE switches with rack mounting and redundancy</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- PHASE 7: SYSTEM CONFIGURATION -->
+        <!-- ========================================= -->
+        
+        <record id="elv_comp_task_configuration" model="construction.task.template">
+            <field name="name">System Configuration and Testing</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="parent_template_id" ref="elv_comp_task_device_installation"/>
+            <field name="sequence">70</field>
+            <field name="hierarchy_level">phase</field>
+            <field name="description">Complete system configuration, integration, testing, and commissioning</field>
+            <field name="is_boq_item">true</field>
+            <field name="boq_code">ELV-CONFIG-001</field>
+            <field name="estimated_quantity">1</field>
+            <field name="unit_cost">5000</field>
+            <field name="cost_code_id" ref="cost_code_template_labour"/>
+        </record>
+        
+        <record id="boq_elv_comp_configuration" model="construction.boq.template">
+            <field name="name">System Configuration and Testing</field>
+            <field name="code">ELV-CONFIG-001</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="task_template_id" ref="elv_comp_task_configuration"/>
+            <field name="quantity">1</field>
+            <field name="unit_of_measure_id" ref="uom.product_uom_unit"/>
+            <field name="unit_cost">5000</field>
+            <field name="cost_code_id" ref="cost_code_template_labour"/>
+            <field name="description">Network configuration, system integration, testing, and documentation</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- COST ESTIMATION TEMPLATES -->
+        <!-- ========================================= -->
+        
+        <record id="cost_est_elv_comp_materials" model="construction.cost.estimation.template">
+            <field name="name">ELV Comprehensive Materials</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="cost_category">material</field>
+            <field name="estimated_cost">35000</field>
+            <field name="contingency_percentage">15</field>
+            <field name="description">All materials for comprehensive ELV installation including cables, conduits, devices</field>
+        </record>
+        
+        <record id="cost_est_elv_comp_labour" model="construction.cost.estimation.template">
+            <field name="name">ELV Comprehensive Labour</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="cost_category">labour</field>
+            <field name="estimated_cost">25000</field>
+            <field name="contingency_percentage">12</field>
+            <field name="description">Skilled technicians for complete ELV system installation and configuration</field>
+        </record>
+        
+        <record id="cost_est_elv_comp_equipment" model="construction.cost.estimation.template">
+            <field name="name">ELV Comprehensive Equipment</field>
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="cost_category">equipment</field>
+            <field name="estimated_cost">45000</field>
+            <field name="contingency_percentage">10</field>
+            <field name="description">All ELV devices including cameras, switches, access control, audio equipment</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- MILESTONE TEMPLATES - REMOVED FOR DYNAMIC CREATION -->
+        <!-- ========================================= -->
+        
+        <!-- Milestone templates removed to enable dynamic milestone creation from payment terms -->
+        <!-- Milestones will be created automatically from progressive payment terms like sale order onchange -->
+        <!-- This provides the dynamic functionality you requested -->
+        
+        <!-- ========================================= -->
+        <!-- RESOURCE ALLOCATION TEMPLATES -->
+        <!-- ========================================= -->
+        
+        <record id="resource_elv_comp_infrastructure_team" model="construction.resource.allocation.template">
+            <field name="name">Infrastructure Installation Team</field>
+            <field name="task_template_id" ref="elv_comp_task_trunking"/>
+            <field name="resource_type">human</field>
+            <field name="allocated_quantity">4</field>
+            <field name="duration_days">15</field>
+            <field name="unit_cost">250</field>
+            <field name="description">Skilled technicians for trunking, conduiting, and cabling</field>
+        </record>
+        
+        <record id="resource_elv_comp_device_team" model="construction.resource.allocation.template">
+            <field name="name">Device Installation Team</field>
+            <field name="task_template_id" ref="elv_comp_task_device_installation"/>
+            <field name="resource_type">human</field>
+            <field name="allocated_quantity">6</field>
+            <field name="duration_days">20</field>
+            <field name="unit_cost">300</field>
+            <field name="description">Specialized technicians for device installation and mounting</field>
+        </record>
+        
+        <record id="resource_elv_comp_config_team" model="construction.resource.allocation.template">
+            <field name="name">Configuration and Testing Team</field>
+            <field name="task_template_id" ref="elv_comp_task_configuration"/>
+            <field name="resource_type">human</field>
+            <field name="allocated_quantity">3</field>
+            <field name="duration_days">15</field>
+            <field name="unit_cost">400</field>
+            <field name="description">System engineers for configuration, testing, and commissioning</field>
+        </record>
+        
+        <!-- Template Version for Comprehensive ELV -->
+        <record id="template_version_elv_comp_2_0" model="construction.template.version">
+            <field name="template_id" ref="template_elv_comprehensive"/>
+            <field name="version">2.0</field>
+            <field name="state">draft</field>
+            <field name="change_log">Comprehensive ELV template with complete workflow from infrastructure to configuration</field>
+            <field name="created_date" eval="datetime.now()"/>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Milestone Invoice Wizard Form View -->
+    <record id="view_milestone_invoice_wizard_form" model="ir.ui.view">
+        <field name="name">milestone.invoice.wizard.form</field>
+        <field name="model">milestone.invoice.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Milestone Invoice">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sale_order_id" options="{'no_create': True}"/>
+                            <field name="invoice_date"/>
+                            <field name="create_separate_invoices"/>
+                        </group>
+                        <group>
+                            <field name="milestone_count"/>
+                            <field name="total_amount" widget="monetary"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Select Milestones">
+                        <field name="milestone_ids" nolabel="1">
+                            <list>
+                                <field name="milestone_name"/>
+                                <field name="milestone_type"/>
+                                <field name="percentage"/>
+                                <field name="amount" widget="monetary"/>
+                                <field name="planned_date"/>
+                                <field name="state" widget="badge"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_create_invoice" string="Create Invoice" type="object" class="btn-primary"/>
+                    <button name="action_preview_invoice" string="Preview" type="object" class="btn-secondary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Milestone Invoice Preview Form View -->
+    <record id="view_milestone_invoice_preview_form" model="ir.ui.view">
+        <field name="name">milestone.invoice.preview.form</field>
+        <field name="model">milestone.invoice.preview</field>
+        <field name="arch" type="xml">
+            <form string="Invoice Preview">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Invoice Preview</strong> - Review the invoice details before creation
+                    </div>
+                    <field name="preview_data" widget="text" readonly="1"/>
+                </sheet>
+                <footer>
+                    <button name="action_confirm_create" string="Confirm &amp; Create" type="object" class="btn-primary"/>
+                    <button name="action_back_to_wizard" string="Back" type="object" class="btn-secondary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

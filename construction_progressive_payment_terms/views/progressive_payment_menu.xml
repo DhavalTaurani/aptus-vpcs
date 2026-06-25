@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Progressive Payment Terms Menu Action -->
+        <record id="action_progressive_payment_terms" model="ir.actions.act_window">
+            <field name="name">Progressive Payment Terms</field>
+            <field name="res_model">account.payment.term</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('is_progressive', '=', True)]</field>
+            <field name="context">{'default_is_progressive': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first progressive payment term!
+                </p>
+                <p>
+                    Progressive payment terms allow you to define milestone-based payment schedules
+                    for construction projects. Set up advance payments, material delivery milestones,
+                    installation completion, testing &amp; commissioning, and retention payments.
+                </p>
+            </field>
+        </record>
+        
+        <!-- Progressive Payment Templates Menu Action -->
+        <record id="action_progressive_payment_templates" model="ir.actions.act_window">
+            <field name="name">Payment Term Templates</field>
+            <field name="res_model">account.payment.term</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('is_progressive', '=', True), ('is_template', '=', True)]</field>
+            <field name="context">{'default_is_progressive': True, 'default_is_template': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first payment term template!
+                </p>
+                <p>
+                    Payment term templates provide reusable milestone structures for different
+                    types of construction projects. Create templates for ELV, MEP, Civil, and
+                    other construction categories.
+                </p>
+            </field>
+        </record>
+        
+        <!-- Add menu items under Construction > Financial -->
+        <menuitem id="menu_progressive_payment_terms"
+                name="Progressive Payment Terms"
+                parent="construction_management.menu_construction_financial"
+                action="action_progressive_payment_terms"
+                sequence="15"
+                groups="group_progressive_payment_user"/>
+        
+        <menuitem id="menu_progressive_payment_templates"
+                name="Payment Term Templates"
+                parent="construction_management.menu_construction_financial"
+                action="action_progressive_payment_templates"
+                sequence="16"
+                groups="group_progressive_payment_manager"/>
+        
+        <menuitem id="menu_payment_milestones"
+                name="Payment Milestones"
+                parent="construction_management.menu_construction_financial"
+                action="action_sale_order_payment_milestone"
+                sequence="17"
+                groups="group_progressive_payment_user"/>
+        
+        <!-- Milestone Invoices Filter Action -->
+        <record id="action_milestone_invoices" model="ir.actions.act_window">
+            <field name="name">Milestone Invoices</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('is_milestone_invoice', '=', True), ('move_type', '=', 'out_invoice')]</field>
+            <field name="context">{'default_move_type': 'out_invoice'}</field>
+        </record>
+        
+        <menuitem id="menu_milestone_invoices"
+                name="Milestone Invoices"
+                parent="construction_management.menu_construction_financial"
+                action="action_milestone_invoices"
+                sequence="18"
+                groups="group_progressive_payment_user"/>
+        
+    </data>
+</odoo>

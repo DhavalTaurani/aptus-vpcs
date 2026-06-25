@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- SUBCONTRACTORS -->
+        <!-- ========================================== -->
+        
+        <record id="subcontractor_powertech_metro" model="construction.subcontractor">
+            <field name="name">PowerTech - Metro Tower Electrical</field>
+            <field name="partner_id" ref="vendor_powertech_electrical"/>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="contract_value">180000.0</field>
+            <field name="contract_start_date" eval="(datetime.now() + relativedelta(days=-30)).strftime('%Y-%m-%d')"/>
+            <field name="contract_end_date" eval="(datetime.now() + relativedelta(days=120)).strftime('%Y-%m-%d')"/>
+            <field name="retention_percentage">10.0</field>
+            <field name="state">active</field>
+            <field name="task_ids" eval="[(6, 0, [ref('task_metro_electrical_work')])]"/>
+        </record>
+
+        <record id="subcontractor_aquaflow_metro" model="construction.subcontractor">
+            <field name="name">AquaFlow - Metro Tower Plumbing</field>
+            <field name="partner_id" ref="vendor_aquaflow_plumbing"/>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="contract_value">150000.0</field>
+            <field name="contract_start_date" eval="(datetime.now() + relativedelta(days=-20)).strftime('%Y-%m-%d')"/>
+            <field name="contract_end_date" eval="(datetime.now() + relativedelta(days=130)).strftime('%Y-%m-%d')"/>
+            <field name="retention_percentage">8.0</field>
+            <field name="state">active</field>
+            <field name="task_ids" eval="[(6, 0, [ref('task_metro_plumbing_work')])]"/>
+        </record>
+
+        <record id="subcontractor_hvac_metro" model="construction.subcontractor">
+            <field name="name">Climate Control - Metro Tower HVAC</field>
+            <field name="partner_id" ref="vendor_hvac_systems"/>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="contract_value">320000.0</field>
+            <field name="contract_start_date" eval="(datetime.now() + relativedelta(days=-10)).strftime('%Y-%m-%d')"/>
+            <field name="contract_end_date" eval="(datetime.now() + relativedelta(days=140)).strftime('%Y-%m-%d')"/>
+            <field name="retention_percentage">12.0</field>
+            <field name="state">active</field>
+            <field name="task_ids" eval="[(6, 0, [ref('task_metro_hvac_work')])]"/>
+        </record>
+
+        <record id="subcontractor_painting_skyline" model="construction.subcontractor">
+            <field name="name">Elite Painting - Skyline Residential</field>
+            <field name="partner_id" ref="vendor_elite_painting"/>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="contract_value">95000.0</field>
+            <field name="contract_start_date" eval="(datetime.now() + relativedelta(days=30)).strftime('%Y-%m-%d')"/>
+            <field name="contract_end_date" eval="(datetime.now() + relativedelta(days=180)).strftime('%Y-%m-%d')"/>
+            <field name="retention_percentage">5.0</field>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="subcontractor_flooring_skyline" model="construction.subcontractor">
+            <field name="name">Premium Flooring - Skyline Residential</field>
+            <field name="partner_id" ref="vendor_flooring_specialists"/>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="contract_value">216000.0</field>
+            <field name="contract_start_date" eval="(datetime.now() + relativedelta(days=45)).strftime('%Y-%m-%d')"/>
+            <field name="contract_end_date" eval="(datetime.now() + relativedelta(days=200)).strftime('%Y-%m-%d')"/>
+            <field name="retention_percentage">7.0</field>
+            <field name="state">draft</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- SUBCONTRACTOR MILESTONES -->
+        <!-- ========================================== -->
+        
+        <!-- PowerTech Milestones -->
+        <record id="milestone_powertech_phase1" model="construction.subcontractor.milestone">
+            <field name="name">Phase 1 - Rough Electrical</field>
+            <field name="subcontractor_id" ref="subcontractor_powertech_metro"/>
+            <field name="amount">54000.0</field>
+            <field name="target_date" eval="(datetime.now() + relativedelta(days=30)).strftime('%Y-%m-%d')"/>
+            <field name="is_completed">True</field>
+            <field name="completion_date" eval="(datetime.now() + relativedelta(days=-5)).strftime('%Y-%m-%d')"/>
+            <field name="description">Rough electrical installation for floors 1-15</field>
+        </record>
+
+        <record id="milestone_powertech_phase2" model="construction.subcontractor.milestone">
+            <field name="name">Phase 2 - Mid-Level Electrical</field>
+            <field name="subcontractor_id" ref="subcontractor_powertech_metro"/>
+            <field name="amount">72000.0</field>
+            <field name="target_date" eval="(datetime.now() + relativedelta(days=60)).strftime('%Y-%m-%d')"/>
+            <field name="is_completed">False</field>
+            <field name="description">Electrical installation for floors 16-30</field>
+        </record>
+
+        <record id="milestone_powertech_phase3" model="construction.subcontractor.milestone">
+            <field name="name">Phase 3 - Final Electrical &amp; Testing</field>
+            <field name="subcontractor_id" ref="subcontractor_powertech_metro"/>
+            <field name="amount">54000.0</field>
+            <field name="target_date" eval="(datetime.now() + relativedelta(days=120)).strftime('%Y-%m-%d')"/>
+            <field name="is_completed">False</field>
+            <field name="description">Final electrical work and system testing</field>
+        </record>
+
+        <!-- AquaFlow Milestones -->
+        <record id="milestone_aquaflow_phase1" model="construction.subcontractor.milestone">
+            <field name="name">Phase 1 - Rough Plumbing</field>
+            <field name="subcontractor_id" ref="subcontractor_aquaflow_metro"/>
+            <field name="amount">60000.0</field>
+            <field name="target_date" eval="(datetime.now() + relativedelta(days=40)).strftime('%Y-%m-%d')"/>
+            <field name="is_completed">True</field>
+            <field name="completion_date" eval="(datetime.now() + relativedelta(days=-10)).strftime('%Y-%m-%d')"/>
+            <field name="description">Rough plumbing installation and main lines</field>
+        </record>
+
+        <record id="milestone_aquaflow_phase2" model="construction.subcontractor.milestone">
+            <field name="name">Phase 2 - Fixture Installation</field>
+            <field name="subcontractor_id" ref="subcontractor_aquaflow_metro"/>
+            <field name="amount">90000.0</field>
+            <field name="target_date" eval="(datetime.now() + relativedelta(days=130)).strftime('%Y-%m-%d')"/>
+            <field name="is_completed">False</field>
+            <field name="description">Installation of fixtures and final connections</field>
+        </record>
+
+        <!-- HVAC Milestones -->
+        <record id="milestone_hvac_phase1" model="construction.subcontractor.milestone">
+            <field name="name">Phase 1 - Ductwork Installation</field>
+            <field name="subcontractor_id" ref="subcontractor_hvac_metro"/>
+            <field name="amount">128000.0</field>
+            <field name="target_date" eval="(datetime.now() + relativedelta(days=70)).strftime('%Y-%m-%d')"/>
+            <field name="is_completed">False</field>
+            <field name="description">Main ductwork and ventilation system installation</field>
+        </record>
+
+        <record id="milestone_hvac_phase2" model="construction.subcontractor.milestone">
+            <field name="name">Phase 2 - Equipment Installation</field>
+            <field name="subcontractor_id" ref="subcontractor_hvac_metro"/>
+            <field name="amount">128000.0</field>
+            <field name="target_date" eval="(datetime.now() + relativedelta(days=110)).strftime('%Y-%m-%d')"/>
+            <field name="is_completed">False</field>
+            <field name="description">HVAC equipment installation and connections</field>
+        </record>
+
+        <record id="milestone_hvac_phase3" model="construction.subcontractor.milestone">
+            <field name="name">Phase 3 - System Testing &amp; Commissioning</field>
+            <field name="subcontractor_id" ref="subcontractor_hvac_metro"/>
+            <field name="amount">64000.0</field>
+            <field name="target_date" eval="(datetime.now() + relativedelta(days=140)).strftime('%Y-%m-%d')"/>
+            <field name="is_completed">False</field>
+            <field name="description">System testing, balancing, and commissioning</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- REVENUE RECOGNITION RECORDS -->
+        <!-- ========================================== -->
+        
+        <record id="revenue_recognition_metro_tower" model="construction.revenue.recognition">
+            <field name="name">Metro Tower - Percentage Completion 001</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="recognition_method">percentage_completion</field>
+            <field name="total_contract_value">2500000.0</field>
+            <field name="total_estimated_cost">2000000.0</field>
+            <field name="actual_cost_to_date">800000.0</field>
+            <field name="revenue_recognized">750000.0</field>
+        </record>
+
+        <record id="revenue_recognition_skyline_milestone" model="construction.revenue.recognition">
+            <field name="name">Skyline Residential - Milestone Based</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="recognition_method">milestone</field>
+            <field name="total_contract_value">1800000.0</field>
+            <field name="total_estimated_cost">1440000.0</field>
+            <field name="milestone_ids" eval="[(6, 0, [ref('milestone_powertech_phase1'), ref('milestone_aquaflow_phase1')])]"/>
+            <field name="revenue_recognized">114000.0</field>
+        </record>
+
+        <record id="revenue_recognition_green_valley" model="construction.revenue.recognition">
+            <field name="name">Green Valley - Percentage Completion</field>
+            <field name="project_id" ref="project_green_valley_housing"/>
+            <field name="recognition_method">percentage_completion</field>
+            <field name="total_contract_value">1200000.0</field>
+            <field name="total_estimated_cost">960000.0</field>
+            <field name="actual_cost_to_date">96000.0</field>
+            <field name="revenue_recognized">0.0</field>
+        </record>
+
+    </data>
+</odoo>

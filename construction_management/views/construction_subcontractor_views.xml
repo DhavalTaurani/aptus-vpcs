@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Subcontractor Search View -->
+        <record id="view_construction_subcontractor_search" model="ir.ui.view">
+            <field name="name">construction.subcontractor.search</field>
+            <field name="model">construction.subcontractor</field>
+            <field name="arch" type="xml">
+                <search string="Search Subcontractors">
+                    <field name="name" string="Subcontractor"/>
+                    <field name="partner_id"/>
+                    <field name="project_id"/>
+                    <separator/>
+                    <filter string="Active Contracts" name="active" domain="[('contract_end_date', '>=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Project" name="group_by_project" context="{'group_by': 'project_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Subcontractor Tree View -->
+        <record id="view_construction_subcontractor_tree" model="ir.ui.view">
+            <field name="name">construction.subcontractor.tree</field>
+            <field name="model">construction.subcontractor</field>
+            <field name="arch" type="xml">
+                <list string="Subcontractors">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="project_id"/>
+                    <field name="contract_value"/>
+                    <field name="progress_percentage" widget="progressbar"/>
+                    <field name="invoiced_amount"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Subcontractor Form View -->
+        <record id="view_construction_subcontractor_form" model="ir.ui.view">
+            <field name="name">construction.subcontractor.form</field>
+            <field name="model">construction.subcontractor</field>
+            <field name="arch" type="xml">
+                <form string="Subcontractor">
+                    <header>
+                        <button name="action_create_bill" string="Create Bill" type="object" class="oe_highlight" invisible="state != 'completed'"/>
+                        <button name="action_activate" string="Activate" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                        <button name="action_complete" string="Mark as Completed" type="object" class="oe_highlight" invisible="state != 'active'"/>
+                        <button name="action_cancel" string="Cancel" type="object" invisible="state in ['completed', 'cancelled']"/>
+                        <button name="action_reset_to_draft" string="Reset to Draft" type="object" invisible="state != 'cancelled'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,active,completed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Subcontractor Name..."/>
+                            </h1>
+                        </div>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-tasks" type="object"
+                                    name="action_view_tasks">
+                                <field string="Tasks" name="task_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-book" type="object"
+                                    name="action_view_invoices">
+                                <field string="Invoices" name="invoice_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="project_id"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Contract Details">
+                                <group>
+                                    <field name="contract_value"/>
+                                    <field name="contract_start_date"/>
+                                    <field name="contract_end_date"/>
+                                    <field name="retention_percentage"/>
+                                </group>
+                            </page>
+                            <page string="Milestones">
+                                <field name="milestone_ids">
+                                    <list editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="target_date"/>
+                                        <field name="completion_date"/>
+                                        <field name="amount"/>
+                                        <field name="is_completed"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Performance">
+                                <group>
+                                    <group string="Progress Tracking">
+                                        <field name="progress_percentage" widget="gauge" style="width:120px; height: 90px;"/>
+                                    </group>
+                                    <group string="Financial Summary">
+                                        <field name="invoiced_amount"/>
+                                        <field name="paid_amount"/>
+                                        <field name="retention_amount"/>
+                                    </group>
+                                    <group string="Performance Analytics">
+                                        <field name="on_time_completion_rate" widget="percentage"/>
+                                        <field name="quality_score"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Subcontractor Action -->
+        <record id="action_construction_subcontractor" model="ir.actions.act_window">
+            <field name="name">Subcontractors</field>
+            <field name="res_model">construction.subcontractor</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="search_view_id" ref="view_construction_subcontractor_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new subcontractor contract.
+                </p>
+            </field>
+        </record>
+
+        <!-- <menuitem id="menu_construction_subcontractor_list" 
+                name="Subcontractors" 
+                parent="menu_construction_subcontractors" 
+                action="action_construction_subcontractor" 
+                sequence="10"/> -->
+
+        <!-- Subcontractors Configuration Menu ⭐ -->
+        <!-- <menuitem id="menu_construction_config_subcontractors_list" 
+                name="Subcontractors ⭐" 
+                parent="construction_management.menu_construction_config_partners" 
+                action="action_construction_subcontractor" 
+                sequence="30"/> -->
+
+    </data>
+</odoo>

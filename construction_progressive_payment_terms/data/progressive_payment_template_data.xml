@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ELV Progressive Payment Template -->
+        <record id="payment_term_elv_progressive_template" model="account.payment.term">
+            <field name="name">ELV Progressive Payment Template</field>
+            <field name="is_progressive" eval="True"/>
+            <field name="is_template" eval="True"/>
+            <field name="construction_category">elv</field>
+            <field name="display_on_invoice" eval="False"/>
+            <field name="template_description">Standard progressive payment template for Extra Low Voltage (ELV) projects including security systems, communication systems, fire alarm, BMS, audio-visual, and data networks.</field>
+            <field name="sequence">10</field>
+        </record>
+        
+        <!-- ELV Template Lines -->
+        <record id="payment_term_line_elv_advance" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_elv_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">0</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">advance</field>
+            <field name="milestone_description">&lt;p&gt;Advance payment upon contract signing and project commencement&lt;/p&gt;</field>
+            <field name="trigger_condition">manual</field>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="payment_term_line_elv_material" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_elv_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">40.0</field>
+            <field name="nb_days">30</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">material_delivery</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon material delivery to site including cables, devices, panels, and equipment&lt;/p&gt;</field>
+            <field name="trigger_condition">delivery_based</field>
+            <field name="allow_sub_milestones" eval="True"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="payment_term_line_elv_installation" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_elv_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">35.0</field>
+            <field name="nb_days">60</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">installation</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon installation completion including cable laying, device mounting, panel installation, and system integration&lt;/p&gt;</field>
+            <field name="trigger_condition">progress_based</field>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="payment_term_line_elv_testing" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_elv_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">90</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">testing_commissioning</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon testing and commissioning completion including system testing, performance verification, and handover documentation&lt;/p&gt;</field>
+            <field name="trigger_condition">approval_based</field>
+            <field name="approval_required" eval="True"/>
+            <field name="required_documents">Test certificates, Performance reports, As-built drawings, Operation manuals, Warranty certificates</field>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="payment_term_line_elv_retention" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_elv_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">5.0</field>
+            <field name="nb_days">365</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">retention</field>
+            <field name="milestone_description">&lt;p&gt;Retention release after warranty period completion and final project acceptance&lt;/p&gt;</field>
+            <field name="trigger_condition">date_based</field>
+            <field name="sequence">50</field>
+        </record>
+        
+        <!-- MEP Progressive Payment Template -->
+        <record id="payment_term_mep_progressive_template" model="account.payment.term">
+            <field name="name">MEP Progressive Payment Template</field>
+            <field name="is_progressive" eval="True"/>
+            <field name="is_template" eval="True"/>
+            <field name="construction_category">mep</field>
+            <field name="display_on_invoice" eval="False"/>
+            <field name="template_description">Standard progressive payment template for Mechanical, Electrical, and Plumbing (MEP) projects including HVAC systems, electrical installations, and plumbing works.</field>
+            <field name="sequence">20</field>
+        </record>
+        
+        <!-- MEP Template Lines -->
+        <record id="payment_term_line_mep_advance" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_mep_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">0</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">advance</field>
+            <field name="milestone_description">&lt;p&gt;Advance payment upon contract signing and mobilization&lt;/p&gt;</field>
+            <field name="trigger_condition">manual</field>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="payment_term_line_mep_material" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_mep_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">40.0</field>
+            <field name="nb_days">30</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">material_delivery</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon material delivery including HVAC equipment, electrical panels, pipes, and fittings&lt;/p&gt;</field>
+            <field name="trigger_condition">delivery_based</field>
+            <field name="allow_sub_milestones" eval="True"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="payment_term_line_mep_installation" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_mep_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">35.0</field>
+            <field name="nb_days">60</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">installation</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon installation completion including equipment installation, piping, wiring, and system connections&lt;/p&gt;</field>
+            <field name="trigger_condition">progress_based</field>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="payment_term_line_mep_testing" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_mep_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">90</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">testing_commissioning</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon testing and commissioning including system balancing, performance testing, and certification&lt;/p&gt;</field>
+            <field name="trigger_condition">approval_based</field>
+            <field name="approval_required" eval="True"/>
+            <field name="required_documents">Commissioning reports, Performance certificates, System balancing reports, Operation manuals</field>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="payment_term_line_mep_retention" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_mep_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">5.0</field>
+            <field name="nb_days">365</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">retention</field>
+            <field name="milestone_description">&lt;p&gt;Retention release after warranty period and defect liability period completion&lt;/p&gt;</field>
+            <field name="trigger_condition">date_based</field>
+            <field name="sequence">50</field>
+        </record>
+        
+        <!-- Generic Construction Progressive Payment Template -->
+        <record id="payment_term_generic_progressive_template" model="account.payment.term">
+            <field name="name">Generic Construction Progressive Payment Template</field>
+            <field name="is_progressive" eval="True"/>
+            <field name="is_template" eval="True"/>
+            <field name="construction_category">generic</field>
+            <field name="display_on_invoice" eval="False"/>
+            <field name="template_description">Generic progressive payment template suitable for various construction projects with standard milestone structure.</field>
+            <field name="sequence">30</field>
+        </record>
+        
+        <!-- Generic Template Lines -->
+        <record id="payment_term_line_generic_advance" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_generic_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">0</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">advance</field>
+            <field name="milestone_description">&lt;p&gt;Advance payment upon contract signing&lt;/p&gt;</field>
+            <field name="trigger_condition">manual</field>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="payment_term_line_generic_material" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_generic_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">40.0</field>
+            <field name="nb_days">30</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">material_delivery</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon material delivery to site&lt;/p&gt;</field>
+            <field name="trigger_condition">delivery_based</field>
+            <field name="allow_sub_milestones" eval="True"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="payment_term_line_generic_installation" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_generic_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">35.0</field>
+            <field name="nb_days">60</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">installation</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon installation completion&lt;/p&gt;</field>
+            <field name="trigger_condition">progress_based</field>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="payment_term_line_generic_testing" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_generic_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">90</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">testing_commissioning</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon testing and commissioning completion&lt;/p&gt;</field>
+            <field name="trigger_condition">approval_based</field>
+            <field name="approval_required" eval="True"/>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="payment_term_line_generic_retention" model="account.payment.term.line">
+            <field name="payment_id" ref="payment_term_generic_progressive_template"/>
+            <field name="value">percent</field>
+            <field name="value_amount">5.0</field>
+            <field name="nb_days">365</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">retention</field>
+            <field name="milestone_description">&lt;p&gt;Retention release after warranty period&lt;/p&gt;</field>
+            <field name="trigger_condition">date_based</field>
+            <field name="sequence">50</field>
+        </record>
+        
+    </data>
+</odoo>

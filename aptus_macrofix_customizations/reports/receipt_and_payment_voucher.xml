@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Paperformat Definition -->
+    <record id="paperformat_payment_voucher" model="report.paperformat">
+        <field name="name">Payment Voucher</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">15</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">30</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Report Action -->
+    <record id="action_report_payment_receipt_mfx" model="ir.actions.report">
+        <field name="name">Payment/Receipt Voucher</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">aptus_macrofix_customizations.report_payment_receipt_mfx</field>
+        <field name="report_file">aptus_macrofix_customizations.report_payment_receipt_mfx</field>
+        <field name="print_report_name">
+            (object.payment_type == 'inbound' and 'Receipt Voucher - %s' % object.name or 'Payment Voucher - %s' % object.name)
+        </field>
+        <field name="binding_type">report</field>
+        <field name="binding_model_id" search="[('model','=','account.payment')]"/>
+        <field name="paperformat_id" ref="aptus_macrofix_customizations.paperformat_payment_voucher"/>
+    </record>
+
+    <!--hiding default menus-->
+        <record id="account.action_report_payment_receipt" model="ir.actions.report">
+            <field name="binding_model_id" eval="False"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    <!--/hiding default menus-->
+
+    <!-- Main Template -->
+    <template id="report_payment_receipt_mfx">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                    <t t-call="aptus_macrofix_customizations.report_payment_receipt_mfx_main"
+                       t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Body Template -->
+    <template id="report_payment_receipt_mfx_main">
+        <div style="border-top: 1px solid; border-right: 1px solid; border-left: 1px solid; padding-top:3px;padding-left: 8px; padding-right:8px;">
+            <div class="row" style="padding-bottom: 16px">
+                <div class="col-4">
+                    <img t-attf-src="data:image/*;base64,{{company.logo}}" t-att-alt="company.name"
+                         style="height: 80px; width:250px;"/>
+                </div>
+
+                <div class="col-4" style="padding-top: 24px; padding-left: 65px;">
+                    <h4>
+                        <t t-if="o.payment_type == 'inbound' and o.partner_type == 'customer'">
+                            <u>Receipt Voucher</u>
+                        </t>
+                        <t t-elif="o.payment_type == 'outbound' and o.partner_type == 'supplier'">
+                            <u>Payment Voucher</u>
+                        </t>
+                    </h4>
+                </div>
+
+                <div class="col-4" style="text-align: right">
+                    <t t-if="company.parent_id">
+                        <strong><t t-esc="company.parent_id.name"/></strong>
+                    </t>
+                    <t t-else="">
+                        <strong><t t-esc="company.name"/></strong>
+                    </t>
+                    <br/>
+                    <br/>
+                    <t t-esc="company.street"/>,
+                    <br/>
+                    <t t-esc="company.street2"/>,
+                    <br/>
+                    <span>Telephone:
+                        <t t-esc="company.phone"/>
+                    </span>
+                    <br/>
+                    <span>Email:
+                        <t t-esc="company.email"/>
+                    </span>
+                </div>
+            </div>
+            <div class="row" style="padding: 8px">
+                <div class="col-6">
+                    <span>Voucher No:
+                        <t t-esc="o.name"/>
+                    </span>
+                </div>
+                <div class="col-6">
+                    <span>Date:
+                        <t t-esc="o.date.strftime('%d-%m-%Y') if o.date else ''"/>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="main"
+             style="border-bottom: 1px solid; border-right: 1px solid; border-left: 1px solid; padding: 8px">
+
+            <div class="page">
+                <hr style="color: #000000; height: 2px; width: 100%;"/>
+
+                <div class="row" style="margin-top: -18px;">
+                    <!-- <table class="table" style="width:100%; border-collapse: collapse;"> -->
+                    <table class="table" style="width:100%; border-collapse: collapse; border:1px solid #000;">
+
+                        <thead style="padding-top:16px">
+                            <tr style="background-color: rgb(211, 227, 253); font-size:14px;">
+                                <th>Account</th>
+                                <th>DEBIT
+                                    <t t-esc="o.move_id.currency_id.symbol"/>
+                                </th>
+                                <th>CREDIT
+                                    <t t-esc="o.move_id.currency_id.symbol"/>
+                                </th>
+                                <th>Partner</th>
+                                <th>Analytic Account</th>
+                                <th>Inst. Type</th>
+                                <th>Inst. No</th>
+                                <th>Narration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total_debit" t-value="0.0"/>
+                            <t t-set="total_credit" t-value="0.0"/>
+
+                            <t t-foreach="o.move_id.line_ids" t-as="line">
+                                <t t-set="total_debit" t-value="total_debit + (line.debit or 0.0)"/>
+                                <t t-set="total_credit" t-value="total_credit + (line.credit or 0.0)"/>
+
+                                <tr style="font-size:13px;">
+                                    <td style="border:1px solid #000; text-align: center">
+                                        <t t-if="line.account_id">
+                                            <span t-esc="line.account_id.name"/>
+                                        </t>
+                                    </td>
+                                    <td style="border:1px solid #000; text-align:center">
+                                        <t t-if="line.debit">
+                                            <span t-esc="('%.3f' % line.debit)"/>
+                                        </t>
+                                    </td>
+                                    <td style="border:1px solid #000; text-align:center">
+                                        <t t-if="line.credit">
+                                            <span t-esc="('%.3f' % line.credit)"/>
+                                        </t>
+                                    </td>
+                                    <td style="border:1px solid #000;">
+                                        <t t-if="line.partner_id">
+                                            <span t-esc="line.partner_id.name"/>
+                                        </t>
+                                    </td>
+
+                                    <td style="border:1px solid #000;">
+                                        <t t-if="line.analytic_distribution">
+                                            <t t-set="analytic_ids"
+                                               t-value="[int(k) for k in line.analytic_distribution.keys()]"/>
+                                            <t t-set="accounts"
+                                               t-value="env['account.analytic.account'].browse(analytic_ids)"/>
+                                            <t t-set="total" t-value="len(accounts)"/>
+                                            <t t-set="index" t-value="0"/>
+                                            <t t-foreach="accounts" t-as="acc">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <t t-esc="acc.name"/>
+                                                <t t-if="index != total">,</t>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td style="border:1px solid #000;">
+                                        <span t-field="line.inst_type"/>
+                                    </td>
+                                    <td style="border:1px solid #000;">
+                                        <span t-field="line.inst_no"/>
+                                    </td>
+                                    <td style="border:1px solid #000;">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <tr style="font-size:13px; font-weight: bold; border: 1px solid #ffffff; text-align: center">
+                                <td></td>
+                                <td>
+                                    <span t-esc="('%.3f' % total_debit)"/>
+                                </td>
+                                <td>
+                                    <span t-esc="('%.3f' % total_credit)"/>
+                                </td>
+                                <!-- <td colspan="4"></td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-12" style="margin-bottom: -4px;font-size: 16px;">
+                        <t t-if="o.move_id">
+                            <strong>Total in Words:</strong>
+                            <t t-if="o.currency_id and o.currency_id.symbol">
+                                <span t-esc="o.move_id.currency_id.amount_to_text(o.move_id.amount_total)"/>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="'%.3f' % o.move_id.amount_total"/>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+
+                <t t-if="o.move_id.narration">
+                    <div class="row">
+                        <div class="col-12" style="font-size: 12px;">
+                            <hr style="color: #000000; height: 2px; width: 100%; margin-top:0px; margin-bottom:10px;"/>
+                            <b>Internal Notes :</b>
+                            <br/>
+                            <t t-esc="o.move_id.narration"/>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Signature Section -->
+                <hr style="color: #000000; height: 2px; width: 100%;margin-top:10px;margin-bottom:0px;"/>
+
+                <div class="row"
+                     style="page-break-inside: avoid !important; width: 100%; display: flex; padding: 10px; box-sizing: border-box;">
+                    <!-- Empty Section 1 -->
+                    <div style="width: 30% ;text-align: center">
+                        <t t-set="created_user" t-value="env['res.users'].browse(o.create_uid.id)"/>
+                        <t t-if="created_user.sudo().sign_signature">
+                            <img t-att-src="'data:image/png;base64,%s' % (created_user.sudo().sign_signature.decode('utf-8') if created_user.sudo().sign_signature else '')"
+                                style="max-height: 50px; max-width: 100%;"/>
+                        </t>
+                        <div t-if="created_user.signature">
+                            <span t-raw="created_user.signature"/>
+                        </div>
+<!--                        <div>-->
+<!--                            <span t-esc="created_user.employee_id.department_id.name"/>-->
+<!--                        </div>-->
+                        <strong>Prepared by</strong>
+                    </div>
+
+                    <!-- Empty Section 2 -->
+                    <div style="width: 30%; padding-top: 90px; text-align: center">
+                    </div>
+
+                    <!-- Stamp Section -->
+                    <div style="width: 10%;">
+                        <t t-if="o.company_id.aptus_stamp">
+                            <img t-att-src="'data:image/png;base64,%s' % o.company_id.aptus_stamp.decode('utf-8')"
+                                style="max-height:120px;margin-left: 200%;margin-top: 35%;"/>
+                        </t>
+                    </div>
+
+                    <div style="width: 30%; text-align: center;">
+                        <t t-if="company.parent_id">
+                            <strong>For <t t-esc="company.parent_id.name"/></strong>
+                        </t>
+                        <t t-else="">
+                            <strong>For <t t-esc="company.name"/></strong>
+                        </t>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <b>Authorised Signatory</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Footer-->
+        <footer>
+            <div class="footer"
+                 style="margin-top: 20px; font-size:10px; text-align:center; border-top:1px solid black; padding-top:5px;">
+                <div>
+                    <span>Email:
+                        <t t-esc="company.email"/>
+                        | Website:
+                        <t t-esc="company.website"/>
+                    </span>
+                </div>
+                <div>
+                    <strong>Page
+                        <span class="page"/>
+                        of
+                        <span class="topage"/>
+                    </strong>
+                </div>
+            </div>
+        </footer>
+    </template>
+</odoo>

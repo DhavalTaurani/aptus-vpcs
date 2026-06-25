@@ -1,0 +1,56 @@
+<odoo>
+    <data noupdate="1">
+<!--        <record id="seq_purchase_quotation_custom" model="ir.sequence">-->
+<!--            <field name="name">Purchase Quotation</field>-->
+<!--            <field name="code">purchase.quotation.custom</field>-->
+<!--            <field name="prefix">AI/PI/</field>-->
+<!--            <field name="suffix">/%(range_year)s</field>-->
+<!--            <field name="padding">4</field>-->
+<!--            <field name="number_next">1</field>-->
+<!--        </record>-->
+
+<!--        <record id="seq_purchase_order_custom" model="ir.sequence">-->
+<!--            <field name="name">Purchase Order</field>-->
+<!--            <field name="code">purchase.order.custom</field>-->
+<!--            <field name="prefix">AI/PO/</field>-->
+<!--            <field name="suffix">/%(range_year)s</field>-->
+<!--            <field name="padding">4</field>-->
+<!--            <field name="number_next">1</field>-->
+<!--        </record>-->
+
+        <!-- ========== PURCHASE ORDER SEQUENCES ========== -->
+
+        <record id="seq_purchase_order_software" model="ir.sequence">
+            <field name="name">Purchase Order - SOFTWARE</field>
+            <field name="code">purchase.order.software</field>
+            <field name="prefix">PO/SW/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="2" />
+        </record>
+
+        <record id="seq_purchase_order_elv" model="ir.sequence">
+            <field name="name">Purchase Order - ELV</field>
+            <field name="code">purchase.order.elv</field>
+            <field name="prefix">PO/ELV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3" />
+        </record>
+
+        <record id="seq_purchase_order_solar" model="ir.sequence">
+            <field name="name">Purchase Order - SOLAR</field>
+            <field name="code">purchase.order.solar</field>
+            <field name="prefix">PO/SLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4" />
+        </record>
+
+        <record id="seq_purchase_order_sgi" model="ir.sequence">
+            <field name="name">Purchase Order - SGI</field>
+            <field name="code">purchase.order.sgi</field>
+            <field name="prefix">PO/SGI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5" />
+        </record>
+
+    </data>
+</odoo>

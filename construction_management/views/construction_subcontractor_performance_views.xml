@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Subcontractor Performance Graph View -->
+        <record id="view_construction_subcontractor_performance_graph" model="ir.ui.view">
+            <field name="name">construction.subcontractor.performance.graph</field>
+            <field name="model">construction.subcontractor</field>
+            <field name="arch" type="xml">
+                <graph string="Subcontractor Performance" type="bar">
+                    <field name="name"/>
+                    <field name="on_time_completion_rate" type="measure"/>
+                    <field name="quality_score" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Subcontractor Performance Pivot View -->
+        <record id="view_construction_subcontractor_performance_pivot" model="ir.ui.view">
+            <field name="name">construction.subcontractor.performance.pivot</field>
+            <field name="model">construction.subcontractor</field>
+            <field name="arch" type="xml">
+                <pivot string="Subcontractor Performance">
+                    <field name="project_id" type="row"/>
+                    <field name="name" type="col"/>
+                    <field name="on_time_completion_rate" type="measure"/>
+                    <field name="quality_score" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Action to view performance reports -->
+        <record id="action_construction_subcontractor_performance" model="ir.actions.act_window">
+            <field name="name">Subcontractor Performance</field>
+            <field name="res_model">construction.subcontractor</field>
+            <field name="view_mode">graph,pivot</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Analyze subcontractor performance.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu item for performance reports -->
+        <!-- <menuitem id="menu_construction_subcontractor_performance" 
+                name="Performance Analysis" 
+                parent="menu_construction_subcontractors" 
+                action="action_construction_subcontractor_performance" 
+                sequence="30"/> -->
+
+    </data>
+</odoo>

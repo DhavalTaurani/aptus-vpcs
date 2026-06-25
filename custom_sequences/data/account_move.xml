@@ -1,0 +1,70 @@
+<odoo>
+    <data noupdate="1">
+        <!--Invoice-->
+        <record id="seq_invoice_software" model="ir.sequence">
+            <field name="name">Invoice - SOFTWARE</field>
+            <field name="code">invoice.software</field>
+            <field name="prefix">INV/SW/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="2" />
+        </record>
+
+        <record id="seq_invoice_elv" model="ir.sequence">
+            <field name="name">Invoice - ELV</field>
+            <field name="code">invoice.elv</field>
+            <field name="prefix">INV/ELV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3" />
+        </record>
+
+        <record id="seq_invoice_solar" model="ir.sequence">
+            <field name="name">Invoice - SOLAR</field>
+            <field name="code">invoice.solar</field>
+            <field name="prefix">INV/SLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4" />
+        </record>
+
+        <record id="seq_invoice_sgi" model="ir.sequence">
+            <field name="name">Invoice - SGI</field>
+            <field name="code">invoice.sgi</field>
+            <field name="prefix">INV/SGI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5" />
+        </record>
+
+
+        <!--BIll-->
+        <record id="seq_bill_software" model="ir.sequence">
+            <field name="name">Bill - SOFTWARE</field>
+            <field name="code">bill.software</field>
+            <field name="prefix">PI/SW/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="2" />
+        </record>
+
+        <record id="seq_bill_elv" model="ir.sequence">
+            <field name="name">Bill - ELV</field>
+            <field name="code">bill.elv</field>
+            <field name="prefix">PI/ELV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3" />
+        </record>
+
+        <record id="seq_bill_solar" model="ir.sequence">
+            <field name="name">Bill - SOLAR</field>
+            <field name="code">bill.solar</field>
+            <field name="prefix">PI/SLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4" />
+        </record>
+
+        <record id="seq_bill_sgi" model="ir.sequence">
+            <field name="name">Bill - SGI</field>
+            <field name="code">bill.sgi</field>
+            <field name="prefix">PI/SGI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5" />
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <record id="con_construction_base.menu_cons_documents" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_base.menu_cons_document_directory" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+
+        <record id="con_construction_budget.menu_cons_budget_main" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_budget.menu_cons_budget_sub" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_budget.menu_cons_budget_positions" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+
+        <record id="con_construction_base.menu_cons_sub_contractor" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_base.menu_cons_sub_contractor_subc" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_base.menu_bill_subcontractor" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_base.menu_subcontractor_employee_timesheet" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_base.menu_subcontractor_employee" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+
+        <record id="con_construction_base.menu_cons_incident" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="con_construction_base.menu_cons_submittal" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="con_construction_base.menu_cons_timesheet" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="con_construction_base.menu_daily_log" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="con_construction_base.menu_task_waste_con_construction_base" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="con_construction_base.menu_cons_transmittal_submittal" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="con_construction_base.menu_quote_item" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="con_construction_base.menu_tendering" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_base.menu_revised_estimate" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_base.menu_variation_order" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_base.menu_depreciation_allocation" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="con_construction_base.menu_depreciation_allocation_detail" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+</odoo>

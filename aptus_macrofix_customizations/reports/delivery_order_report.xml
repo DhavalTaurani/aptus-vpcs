@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Paperformat Definition -->
+    <record id="paperformat_delivery_order" model="report.paperformat">
+        <field name="name">Delivery Order</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">15</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">30</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Report Action -->
+    <record id="action_delivery_order" model="ir.actions.report">
+        <field name="name">Delivery Order</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">aptus_macrofix_customizations.report_delivery_order</field>
+        <field name="report_file">aptus_macrofix_customizations.report_delivery_order</field>
+        <field name="print_report_name">
+                (object.state not in ['draft'] and 'Delivery Order - %s' % (object.name)) or 'Delivery Draft - %s' % (object.name)
+        </field>
+        <field name="binding_type">report</field>
+        <field name="binding_model_id" search="[('model','=','stock.picking')]"/>
+        <field name="paperformat_id" ref="aptus_macrofix_customizations.paperformat_delivery_order"/>
+    </record>
+
+    <!--hiding default menus-->
+    <record id="stock.action_report_delivery" model="ir.actions.report">
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="stock.return_label_report" model="ir.actions.report">
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+    <record id="stock.action_report_picking" model="ir.actions.report">
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!--/hiding default menus-->
+
+    <!-- Main Template -->
+    <template id="report_delivery_order">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                    <t t-call="aptus_macrofix_customizations.report_delivery_order_main" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Body Template -->
+    <template id="report_delivery_order_main">
+        <!-- Header -->
+        <div style="border-top: 1px solid; border-right: 1px solid; border-left: 1px solid; padding-top:3px;padding-left: 8px; padding-right:8px;">
+            <div class="row" style="padding-bottom: 16px">
+                <div class="col-4">
+                    <img t-attf-src="data:image/*;base64,{{company.logo}}" t-att-alt="company.name"
+                         style="height: 80px; width:250px;"/>
+                </div>
+
+                <div class="col-4" style="padding-top: 24px; padding-left: 60px;">
+                    <h4><u>Delivery Order</u></h4>
+                </div>
+
+                <div class="col-4" style="text-align: right">
+                    <div style="font-size: 20px;">VATIN: <span style="font-size:19px;"><t t-esc="company.vat"/></span> </div>
+                    <div style="font-size: 20px; margin-top: 10px;"><span style="font-size:19px;">CR NO: 1029080</span></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <t t-if="company.parent_id">
+                        <strong><t t-esc="company.parent_id.name"/></strong>
+                    </t>
+                    <t t-else="">
+                        <strong><t t-esc="company.name"/></strong>
+                    </t>
+                    <t t-esc="company.street"/>,
+                    <br/>
+                    <t t-esc="company.street2"/>,
+                    <br/>
+                    <span>Telephone: <t t-esc="company.phone"/> </span>
+                    <br/>
+                    <span>Email: <t t-esc="company.email"/> </span>
+                </div>
+                <div class="col-6" style="text-align: right;">
+                    <h4 class="mt-4" style="background-color: rgb(211, 227, 253);text-align: center">
+                        <span t-field="o.name"/>
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="main" style="border-bottom: 1px solid; border-right: 1px solid; border-left: 1px solid; padding: 8px">
+            <hr style="color: #000000; height: 2px; width: 100%;margin-top:0px;margin-bottom:0px;"/>
+
+            <div class="page">
+                <div class="row" style="padding: 8px"> <!--8px 8px 8px 130px-->
+                    <div class="col-6" style="padding-left: 8px; padding-right: 8px; border-right: 1px solid">
+                        <span>Party Details :</span><br/>
+
+                        <span t-if="o.partner_id.name">
+                            <t t-esc="o.partner_id.name"/>
+                        </span>
+                        <br t-if="o.partner_id.name"/>
+
+                        <span t-if="o.partner_id.street">
+                            <t t-esc="o.partner_id.street"/>
+                        </span>
+                        <br t-if="o.partner_id.street"/>
+
+                        <span t-if="o.partner_id.street2">
+                            <t t-esc="o.partner_id.street2"/>
+                        </span>
+                        <br t-if="o.partner_id.street2"/>
+
+                        <span t-if="o.partner_id.city">
+                            <t t-esc="o.partner_id.city"/>
+                        </span>
+
+                        <span t-if="o.partner_id.state_id">
+                            <t t-esc="o.partner_id.state_id.name"/>
+                        </span>
+
+                        <span t-if="o.partner_id.zip">
+                            - <t t-esc="o.partner_id.zip"/>,
+                        </span>
+                        <span t-if="o.partner_id.country_id">
+                            <t t-esc="o.partner_id.country_id.name"/>
+                        </span>
+
+                        <br t-if="o.partner_id.vat"/>
+                        <span t-if="o.partner_id.vat">
+                            <span>Party VATIN : <t t-esc="o.partner_id.vat"/></span>
+                        </span>
+                    </div>
+
+                    <div class="col-6" style="padding-left: 8px; padding-right: 8px;"> <!--8px 8px 8px 130px-->
+                        <span style="display: inline-block; min-width: 140px;">Date</span>
+                        <span>:</span>
+                        <span>
+                            <t t-if="o.scheduled_date" t-esc="o.scheduled_date.strftime('%d-%m-%Y')"/>
+                            <t t-else="" t-esc="o.date_order.strftime('%d-%m-%Y')"/>
+                        </span>
+                        <br/>
+
+                        <span style="display: inline-block; min-width: 140px;">Sales Person</span>
+                        <span>:</span>
+                        <span><t t-esc="o.sale_id.user_id.name"/></span>
+                        <br/>
+
+                        <span style="display: inline-block; min-width: 140px;">Client LPO</span>
+                        <span>:</span>
+                        <span>
+                             <t t-esc="o.sale_id.client_order_ref"/>
+                        </span>
+                        <br/>
+
+                        <span style="display: inline-block; min-width: 140px;">Dated</span>
+                        <span>:</span>
+                        <span>
+                             <t t-esc="o.sale_id.customer_po_date.strftime('%d-%m-%Y') if o.sale_id.customer_po_date else ''"/>
+                        </span>
+                        <br/>
+
+                        <span style="display: inline-block; min-width: 140px;">Payment Terms</span>
+                        <span>:</span>
+                        <span><t t-esc="o.sale_id.payment_term_id.name"/></span>
+                        <br/>
+
+                        <span style="display: inline-block; min-width: 140px;">Order No</span>
+                        <span>:</span>
+                        <span><t t-esc="o.origin"/></span>
+                    </div>
+                </div>
+
+                <hr style="color: #000000; height: 2px; width: 100%;margin-top:0px; margin-bottom: -3px;"/>
+
+                <div class="row">
+                    <table class="table" style="width:100%; border-collapse: collapse;">
+                        <thead style="padding-top:16px">
+                            <tr style="background-color: #d3e3fd; font-size:14px;"> <!--color: white;#278aca-->
+                                <th>S.No</th>
+                                <th>Part No</th>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="sno" t-value="1"/>
+                            <t t-foreach="o.move_ids" t-as="line">
+                                <tr style="font-size:13px;">
+                                    <td style="text-align:center;"><t t-esc="sno"/><t t-set="sno" t-value="sno + 1"/></td>
+                                    <td><span t-field="line.product_id.default_code"/></td>
+                                    <td><span t-field="line.product_id.name"/></td>
+                                    <td style="text-align:right;"><span t-field="line.product_uom_qty"/></td>
+                                    <td><span t-field="line.product_uom"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!--<hr style="color: #000000; height: 2px; width: 100%;margin-top:0px;margin-bottom:0px;"/>-->
+
+                <div class="row" style="page-break-inside: avoid !important; width: 100%; display: flex; padding: 10px; box-sizing: border-box;">
+                    <!-- Empty Section 1 -->
+                    <div style="width: 25%; padding-top: 38px;text-align: center">
+                    </div>
+
+                   <!-- Empty Section 2 -->
+                   <div style="width: 20%; padding-top: 65px; text-align: center">
+                   </div>
+
+                    <!-- Stamp Section -->
+                    <div style="width: 25%; box-sizing: border-box;">
+                        <t t-if="o.sale_id.stamp_selection == 'oriental_oryx_stamp' and o.company_id.oriental_oryx_stamp">
+                            <img t-att-src="'data:image/png;base64,%s' % o.company_id.oriental_oryx_stamp.decode('utf-8')"
+                                 style="max-height:120px;margin-top: 34px; margin-left: 37px"/>
+                        </t>
+                        <t t-if="o.sale_id.stamp_selection == 'aptus_stamp' and o.company_id.aptus_stamp">
+                            <img t-att-src="'data:image/png;base64,%s' % o.company_id.aptus_stamp.decode('utf-8')"
+                                 style="max-height:120px;margin-top: 34px; margin-left: 37px"/>
+                        </t>
+                    </div>
+
+                    <!-- Signature Section -->
+                    <div style="width: 30%; padding: 10px; box-sizing: border-box; text-align: center;">
+                        <t t-if="company.parent_id">
+                            <strong>For <t t-esc="company.parent_id.name"/></strong>
+                        </t>
+                        <t t-else="">
+                            <strong>For <t t-esc="company.name"/></strong>
+                        </t>
+                        <br/><br/><br/><br/><br/><br/><br/>
+<!--                        <t t-if="o.sudo().user_id.sign_signature">-->
+<!--                            <img t-att-src="'data:image/png;base64,%s' % o.user_id.sign_signature.decode('utf-8')" style="max-height: 80px; max-width: 100%; margin: 5px 0;" />-->
+<!--                        </t>-->
+<!--                        <div style="margin-bottom: -18px;">-->
+<!--                            <span t-esc="o.sudo().user_id.signature"/>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <span t-esc="o.sudo().user_id.employee_id.department_id.name"/>-->
+<!--                        </div>-->
+                        <b>Authorised Signatory</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!--Footer-->
+        <footer>
+            <div class="footer" style="margin-top: 20px; font-size:10px; text-align:center; border-top:1px solid black; padding-top:5px;">
+                <div>
+                    <span>Email: <t t-esc="company.email"/> | Website: <t t-esc="company.website"/></span>
+                </div>
+                <div>
+                    <strong>Page <span class="page"/> of <span class="topage"/></strong>
+                </div>
+            </div>
+        </footer>
+    </template>
+</odoo>

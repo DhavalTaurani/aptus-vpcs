@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Extend Product Template Form View -->
+        <record id="view_product_template_form_construction" model="ir.ui.view">
+            <field name="name">product.template.form.construction</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="construction_template_id" 
+                            invisible="type != 'service'"
+                            domain="[('state', '=', 'approved')]"
+                            string="Construction Template"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Extend Project Form View -->
+        <record id="view_project_form_construction_template" model="ir.ui.view">
+            <field name="name">project.project.form.construction.template</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="is_construction"/>
+                    <field name="construction_template_id" 
+                            invisible="is_construction == False"
+                            domain="[('state', '=', 'approved')]"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Extend Project Task Form View -->
+        <record id="view_task_form_construction_boq" model="ir.ui.view">
+            <field name="name">project.task.form.construction.boq</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="is_boq_item"/>
+                    <field name="boq_code" invisible="is_boq_item == False"/>
+                </xpath>
+                <xpath expr="//page[@name='description_page']" position="after">
+                    <page string="BOQ Details" name="boq_details" invisible="is_boq_item == False">
+                        <group>
+                            <group string="Quantities">
+                                <field name="estimated_quantity"/>
+                                <field name="revised_quantity"/>
+                                <field name="actual_quantity"/>
+                                <field name="unit_of_measure_id"/>
+                            </group>
+                            <group string="Costs">
+                                <field name="unit_cost"/>
+                                <field name="boq_value"/>
+                                <field name="cost_code_id"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Extend Project Task Tree View -->
+        <record id="view_task_tree_construction_boq" model="ir.ui.view">
+            <field name="name">project.task.tree.construction.boq</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="is_boq_item" optional="hide"/>
+                    <field name="boq_code" optional="hide"/>
+                    <field name="boq_value" optional="hide" sum="Total BOQ Value"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

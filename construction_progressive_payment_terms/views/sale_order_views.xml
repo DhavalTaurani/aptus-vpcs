@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Sale Order Form View -->
+    <record id="view_order_form_progressive_payment" model="ir.ui.view">
+        <field name="name">sale.order.form.progressive.payment</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Add milestone buttons to button box -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_milestones" type="object" class="oe_stat_button" icon="fa-tasks" invisible="not has_progressive_payment">
+                    <div class="o_field_widget o_stat_info">
+                        <field name="milestone_count" widget="statinfo" string="Milestones"/>
+                    </div>
+                </button>
+                <button name="action_milestone_dashboard" type="object" class="oe_stat_button" icon="fa-dashboard" invisible="not has_progressive_payment">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Dashboard</span>
+                    </div>
+                </button>
+                <button name="action_view_all_milestones" type="object" class="oe_stat_button" icon="fa-list-ul" invisible="not has_progressive_payment">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">All Milestones</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <!-- Add progressive payment fields -->
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="has_progressive_payment" invisible="1"/>
+            </xpath>
+
+            <!-- Add milestone summary after order lines -->
+            <xpath expr="//page[@name='order_lines']" position="after">
+                <page string="Payment Milestones" invisible="not has_progressive_payment">
+                    <div class="row" invisible="milestone_count == 0">
+                        <div class="col-lg-6">
+                            <group string="Milestone Summary">
+                                <field name="total_milestone_amount" widget="monetary"/>
+                                <field name="invoiced_milestone_amount" widget="monetary"/>
+                                <field name="paid_milestone_amount" widget="monetary"/>
+                                <field name="milestone_progress" widget="progressbar"/>
+                            </group>
+                        </div>
+                        <div class="col-lg-6">
+                            <group>
+                                <button name="action_create_milestone_invoice" string="Create Milestone Invoice" type="object" class="btn-primary" invisible="state not in ['sale', 'done']"/>
+                                <button name="regenerate_payment_milestones" string="Regenerate Milestones" type="object" class="btn-secondary" invisible="state not in ['draft', 'sent']"/>
+                            </group>
+                        </div>
+                    </div>
+                    <field name="payment_milestone_ids" invisible="milestone_count == 0">
+                        <list decoration-info="state=='draft'" decoration-success="state=='ready'" decoration-warning="state=='invoiced'" decoration-muted="state=='cancelled'">
+                            <field name="sequence" widget="handle"/>
+                            <field name="milestone_name"/>
+                            <field name="milestone_type"/>
+                            <field name="percentage"/>
+                            <field name="amount" widget="monetary"/>
+                            <field name="planned_date"/>
+                            <field name="actual_date"/>
+                            <field name="state" widget="badge"/>
+                            <field name="progress_percentage" widget="progressbar"/>
+                            <field name="allow_sub_milestones" invisible="1"/>
+                            <button name="action_set_ready" string="Set Ready" type="object" icon="fa-check" invisible="state != 'draft'"/>
+                            <button name="action_invoice" string="Invoice" type="object" icon="fa-file-text-o" invisible="state != 'ready'"/>
+                        </list>
+                        <form>
+                            <group>
+                                <field name="milestone_name"/>
+                                <field name="allow_sub_milestones"/>
+                            </group>
+                            <field name="sub_milestone_ids" invisible="not allow_sub_milestones">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="percentage"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="state" widget="badge"/>
+                                    <button name="action_set_ready" string="Set Ready" type="object" 
+                                            invisible="state != 'draft'" class="btn-sm btn-primary"/>
+                                    <button name="action_complete" string="Complete" type="object" 
+                                            invisible="state != 'ready'" class="btn-sm btn-success"/>
+                                    <button name="action_create_invoice" string="Invoice" type="object" 
+                                            invisible="state != 'completed'" class="btn-sm btn-primary"/>
+                                    <button name="action_reset_to_draft" string="Reset" type="object" 
+                                            invisible="state in ['draft', 'cancelled']" class="btn-sm btn-warning"/>
+                                </list>
+                            </field>
+                        </form>
+                    </field>
+                    <div class="alert alert-info" role="alert" invisible="milestone_count > 0">
+                        <p><strong>No milestones found.</strong></p>
+                        <p>Milestones are automatically generated when you select a progressive payment term and confirm the order.</p>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Sale Order Tree View -->
+    <record id="view_quotation_tree_progressive_payment" model="ir.ui.view">
+        <field name="name">sale.order.tree.progressive.payment</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="has_progressive_payment" optional="hide"/>
+                <field name="milestone_count" optional="hide"/>
+                <field name="milestone_progress" widget="progressbar" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

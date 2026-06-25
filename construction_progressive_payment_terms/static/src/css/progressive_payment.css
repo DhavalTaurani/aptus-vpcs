@@ -1,0 +1,58 @@
+/* Progressive Payment Terms Styles */
+
+.o_progressive_payment_milestone {
+    background-color: #e8f4fd;
+    border-left: 4px solid #007cba;
+    padding: 8px;
+    margin: 4px 0;
+}
+
+.o_progressive_payment_milestone.milestone_advance {
+    border-left-color: #28a745;
+}
+
+.o_progressive_payment_milestone.milestone_material_delivery {
+    border-left-color: #ffc107;
+}
+
+.o_progressive_payment_milestone.milestone_installation {
+    border-left-color: #007cba;
+}
+
+.o_progressive_payment_milestone.milestone_testing_commissioning {
+    border-left-color: #fd7e14;
+}
+
+.o_progressive_payment_milestone.milestone_retention {
+    border-left-color: #dc3545;
+}
+
+.o_progressive_payment_summary {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 12px;
+    margin: 8px 0;
+}
+
+.o_progressive_payment_percentage {
+    font-weight: bold;
+    color: #007cba;
+}
+
+.o_progressive_payment_template_badge {
+    background-color: #6f42c1;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+.o_progressive_payment_category_badge {
+    background-color: #17a2b8;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    margin-left: 4px;
+}

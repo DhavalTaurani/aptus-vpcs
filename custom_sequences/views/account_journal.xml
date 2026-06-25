@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_journal_form_inherit_pdc" model="ir.ui.view">
+        <field name="name">account.journal.form.inherit.pdc</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='advanced_settings']" position="inside">
+            <group>
+                <field name="is_pdc_journal" widget="boolean_toggle"/>
+                <field name="is_salary_journal" widget="boolean_toggle"/>
+            </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

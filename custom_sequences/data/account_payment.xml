@@ -1,0 +1,80 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Sequence for Customer Receipt - SOFTWARE -->
+        <record id="seq_receipt_software" model="ir.sequence">
+            <field name="name">Customer Receipt - SOFTWARE</field>
+            <field name="code">Receipt - SOFTWARE</field>
+            <field name="prefix">RCT/SW/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="2" />
+        </record>
+
+        <record id="seq_receipt_elv" model="ir.sequence">
+            <field name="name">Customer Receipt - ELV</field>
+            <field name="code">Receipt - ELV</field>
+            <field name="prefix">RCT/ELV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3" />
+        </record>
+
+        <record id="seq_receipt_solar" model="ir.sequence">
+            <field name="name">Customer Receipt - SOLAR</field>
+            <field name="code">Receipt - SOLAR</field>
+            <field name="prefix">RCT/SLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4" />
+        </record>
+
+        <record id="seq_receipt_sgi" model="ir.sequence">
+            <field name="name">Customer Receipt - SGI</field>
+            <field name="code">Receipt - SGI</field>
+            <field name="prefix">RCT/SGI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5" />
+        </record>
+
+
+
+        <!-- Sequence for Vendor Payment - SOFTWARE -->
+        <record id="seq_payment_software" model="ir.sequence">
+            <field name="name">Vendor Payment - SOFTWARE</field>
+            <field name="code">PAYMENT - SOFTWARE</field>
+            <field name="prefix">PYT/SW/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="2"/>
+        </record>
+
+        <record id="seq_payment_elv" model="ir.sequence">
+            <field name="name">Vendor Payment - ELV</field>
+            <field name="code">PAYMENT - ELV</field>
+            <field name="prefix">PYT/ELV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3"/>
+        </record>
+
+        <record id="seq_payment_solar" model="ir.sequence">
+            <field name="name">Vendor Payment - SOLAR</field>
+            <field name="code">PAYMENT - SOLAR</field>
+            <field name="prefix">PYT/SLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4"/>
+        </record>
+
+        <record id="seq_payment_sgi" model="ir.sequence">
+            <field name="name">Vendor Payment - SGI</field>
+            <field name="code">PAYMENT - SGI</field>
+            <field name="prefix">PYT/SGI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5"/>
+        </record>
+
+        <!--Oriental Oryx salary payments-->
+        <record id="seq_payment_Oriental" model="ir.sequence">
+            <field name="name">Employee Salary - ORIENTAL</field>
+            <field name="code">SALARY - ORIENTAL</field>
+            <field name="prefix">PYT/ORYX/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="1"/>
+        </record>
+    </data>
+</odoo>

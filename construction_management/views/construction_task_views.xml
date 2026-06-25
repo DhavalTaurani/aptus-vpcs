@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Construction Task Form View -->
+    <record id="construction_task_form_view" model="ir.ui.view">
+        <field name="name">construction.task.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_submit_boq" type="object" string="Submit for Approval"
+                            class="btn-primary" invisible="not is_boq_item or boq_state != 'draft'"/>
+                    <button name="action_approve_boq" type="object" string="Approve"
+                            class="btn-success" invisible="not is_boq_item or boq_state != 'submitted'"/>
+                    <button name="action_reject_boq" type="object" string="Reject"
+                            class="btn-danger" invisible="not is_boq_item or boq_state != 'submitted'"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            class="btn-secondary" invisible="not is_boq_item or boq_state == 'draft'"/>
+                    <field name="boq_state" widget="statusbar" statusbar_visible="draft,submitted,approved,billed"
+                            invisible="not is_boq_item"/>
+                </header>
+            </xpath>
+            <div class="oe_button_box" name="button_box">
+                <button class="oe_stat_button" icon="fa-truck" type="object"
+                        name="action_view_purchase_orders"
+                        invisible="not is_boq_item">
+                    <field string="Purchase Orders" name="purchase_order_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" icon="fa-cubes" type="object"
+                        name="action_view_stock_moves"
+                        invisible="not is_boq_item">
+                    <field string="Stock Moves" name="stock_move_count" widget="statinfo"/>
+                </button>
+            </div>
+            
+            <!-- Add BOQ checkbox after task name -->
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="is_boq_item"/>
+                <field name="boq_code" invisible="not is_boq_item" required="is_boq_item"/>
+                <field name="display_state" readonly="1" invisible="not is_boq_item"/>
+            </xpath>
+            
+            <!-- Add BOQ-specific notebook page -->
+            <xpath expr="//notebook" position="inside">
+                <page string="BOQ More Details" name="boq_details" invisible="not is_boq_item">
+                    <group>
+                        <group string="Classification">
+                            <field name="cost_code_id"/>
+                            <field name="product_id"/>
+                            <field name="construction_type" readonly="1"/>
+                        </group>
+                        <group string="Unit Information">
+                            <field name="unit_of_measure_id"/>
+                            <field name="unit_cost"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Quantities">
+                            <field name="estimated_quantity"/>
+                            <field name="revised_quantity"/>
+                            <field name="actual_quantity"/>
+                            <field name="quantity_variance" readonly="1"/>
+                            <field name="quantity_variance_percentage" widget="percentage" readonly="1"/>
+                        </group>
+                        <group string="Cost Analysis">
+                            <field name="boq_value" widget="monetary" readonly="1"/>
+                            <field name="committed_cost" widget="monetary" readonly="1"/>
+                            <field name="actual_cost" widget="monetary" readonly="1"/>
+                            <field name="cost_variance" widget="monetary" readonly="1"/>
+                            <field name="cost_variance_percentage" widget="percentage" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Progress Tracking">
+                            <field name="physical_progress" widget="progressbar"/>
+                            <field name="cost_progress" widget="progressbar" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Descriptions">
+                        <field name="boq_description" nolabel="1" placeholder="Detailed BOQ description..."/>
+                    </group>
+                    
+                    <group string="Specifications">
+                        <field name="boq_specification" nolabel="1" placeholder="Technical specifications..."/>
+                    </group>
+                </page>
+            </xpath>
+            </field>
+    </record>
+
+    <!-- BOQ Items Tree View -->
+    <record id="boq_items_tree_view" model="ir.ui.view">
+        <field name="name">boq.items.tree</field>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <list string="BOQ Items" decoration-success="boq_state=='approved'" 
+                decoration-warning="boq_state=='submitted'" decoration-danger="boq_state=='rejected'" decoration-info="boq_state=='billed'">
+                <field name="boq_code"/>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="cost_code_id"/>
+                <field name="unit_of_measure_id"/>
+                <field name="revised_quantity"/>
+                <field name="unit_cost" widget="monetary"/>
+                <field name="boq_value" widget="monetary" sum="Total BOQ Value"/>
+                <field name="actual_cost" widget="monetary" sum="Total Actual Cost"/>
+                <field name="cost_variance" widget="monetary" sum="Total Variance"/>
+                <field name="physical_progress" widget="progressbar"/>
+                <field name="is_billed"/>
+                <field name="boq_state" widget="badge" 
+                        decoration-success="boq_state=='approved'"
+                        decoration-warning="boq_state=='submitted'"
+                        decoration-danger="boq_state=='rejected'"/>
+                <field name="display_state" string="Status"/>
+                <field name="stage_id" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- BOQ Items Kanban View -->
+    <record id="boq_items_kanban_view" model="ir.ui.view">
+        <field name="name">boq.items.kanban</field>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="boq_state" class="o_kanban_small_column">
+                <field name="boq_state"/>
+                <field name="stage_id"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="oe_kanban_color_#{record.color.raw_value} oe_kanban_card oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v" title="More Options"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a t-if="widget.editable" role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    <a t-if="widget.deletable" role="menuitem" type="delete" class_="dropdown-item">Delete</a>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="boq_code"/>
+                                        </strong>
+                                        <br/>
+                                        <span class="o_kanban_record_subtitle">
+                                            <field name="name"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong>BOQ Value:</strong><br/>
+                                            <field name="boq_value" widget="monetary"/>
+                                        </div>
+                                        <div class="col-6">
+                                            <strong>Actual Cost:</strong><br/>
+                                            <field name="actual_cost" widget="monetary"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <strong>Progress:</strong>
+                                            <field name="physical_progress" widget="progressbar"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="boq_state" widget="badge" decoration-success="boq_state == 'approved'" decoration-warning="boq_state == 'submitted'" decoration-danger="boq_state == 'rejected'" decoration-info="boq_state == 'billed'"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+                
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="oe_kanban_color_#{record.color.raw_value} oe_kanban_card oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v" title="More Options"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a t-if="widget.editable" role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    <a t-if="widget.deletable" role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                </div>
+                            </div>
+                            
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="boq_code"/>
+                                        </strong>
+                                        <br/>
+                                        <span class="o_kanban_record_subtitle">
+                                            <field name="name"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div class="o_kanban_record_body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong>BOQ Value:</strong><br/>
+                                            <field name="boq_value" widget="monetary"/>
+                                        </div>
+                                        <div class="col-6">
+                                            <strong>Actual Cost:</strong><br/>
+                                            <field name="actual_cost" widget="monetary"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <strong>Progress:</strong>
+                                            <field name="physical_progress" widget="progressbar"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="boq_state" widget="label_selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- BOQ Items Search View -->
+    <record id="boq_items_search_view" model="ir.ui.view">
+        <field name="name">boq.items.search</field>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <search string="BOQ Items">
+                <field name="boq_code"/>
+                <field name="name"/>
+                <field name="cost_code_id"/>
+                <field name="project_id"/>
+                
+                <filter string="Draft" name="draft" domain="[('boq_state', '=', 'draft')]"/>
+                <filter string="Submitted" name="submitted" domain="[('boq_state', '=', 'submitted')]"/>
+                <filter string="Approved" name="approved" domain="[('boq_state', '=', 'approved')]"/>
+                <filter string="Rejected" name="rejected" domain="[('boq_state', '=', 'rejected')]"/>
+                
+                <separator/>
+                <filter string="Over Budget" name="over_budget" domain="[('cost_variance', '&lt;', 0)]"/>
+                <filter string="Under Budget" name="under_budget" domain="[('cost_variance', '&gt;', 0)]"/>
+                
+                <separator/>
+                <filter string="In Progress" name="in_progress" domain="[('physical_progress', '&gt;', 0), ('physical_progress', '&lt;', 100)]"/>
+                <filter string="Completed" name="completed" domain="[('physical_progress', '=', 100)]"/>
+                
+                <separator/>
+                <filter string="Project" name="group_project" context="{'group_by': 'project_id'}"/>
+                <filter string="Cost Code" name="group_cost_code" context="{'group_by': 'cost_code_id'}"/>
+                <filter string="BOQ Status" name="group_boq_state" context="{'group_by': 'boq_state'}"/>
+                <filter string="Stage" name="group_stage" context="{'group_by': 'stage_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- BOQ Items Action -->
+    <record id="action_boq_items" model="ir.actions.act_window">
+        <field name="name">BOQ Items</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_boq_item', '=', True)]</field>
+        <field name="context">{'default_is_boq_item': True}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                    (0, 0, {'view_mode': 'kanban', 'view_id': ref('boq_items_kanban_view')}),
+                                    (0, 0, {'view_mode': 'list', 'view_id': ref('boq_items_tree_view')}),
+                                    (0, 0, {'view_mode': 'form', 'view_id': ref('construction_task_form_view')})]"/>
+        <field name="search_view_id" ref="boq_items_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first BOQ item!
+            </p>
+            <p>
+                BOQ (Bill of Quantities) items represent the detailed breakdown of work packages
+                in your construction project. Each item includes quantities, costs, and progress tracking.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_construction_boq_items" 
+            name="BOQ Items" 
+            parent="menu_construction_projects" 
+            action="action_boq_items" 
+            sequence="20"/>
+
+    <record id="action_generate_purchase_order_from_task" model="ir.actions.act_window">
+        <field name="name">Generate Purchase Order</field>
+        <field name="res_model">construction.generate.purchase.order</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="project.model_project_task"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+</odoo>

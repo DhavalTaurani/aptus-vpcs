@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Extended Payment Term Form View -->
+        <record id="view_payment_term_form_progressive" model="ir.ui.view">
+            <field name="name">account.payment.term.form.progressive</field>
+            <field name="model">account.payment.term</field>
+            <field name="inherit_id" ref="account.view_payment_term_form"/>
+            <field name="arch" type="xml">
+                
+                <!-- Add progressive payment fields in the title section -->
+                <div class="oe_title" position="after">
+                    <group>
+                        <field name="is_progressive" widget="boolean_toggle"/>
+                        <field name="construction_category" invisible="not is_progressive"/>
+                        <field name="is_template" invisible="not is_progressive"/>
+                    </group>
+                </div>
+                
+                <!-- Add template description after the groups -->
+                <xpath expr="//group[last()]" position="after">
+                    <group string="Progressive Payment Configuration" invisible="not is_progressive">
+                        <field name="template_description" 
+                                invisible="not is_template"
+                                placeholder="Describe this payment term template..."/>
+                        <div class="row">
+                            <div class="col-6">
+                                <field name="milestone_count" widget="statinfo" string="Milestones"/>
+                            </div>
+                            <div class="col-6">
+                                <field name="total_milestone_percentage" widget="statinfo" string="Total %"/>
+                            </div>
+                        </div>
+                    </group>
+                </xpath>
+                
+
+                
+                <!-- Modify line_ids tree view for progressive payments -->
+                <xpath expr="//field[@name='line_ids']/list" position="attributes">
+                    <attribute name="decoration-info">is_milestone</attribute>
+                </xpath>
+                
+                <!-- Add milestone fields to line_ids tree -->
+                <xpath expr="//field[@name='line_ids']/list/field[@name='value']" position="after">
+                    <field name="is_milestone" optional="show"/>
+                    <field name="milestone_type" optional="show" invisible="not is_milestone"/>
+                    <field name="milestone_display_name" optional="show" invisible="not is_milestone"/>
+                    <field name="allow_sub_milestones" optional="show" invisible="not is_milestone"/>
+                    <field name="sub_milestone_template_count" optional="show" invisible="not is_milestone"/>
+
+                </xpath>
+                
+
+                
+            </field>
+        </record>
+        
+
+        
+        <!-- Progressive Payment Terms List View -->
+        <record id="view_payment_term_tree_progressive" model="ir.ui.view">
+            <field name="name">account.payment.term.tree.progressive</field>
+            <field name="model">account.payment.term</field>
+            <field name="inherit_id" ref="account.view_payment_term_tree"/>
+            <field name="arch" type="xml">
+                
+                <!-- Add progressive payment columns -->
+                <field name="name" position="after">
+                    <field name="is_progressive" widget="boolean_toggle"/>
+                    <field name="construction_category" optional="show"/>
+                    <field name="is_template" optional="show"/>
+                    <field name="milestone_count" optional="show" invisible="not is_progressive"/>
+                </field>
+                
+                <!-- Add decoration for progressive terms -->
+                    <list position="attributes">
+                    <attribute name="decoration-primary">is_progressive</attribute>
+                    <attribute name="decoration-bf">is_template</attribute>
+                </list>
+                
+            </field>
+        </record>
+        
+        <!-- Progressive Payment Terms Search View -->
+        <record id="view_payment_term_search_progressive" model="ir.ui.view">
+            <field name="name">account.payment.term.search.progressive</field>
+            <field name="model">account.payment.term</field>
+            <field name="inherit_id" ref="account.view_payment_term_search"/>
+            <field name="arch" type="xml">
+                
+                <!-- Add progressive payment filters -->
+                <xpath expr="//filter[@name='archived']" position="after">
+                    <separator/>
+                    <filter name="progressive" string="Progressive Payment Terms" domain="[('is_progressive', '=', True)]"/>
+                    <filter name="templates" string="Templates" domain="[('is_template', '=', True)]"/>
+                    <filter name="instances" string="Instances" domain="[('is_template', '=', False)]"/>
+                </xpath>
+                
+                <!-- Add group by options -->
+                <xpath expr="//search" position="inside">
+                    <separator/>
+                    <filter name="group_construction_category" string="Construction Category" 
+                            context="{'group_by': 'construction_category'}"/>
+                    <filter name="group_progressive" string="Progressive" 
+                            context="{'group_by': 'is_progressive'}"/>
+                </xpath>
+                
+            </field>
+        </record>
+        
+    </data>
+</odoo>

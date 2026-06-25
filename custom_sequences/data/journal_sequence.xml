@@ -1,0 +1,83 @@
+<odoo>
+    <data noupdate="1">
+
+        <!-- SOFTWARE -->
+        <record id="seq_journal_software" model="ir.sequence">
+            <field name="name">Journal Entry - SOFTWARE</field>
+            <field name="code">JOURNAL - SOFTWARE</field>
+            <field name="prefix">JNL/SW/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="company_id" eval="2"/>
+        </record>
+
+        <!-- ELV -->
+        <record id="seq_journal_elv" model="ir.sequence">
+            <field name="name">Journal Entry - ELV</field>
+            <field name="code">JOURNAL - ELV</field>
+            <field name="prefix">JNL/ELV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3"/>
+        </record>
+
+        <!-- SOLAR -->
+        <record id="seq_journal_solar" model="ir.sequence">
+            <field name="name">Journal Entry - SOLAR</field>
+            <field name="code">JOURNAL - SOLAR</field>
+            <field name="prefix">JNL/SLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4"/>
+        </record>
+
+        <!-- SGI -->
+        <record id="seq_journal_sgi" model="ir.sequence">
+            <field name="name">Journal Entry - SGI</field>
+            <field name="code">JOURNAL - SGI</field>
+            <field name="prefix">JNL/SGI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5"/>
+        </record>
+
+        <!-- Salary Journal -->
+        <record id="seq_salary_journal_software" model="ir.sequence">
+            <field name="name">Salary Journal Entry</field>
+            <field name="code">JOURNAL - SALARY SOFTWARE</field>
+            <field name="prefix">SLR/SW/%(year)s/</field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="2"/>
+        </record>
+        <record id="seq_salary_journal_elv" model="ir.sequence">
+            <field name="name">Salary Journal Entry</field>
+            <field name="code">JOURNAL - SALARY ELV</field>
+            <field name="prefix">SLR/ELV/%(year)s/</field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="3"/>
+        </record>
+        <record id="seq_salary_journal_solar" model="ir.sequence">
+            <field name="name">Salary Journal Entry</field>
+            <field name="code">JOURNAL - SALARY SOLAR</field>
+            <field name="prefix">SLR/SOLAR/%(year)s/</field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="4"/>
+        </record>
+
+        <record id="seq_salary_journal_sgi" model="ir.sequence">
+            <field name="name">Salary Journal Entry</field>
+            <field name="code">JOURNAL - SALARY SGI</field>
+            <field name="prefix">SLR/SGI/%(year)s/</field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="5"/>
+        </record>
+
+
+        <record id="seq_salary_journal_oriental" model="ir.sequence">
+            <field name="name">Salary Journal Entry</field>
+            <field name="code">JOURNAL - SALARY ORIENTAL</field>
+            <field name="prefix">SLR/ORYX/%(year)s/</field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="1"/>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- BOQ Import Wizard Form View -->
+    <record id="view_construction_boq_import_form" model="ir.ui.view">
+        <field name="name">construction.boq.import.form</field>
+        <field name="model">construction.boq.import</field>
+        <field name="arch" type="xml">
+            <form string="Import BOQ">
+                <sheet>
+                    <group>
+                        <field name="project_id" required="1"/>
+                        <field name="import_file" filename="filename" required="1"/>
+                        <field name="filename" invisible="1"/>
+                        <field name="file_type"/>
+                        <field name="has_header"/>
+                    </group>
+                    <group string="Import Options">
+                        <field name="update_existing"/>
+                        <field name="create_cost_codes"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="import_boq" string="Import BOQ" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- BOQ Import Wizard Action -->
+    <record id="action_construction_boq_import" model="ir.actions.act_window">
+        <field name="name">Import BOQ</field>
+        <field name="res_model">construction.boq.import</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_construction_boq_import_form"/>
+    </record>
+</odoo>

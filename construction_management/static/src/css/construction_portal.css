@@ -1,0 +1,59 @@
+/* Construction Management Portal CSS */
+
+.construction-portal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.construction-portal-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin: 20px 0;
+    transition: transform 0.3s ease;
+}
+
+.construction-portal-card:hover {
+    transform: translateY(-5px);
+}
+
+.construction-project-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.construction-metric {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.construction-metric-value {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #2c3e50;
+    display: block;
+}
+
+.construction-metric-label {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .construction-project-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .construction-portal-card {
+        margin: 10px;
+        padding: 20px;
+    }
+}

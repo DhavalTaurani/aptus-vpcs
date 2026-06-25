@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Sub-milestone Template Tree View -->
+    <record id="view_account_payment_term_line_sub_template_tree" model="ir.ui.view">
+        <field name="name">account.payment.term.line.sub.template.tree</field>
+        <field name="model">account.payment.term.line.sub.template</field>
+        <field name="arch" type="xml">
+            <list string="Sub-milestone Templates" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="percentage"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Sub-milestone Template Form View -->
+    <record id="view_account_payment_term_line_sub_template_form" model="ir.ui.view">
+        <field name="name">account.payment.term.line.sub.template.form</field>
+        <field name="model">account.payment.term.line.sub.template</field>
+        <field name="arch" type="xml">
+            <form string="Sub-milestone Template">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                            <field name="percentage"/>
+                        </group>
+                        <group>
+                            <field name="payment_term_line_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

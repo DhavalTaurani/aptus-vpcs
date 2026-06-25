@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Paperformat Definition -->
+    <record id="paperformat_purchase_order" model="report.paperformat">
+        <field name="name">Purchase Order</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">15</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">40</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Report Action -->
+    <record id="action_purchase_order" model="ir.actions.report">
+        <field name="name">Purchase Order (ELV)</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">aptus_macrofix_customizations.report_purchase_order</field>
+        <field name="report_file">aptus_macrofix_customizations.report_purchase_order</field>
+        <field name="print_report_name">(object.state not in ['draft', 'sent'] and 'Purchase Order - %s' % (object.name)) or 'Request for Quotation - %s' % (object.name)</field>
+        <field name="binding_type">report</field>
+        <field name="binding_model_id" search="[('model','=','purchase.order')]"/>
+        <field name="paperformat_id" ref="aptus_macrofix_customizations.paperformat_purchase_order"/>
+    </record>
+
+    <!-- Main Template -->
+    <template id="report_purchase_order">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                    <t t-call="aptus_macrofix_customizations.report_purchase_order_main" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Body Template -->
+    <template id="report_purchase_order_main">
+        <!-- Header -->
+<!--        <header>-->
+            <div style="border-top: 1px solid; border-right: 1px solid; border-left: 1px solid; padding-top:3px; padding-left: 8px; padding-right:8px;">
+                <div class="row">
+                    <div class="col-4">
+                        <img t-attf-src="data:image/*;base64,{{company.logo}}" t-att-alt="company.name" style="height: 80px; width:250px;"/>
+                    </div>
+
+                    <div class="col-4" style="padding-top: 24px; padding-left: 65px;">
+                        <h4><u>Purchase Order</u></h4>
+                    </div>
+
+                    <div class="col-4" style="text-align: right">
+                        <div style="font-size: 16px;">VATIN: <t t-esc="company.vat"/> </div>
+                        <div style="font-size: 16px; margin-top: 10px;">CR NO: 1029080 </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <t t-if="company.parent_id">
+                            <strong><t t-esc="company.parent_id.name"/></strong>
+                        </t>
+                        <t t-else="">
+                            <strong><t t-esc="company.name"/></strong>
+                        </t>
+                        <br/>
+                        <t t-esc="company.street"/>,
+                        <br/>
+                        <t t-esc="company.street2"/>,
+                        <br/>
+                        <span>Telephone: <t t-esc="company.phone"/> </span>
+                        <br/>
+                        <span>Email: <t t-esc="company.email"/> </span>
+                    </div>
+                    <div class="col-6" style="text-align: right;">
+                        <h4 class="mt-6" style="font-size:16px;background-color: #d3e3fd; text-align: center;"> <!--color: white; #278aca -->
+                            <span t-if="o.state not in ['draft']"><strong>Purchase Order # </strong></span>
+                            <span t-if="o.state in ['draft']"><strong>Request for Quotation # </strong></span>
+                            <br/>
+                            <span t-field="o.name"><strong>PO0000</strong></span>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+<!--        </header>-->
+
+        <!-- Body -->
+        <div class="main" style="border-bottom: 1px solid; border-right: 1px solid; border-left: 1px solid; padding: 8px">
+            <div class="page">
+
+                <hr style="color: #000000; height: 2px; width: 100%;margin-top:0px;margin-bottom:0px;"/>
+
+                <div class="row">
+                    <div style="width:33.3%; padding:4px 8px 0px 8px;">
+                        <span><strong>Vendor Information</strong></span> <br/>
+                        <span t-raw="o.partner_id.contact_address.replace('\n', '&lt;br/&gt;')"/> <br/>
+                        <span t-if="o.partner_id.country_id.name == 'India'">GST: <t t-esc="o.partner_id.vat"/></span>
+                        <span t-else="">Party VATIN <t t-esc="o.partner_id.vat"/></span>
+                    </div>
+                    <div style="width: 33.3%; padding:4px 8px 0px 8px; border-left: 2px solid #bfbfbf; border-right: 2px solid #bfbfbf;"> <!--8px 8px 8px 130px-->
+                        <span><strong>Project Information</strong></span><br/>
+<!--                        <t t-if="o.project_id">-->
+<!--                            <span style="display: inline-block; min-width: 100px;">Project</span>-->
+<!--                            <span>:</span>-->
+<!--                            <span><t t-esc="o.project_id.name"/></span><br/>-->
+<!--                        </t>-->
+                        <t t-set="projects" t-value="', '.join(set(line.project_id.name for line in o.order_line if line.project_id))"/>
+                        <span t-esc="projects"/>
+
+
+                    </div>
+
+                    <div style="width: 33.3%; padding:4px 8px 0px 8px;"> <!--8px 8px 8px 130px-->
+
+                        <span style="margin-bottom:1px;"><strong>Buyer Information</strong></span><br/>
+
+                        <span style="display: inline-block; min-width: 112px !important; ">Date</span>
+                        <span>:</span>
+                        <span>
+                            <t t-if="o.date_approve" t-esc="o.date_approve.strftime('%d-%m-%Y')"/>
+                            <t t-else="" t-esc="o.date_order.strftime('%d-%m-%Y')"/>
+                        </span>
+                        <br/>
+
+                        <span style="display: inline-block; min-width: 112px !important;">SO Ref</span>
+                        <span>:</span>
+                        <span><t t-esc="o.rel_sales_order.name"/></span>
+                        <br/>
+
+                        <span style="display: inline-block; min-width: 112px !important;">Payment Term</span>
+                        <span>:</span>
+                        <span><t t-esc="o.payment_term_id.name"/></span>
+                        <br/>
+
+                        <span style="display: inline-block; min-width: 112px !important;">Delivery Term</span>
+                        <span>:</span>
+                        <span><t t-esc="o.delivery_terms"/></span>
+                        <br/>
+
+                        <span style="display: inline-block; min-width: 112px !important;">Mobile</span>
+                        <span>:</span>
+                        <span t-if="o.user_id.partner_id.phone"><t t-esc="o.user_id.partner_id.phone"/></span>
+
+                    </div>
+                </div>
+
+                <hr style="color: #000000; height: 2px; width: 100%; margin-top:0px;margin-bottom:0px;"/>
+
+                <div class="row">
+                    <div class="col-12">
+                        <span>We are pleased to place the order for the following items:</span>
+                    </div>
+                </div>
+
+                <hr style="color: #000000; height: 2px; width: 100%;margin-top:0px;margin-bottom:0px;"/>
+
+                <div class="row">
+                    <table class="table" style="width:100%; border-collapse: collapse;">
+                        <thead style="padding-top:16px">
+                            <tr style="background-color: #d3e3fd; font-size:14px;"> <!--color: white;#278aca-->
+                                <th>S.No</th>
+                                <th>Project</th>
+                                <th>Part No</th>
+                                <th>Description</th>
+                                <th>HS CODE</th>
+                                <th>Qty</th>
+                                <th>Unit Price</th>
+                                <th>Discount %</th>
+                                <th style="width:150px;">Amount (<t t-esc="o.currency_id.symbol"/>)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="sno" t-value="1"/>
+                            <t t-foreach="o.order_line" t-as="line">
+                                <tr style="font-size:13px;">
+                                    <td style="text-align:center;"><t t-esc="sno"/><t t-set="sno" t-value="sno + 1"/></td>
+                                    <td>
+                                        <t t-if="line.project_id">
+                                        <span t-esc="line.project_id.name.split('_')[0]"/>
+                                        </t>
+                                    </td>
+                                    <td><span t-field="line.product_id.default_code"/></td>
+                                    <td><span t-field="line.name"/></td>
+                                    <td><span t-field="line.product_id.hs_code"/></td>
+                                    <td style="text-align:right;"><span t-field="line.product_qty"/></td>
+                                    <td style="text-align:right;"><span t-field="line.price_unit"/></td>
+                                    <td style="text-align:right;"><span t-field="line.discount"/></td>
+                                    <td style="text-align:right;width:150px;"><t t-esc="('%.3f' % line.price_subtotal)"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <!--Totals-->
+                    <div class="col-6" style="padding-top: 55px">
+                        <strong>Total in Words:</strong>
+                        <span t-esc="o.currency_id.amount_to_text(o.amount_total)"/>
+                    </div>
+                    <div class="col-2"></div>
+                    <div class="col-4" style="border-collapse: collapse;">
+                        <table class="table">
+                        <tbody>
+                            <t t-set="currency" t-value="o.currency_id"/>
+                            <tr style="text-align:right;font-size:13px;margin-top:0px;margin-bottom:0px;">
+                                <td><strong>Subtotal</strong></td>
+                                <td style="text-align:right;"><t t-esc="('%.3f' % o.amount_untaxed)"/></td>
+                            </tr>
+                            <tr style="text-align:right;font-size:13px;margin-top:0px;margin-bottom:0px;">
+                                <td><strong>5% VAT</strong></td>
+                                <td style="text-align:right;"><t t-esc="('%.3f' % o.amount_tax)"/></td>
+                            </tr>
+                            <tr style="text-align:right;font-size:13px;margin-top:0px;margin-bottom:0px;">
+                                <td><strong>Grand Total</strong></td>
+                                <td style="text-align:right;"><t t-esc="currency.symbol + ' ' + ('%.3f' % o.amount_total)"/></td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr style="color: #000000; height: 2px; width: 100%;margin-top:0px;margin-bottom:0px;"/>
+
+                <!--delcaration-->
+                <div class="row" style="margin-top: 16px; text-align: center">
+                    <div>
+                        <b><u>DECLARATION</u></b> <br/>
+                        <span>Please make sure to use HS code on the Invoice</span>
+                    </div>
+                </div>
+
+                <hr style="color: #000000; height: 2px; width: 100%;margin-top:0px;margin-bottom:0px;"/>
+
+                  <div class="row" style="page-break-inside: avoid !important; width: 100%; display: flex; padding: 10px; box-sizing: border-box;">
+                    <!-- Empty Section 1 -->
+                    <div style="width: 30% ;text-align: center">
+                        <t t-if="o.sudo().user_id.sign_signature">
+                            <img t-att-src="'data:image/png;base64,%s' % o.user_id.sign_signature.decode('utf-8')" style="max-height: 50px; max-width: 100%;"/>
+                        </t>
+                        <div>
+                            <span t-esc="o.sudo().user_id.signature"/>
+                        </div>
+<!--                        <div>-->
+<!--                            <span t-esc="o.sudo().user_id.employee_id.department_id.name"/>-->
+<!--                        </div>-->
+                        <strong>Prepared by</strong>
+                    </div>
+                   <!-- Empty Section 2 -->
+                   <div style="width: 30%;text-align: center">
+                       <t t-if="o.team_id.approver_id.sign_signature and o.company_id.id == 3">
+                           <!--and o.company_id == '3'-->
+                            <!--<img t-att-src="'data:image/png;base64,%s' % o.approver_ids[:1].user_id.sign_signature.decode('utf-8')" style="max-height: 50px; max-width: 100%;"/>-->
+                            <img t-att-src="'data:image/png;base64,%s' % o.team_id.approver_id.sign_signature.decode('utf-8')" style="max-height: 50px; max-width: 100%;"/>
+                        </t>
+                        <!--t-if="o.company_id == '3'"-->
+                        <div t-if="o.company_id.id == 3">
+                            <!--<span t-esc="o.sudo().approver_ids[:1].user_id.signature"/>-->
+                            <span t-esc="o.team_id.approver_id.signature"/>
+                        </div>
+                        <strong>Approved by</strong>
+                   </div>
+                    <!-- Stamp Section -->
+                    <div style="width: 10%;">
+                        <t t-if="o.stamp_selection == 'oriental_oryx_stamp' and o.company_id.oriental_oryx_stamp">
+                            <img t-att-src="'data:image/png;base64,%s' % o.company_id.oriental_oryx_stamp.decode('utf-8')" style="max-height:120px;margin-left: 230%;margin-top: 20%;"/>
+                        </t>
+                        <t t-if="o.stamp_selection == 'aptus_stamp' and o.company_id.aptus_stamp">
+                            <img t-att-src="'data:image/png;base64,%s' % o.company_id.aptus_stamp.decode('utf-8')" style="max-height:120px;margin-left: 230%;margin-top: 20%;"/>
+                        </t>
+                    </div>
+                    <!-- Signature Section -->
+                    <div style="width: 30%; text-align: center;">
+                         <t t-if="company.parent_id">
+                            <strong>For <t t-esc="company.parent_id.name"/></strong>
+                        </t>
+                        <t t-else="">
+                            <strong>For <t t-esc="company.name"/></strong>
+                        </t>
+                        <br/><br/><br/><br/><br/>
+                        <b>Authorised Signatory</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!--Footer-->
+        <footer>
+            <div class="footer" style="margin-top: 20px; font-size:10px; text-align:center; border-top:1px solid black; padding-top:5px;">
+                <div>
+                    <span>Email: <t t-esc="company.email"/> | Website: <t t-esc="company.website"/></span>
+                </div>
+                <div>
+                    <strong>Page <span class="page"/> of <span class="topage"/></strong>
+                </div>
+            </div>
+        </footer>
+    </template>
+</odoo>

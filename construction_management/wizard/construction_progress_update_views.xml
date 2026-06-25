@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_construction_progress_update_form" model="ir.ui.view">
+            <field name="name">construction.progress.update.form</field>
+            <field name="model">construction.progress.update</field>
+            <field name="arch" type="xml">
+                <form string="Update BOQ Progress">
+                    <group>
+                        <field name="task_ids" widget="many2many_tags" readonly="1" force_save="1"/>
+                        <field name="new_physical_progress" widget="progressbar"/>
+                    </group>
+                    <footer>
+                        <button name="update_progress" string="Update Progress" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_construction_progress_update" model="ir.actions.act_window">
+            <field name="name">Update BOQ Progress</field>
+            <field name="res_model">construction.progress.update</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="project.model_project_task"/>
+            <field name="binding_view_types">list,form</field>
+        </record>
+    </data>
+</odoo>

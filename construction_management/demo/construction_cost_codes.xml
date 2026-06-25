@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- ROOT LEVEL COST CODES -->
+        <!-- ========================================== -->
+        
+        <record id="cost_code_materials_root" model="construction.cost.code">
+            <field name="name">Materials</field>
+            <field name="code">MAT</field>
+            <field name="cost_type">material</field>
+            <field name="description">All construction materials including concrete, steel, aggregates, and finishing materials</field>
+            <field name="product_category_id" ref="category_construction_materials"/>
+        </record>
+
+        <record id="cost_code_labour_root" model="construction.cost.code">
+            <field name="name">Labour</field>
+            <field name="code">LAB</field>
+            <field name="cost_type">labour</field>
+            <field name="is_category">True</field>
+            <field name="description">All construction labour including skilled, semi-skilled, and unskilled workers</field>
+            <field name="product_category_id" ref="category_construction_labour"/>
+        </record>
+
+        <record id="cost_code_equipment_root" model="construction.cost.code">
+            <field name="name">Equipment</field>
+            <field name="code">EQP</field>
+            <field name="cost_type">equipment</field>
+            <field name="is_category">True</field>
+            <field name="description">Construction equipment rental and machinery costs</field>
+            <field name="product_category_id" ref="category_construction_equipment"/>
+        </record>
+
+        <record id="cost_code_subcontractor_root" model="construction.cost.code">
+            <field name="name">Subcontractors</field>
+            <field name="code">SUB</field>
+            <field name="cost_type">subcontractor</field>
+            <field name="is_category">True</field>
+            <field name="description">Subcontractor services including electrical, plumbing, HVAC, and specialty trades</field>
+            <field name="product_category_id" ref="category_subcontractor_services"/>
+        </record>
+
+        <record id="cost_code_miscellaneous_root" model="construction.cost.code">
+            <field name="name">Miscellaneous</field>
+            <field name="code">MISC</field>
+            <field name="cost_type">miscellaneous</field>
+            <field name="is_category">True</field>
+            <field name="description">Miscellaneous costs including permits, utilities, and site facilities</field>
+        </record>
+
+        <record id="cost_code_overhead_root" model="construction.cost.code">
+            <field name="name">Overhead</field>
+            <field name="code">OH</field>
+            <field name="cost_type">overhead</field>
+            <field name="is_category">True</field>
+            <field name="description">Project overhead costs including management, insurance, and administrative expenses</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- MATERIAL COST CODES -->
+        <!-- ========================================== -->
+        
+        <!-- Concrete &amp; Cement Category -->
+        <record id="cost_code_concrete_category" model="construction.cost.code">
+            <field name="name">Concrete &amp; Cement</field>
+            <field name="code">MAT.CON</field>
+            <field name="cost_type">material</field>
+            <field name="parent_id" ref="cost_code_materials_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Concrete, cement, and related materials</field>
+            <field name="product_category_id" ref="category_concrete_materials"/>
+        </record>
+
+        <record id="cost_code_cement_opc" model="construction.cost.code">
+            <field name="name">OPC Cement Grade 53</field>
+            <field name="code">MAT.CON.001</field>
+            <field name="cost_type">material</field>
+            <field name="parent_id" ref="cost_code_concrete_category"/>
+            <field name="description">Ordinary Portland Cement Grade 53 for structural concrete</field>
+            <field name="product_template_id" ref="product_cement_opc_53"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">350.0</field>
+            <field name="standard_price">420.0</field>
+        </record>
+
+        <record id="cost_code_coarse_aggregate" model="construction.cost.code">
+            <field name="name">Coarse Aggregate 20mm</field>
+            <field name="code">MAT.CON.002</field>
+            <field name="cost_type">material</field>
+            <field name="parent_id" ref="cost_code_concrete_category"/>
+            <field name="description">Coarse aggregate 20mm for concrete mix</field>
+            <field name="product_template_id" ref="product_coarse_aggregate"/>
+            <field name="default_uom_id" ref="uom.product_uom_ton"/>
+            <field name="standard_cost">45.0</field>
+            <field name="standard_price">54.0</field>
+        </record>
+
+        <record id="cost_code_fine_sand" model="construction.cost.code">
+            <field name="name">Fine Sand</field>
+            <field name="code">MAT.CON.003</field>
+            <field name="cost_type">material</field>
+            <field name="parent_id" ref="cost_code_concrete_category"/>
+            <field name="description">Fine sand for concrete and mortar mix</field>
+            <field name="product_template_id" ref="product_fine_sand"/>
+            <field name="default_uom_id" ref="uom.product_uom_ton"/>
+            <field name="standard_cost">35.0</field>
+            <field name="standard_price">42.0</field>
+        </record>
+
+        <!-- Steel &amp; Reinforcement Category -->
+        <record id="cost_code_steel_category" model="construction.cost.code">
+            <field name="name">Steel &amp; Reinforcement</field>
+            <field name="code">MAT.STL</field>
+            <field name="cost_type">material</field>
+            <field name="parent_id" ref="cost_code_materials_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Steel reinforcement bars and structural steel</field>
+            <field name="product_category_id" ref="category_steel_materials"/>
+        </record>
+
+        <record id="cost_code_tmt_bars" model="construction.cost.code">
+            <field name="name">TMT Steel Bars</field>
+            <field name="code">MAT.STL.001</field>
+            <field name="cost_type">material</field>
+            <field name="parent_id" ref="cost_code_steel_category"/>
+            <field name="description">TMT (Thermo-Mechanically Treated) steel reinforcement bars</field>
+            <field name="product_template_id" ref="product_steel_tmt_bars"/>
+            <field name="default_uom_id" ref="uom.product_uom_kgm"/>
+            <field name="standard_cost">65.0</field>
+            <field name="standard_price">78.0</field>
+        </record>
+
+        <!-- Masonry Materials Category -->
+        <record id="cost_code_masonry_category" model="construction.cost.code">
+            <field name="name">Masonry Materials</field>
+            <field name="code">MAT.MAS</field>
+            <field name="cost_type">material</field>
+            <field name="parent_id" ref="cost_code_materials_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Bricks, blocks, and masonry materials</field>
+        </record>
+
+        <record id="cost_code_clay_bricks" model="construction.cost.code">
+            <field name="name">Clay Bricks</field>
+            <field name="code">MAT.MAS.001</field>
+            <field name="cost_type">material</field>
+            <field name="parent_id" ref="cost_code_masonry_category"/>
+            <field name="description">Standard clay bricks for masonry work</field>
+            <field name="product_template_id" ref="product_bricks_clay"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">0.50</field>
+            <field name="standard_price">0.60</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- LABOUR COST CODES -->
+        <!-- ========================================== -->
+        
+        <!-- Skilled Labour Category -->
+        <record id="cost_code_skilled_labour" model="construction.cost.code">
+            <field name="name">Skilled Labour</field>
+            <field name="code">LAB.SKL</field>
+            <field name="cost_type">labour</field>
+            <field name="parent_id" ref="cost_code_labour_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Skilled construction workers including masons, carpenters, and specialists</field>
+        </record>
+
+        <record id="cost_code_mason_skilled" model="construction.cost.code">
+            <field name="name">Skilled Mason</field>
+            <field name="code">LAB.SKL.001</field>
+            <field name="cost_type">labour</field>
+            <field name="parent_id" ref="cost_code_skilled_labour"/>
+            <field name="description">Skilled mason for concrete, masonry, and finishing work</field>
+            <field name="product_template_id" ref="product_skilled_mason"/>
+            <field name="default_uom_id" ref="uom.product_uom_hour"/>
+            <field name="standard_cost">25.0</field>
+            <field name="standard_price">30.0</field>
+        </record>
+
+        <!-- Unskilled Labour Category -->
+        <record id="cost_code_unskilled_labour" model="construction.cost.code">
+            <field name="name">Unskilled Labour</field>
+            <field name="code">LAB.UNS</field>
+            <field name="cost_type">labour</field>
+            <field name="parent_id" ref="cost_code_labour_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Unskilled construction workers and helpers</field>
+        </record>
+
+        <record id="cost_code_helper_unskilled" model="construction.cost.code">
+            <field name="name">Unskilled Helper</field>
+            <field name="code">LAB.UNS.001</field>
+            <field name="cost_type">labour</field>
+            <field name="parent_id" ref="cost_code_unskilled_labour"/>
+            <field name="description">Unskilled helper for material handling and general support</field>
+            <field name="product_template_id" ref="product_unskilled_helper"/>
+            <field name="default_uom_id" ref="uom.product_uom_hour"/>
+            <field name="standard_cost">15.0</field>
+            <field name="standard_price">18.0</field>
+        </record>
+
+        <!-- Supervision Labour Category -->
+        <record id="cost_code_supervision_labour" model="construction.cost.code">
+            <field name="name">Supervision &amp; Management</field>
+            <field name="code">LAB.SUP</field>
+            <field name="cost_type">labour</field>
+            <field name="parent_id" ref="cost_code_labour_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Site supervision and management personnel</field>
+        </record>
+
+        <record id="cost_code_site_supervisor" model="construction.cost.code">
+            <field name="name">Site Supervisor</field>
+            <field name="code">LAB.SUP.001</field>
+            <field name="cost_type">labour</field>
+            <field name="parent_id" ref="cost_code_supervision_labour"/>
+            <field name="description">Site supervisor for quality control and coordination</field>
+            <field name="product_template_id" ref="product_site_supervisor"/>
+            <field name="default_uom_id" ref="uom.product_uom_hour"/>
+            <field name="standard_cost">40.0</field>
+            <field name="standard_price">48.0</field>
+        </record>
+
+        <record id="cost_code_construction_foreman" model="construction.cost.code">
+            <field name="name">Construction Foreman</field>
+            <field name="code">LAB.SUP.002</field>
+            <field name="cost_type">labour</field>
+            <field name="parent_id" ref="cost_code_supervision_labour"/>
+            <field name="description">Construction foreman for team leadership and coordination</field>
+            <field name="product_template_id" ref="product_construction_foreman"/>
+            <field name="default_uom_id" ref="uom.product_uom_hour"/>
+            <field name="standard_cost">35.0</field>
+            <field name="standard_price">42.0</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- EQUIPMENT COST CODES -->
+        <!-- ========================================== -->
+        
+        <!-- Earthmoving Equipment Category -->
+        <record id="cost_code_earthmoving_equipment" model="construction.cost.code">
+            <field name="name">Earthmoving Equipment</field>
+            <field name="code">EQP.EAR</field>
+            <field name="cost_type">equipment</field>
+            <field name="parent_id" ref="cost_code_equipment_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Excavators, bulldozers, and earthmoving machinery</field>
+        </record>
+
+        <record id="cost_code_excavator" model="construction.cost.code">
+            <field name="name">Excavator JCB 3DX</field>
+            <field name="code">EQP.EAR.001</field>
+            <field name="cost_type">equipment</field>
+            <field name="parent_id" ref="cost_code_earthmoving_equipment"/>
+            <field name="description">JCB 3DX excavator for excavation and earthmoving work</field>
+            <field name="product_template_id" ref="product_excavator_jcb"/>
+            <field name="default_uom_id" ref="uom.product_uom_hour"/>
+            <field name="standard_cost">75.0</field>
+            <field name="standard_price">90.0</field>
+        </record>
+
+        <!-- Concrete Equipment Category -->
+        <record id="cost_code_concrete_equipment" model="construction.cost.code">
+            <field name="name">Concrete Equipment</field>
+            <field name="code">EQP.CON</field>
+            <field name="cost_type">equipment</field>
+            <field name="parent_id" ref="cost_code_equipment_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Concrete mixers, pumps, and related equipment</field>
+        </record>
+
+        <record id="cost_code_concrete_mixer" model="construction.cost.code">
+            <field name="name">Concrete Mixer</field>
+            <field name="code">EQP.CON.001</field>
+            <field name="cost_type">equipment</field>
+            <field name="parent_id" ref="cost_code_concrete_equipment"/>
+            <field name="description">Concrete mixer 10/7 CFT for on-site concrete mixing</field>
+            <field name="product_template_id" ref="product_concrete_mixer"/>
+            <field name="default_uom_id" ref="uom.product_uom_hour"/>
+            <field name="standard_cost">35.0</field>
+            <field name="standard_price">42.0</field>
+        </record>
+
+        <!-- Lifting Equipment Category -->
+        <record id="cost_code_lifting_equipment" model="construction.cost.code">
+            <field name="name">Lifting Equipment</field>
+            <field name="code">EQP.LFT</field>
+            <field name="cost_type">equipment</field>
+            <field name="parent_id" ref="cost_code_equipment_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Cranes, hoists, and lifting equipment</field>
+        </record>
+
+        <record id="cost_code_mobile_crane" model="construction.cost.code">
+            <field name="name">Mobile Crane 25 Ton</field>
+            <field name="code">EQP.LFT.001</field>
+            <field name="cost_type">equipment</field>
+            <field name="parent_id" ref="cost_code_lifting_equipment"/>
+            <field name="description">Mobile crane 25 ton capacity for heavy lifting operations</field>
+            <field name="product_template_id" ref="product_mobile_crane"/>
+            <field name="default_uom_id" ref="uom.product_uom_hour"/>
+            <field name="standard_cost">120.0</field>
+            <field name="standard_price">144.0</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- SUBCONTRACTOR COST CODES -->
+        <!-- ========================================== -->
+        
+        <!-- MEP Services Category -->
+        <record id="cost_code_mep_services" model="construction.cost.code">
+            <field name="name">MEP Services</field>
+            <field name="code">SUB.MEP</field>
+            <field name="cost_type">subcontractor</field>
+            <field name="parent_id" ref="cost_code_subcontractor_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Mechanical, Electrical, and Plumbing services</field>
+        </record>
+
+        <record id="cost_code_electrical_work" model="construction.cost.code">
+            <field name="name">Electrical Installation</field>
+            <field name="code">SUB.MEP.001</field>
+            <field name="cost_type">subcontractor</field>
+            <field name="parent_id" ref="cost_code_mep_services"/>
+            <field name="description">Complete electrical installation including wiring, fixtures, and panels</field>
+            <field name="product_template_id" ref="product_electrical_installation"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">15000.0</field>
+            <field name="standard_price">18000.0</field>
+        </record>
+
+        <record id="cost_code_plumbing_work" model="construction.cost.code">
+            <field name="name">Plumbing Installation</field>
+            <field name="code">SUB.MEP.002</field>
+            <field name="cost_type">subcontractor</field>
+            <field name="parent_id" ref="cost_code_mep_services"/>
+            <field name="description">Complete plumbing installation including pipes, fixtures, and fittings</field>
+            <field name="product_template_id" ref="product_plumbing_installation"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">12000.0</field>
+            <field name="standard_price">14400.0</field>
+        </record>
+
+        <record id="cost_code_hvac_work" model="construction.cost.code">
+            <field name="name">HVAC Installation</field>
+            <field name="code">SUB.MEP.003</field>
+            <field name="cost_type">subcontractor</field>
+            <field name="parent_id" ref="cost_code_mep_services"/>
+            <field name="description">HVAC system installation including ductwork and equipment</field>
+            <field name="product_template_id" ref="product_hvac_installation"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">25000.0</field>
+            <field name="standard_price">30000.0</field>
+        </record>
+
+        <!-- Finishing Services Category -->
+        <record id="cost_code_finishing_services" model="construction.cost.code">
+            <field name="name">Finishing Services</field>
+            <field name="code">SUB.FIN</field>
+            <field name="cost_type">subcontractor</field>
+            <field name="parent_id" ref="cost_code_subcontractor_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Interior and exterior finishing services</field>
+        </record>
+
+        <record id="cost_code_painting_work" model="construction.cost.code">
+            <field name="name">Painting &amp; Finishing</field>
+            <field name="code">SUB.FIN.001</field>
+            <field name="cost_type">subcontractor</field>
+            <field name="parent_id" ref="cost_code_finishing_services"/>
+            <field name="description">Interior and exterior painting and finishing work</field>
+            <field name="product_template_id" ref="product_painting_finishing"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">8000.0</field>
+            <field name="standard_price">9600.0</field>
+        </record>
+
+        <record id="cost_code_flooring_work" model="construction.cost.code">
+            <field name="name">Flooring Installation</field>
+            <field name="code">SUB.FIN.002</field>
+            <field name="cost_type">subcontractor</field>
+            <field name="parent_id" ref="cost_code_finishing_services"/>
+            <field name="description">Premium flooring installation including hardwood, tile, and carpet</field>
+            <field name="product_template_id" ref="product_flooring_installation"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">18000.0</field>
+            <field name="standard_price">21600.0</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- MISCELLANEOUS COST CODES -->
+        <!-- ========================================== -->
+        
+        <!-- Site Facilities Category -->
+        <record id="cost_code_site_facilities" model="construction.cost.code">
+            <field name="name">Site Facilities</field>
+            <field name="code">MISC.FAC</field>
+            <field name="cost_type">miscellaneous</field>
+            <field name="parent_id" ref="cost_code_miscellaneous_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Site office, storage, and temporary facilities</field>
+        </record>
+
+        <record id="cost_code_site_office" model="construction.cost.code">
+            <field name="name">Site Office Rent</field>
+            <field name="code">MISC.FAC.001</field>
+            <field name="cost_type">miscellaneous</field>
+            <field name="parent_id" ref="cost_code_site_facilities"/>
+            <field name="description">Monthly site office rental and setup costs</field>
+            <field name="product_template_id" ref="product_site_office_rent"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">2500.0</field>
+            <field name="standard_price">3000.0</field>
+        </record>
+
+        <record id="cost_code_site_utilities" model="construction.cost.code">
+            <field name="name">Site Utilities</field>
+            <field name="code">MISC.FAC.002</field>
+            <field name="cost_type">miscellaneous</field>
+            <field name="parent_id" ref="cost_code_site_facilities"/>
+            <field name="description">Site utilities including water, electricity, and internet</field>
+            <field name="product_template_id" ref="product_site_utilities"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">1500.0</field>
+            <field name="standard_price">1800.0</field>
+        </record>
+
+        <!-- Permits &amp; Licenses Category -->
+        <record id="cost_code_permits_licenses" model="construction.cost.code">
+            <field name="name">Permits &amp; Licenses</field>
+            <field name="code">MISC.PER</field>
+            <field name="cost_type">miscellaneous</field>
+            <field name="parent_id" ref="cost_code_miscellaneous_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Construction permits, licenses, and regulatory approvals</field>
+        </record>
+
+        <record id="cost_code_construction_permits" model="construction.cost.code">
+            <field name="name">Construction Permits</field>
+            <field name="code">MISC.PER.001</field>
+            <field name="cost_type">miscellaneous</field>
+            <field name="parent_id" ref="cost_code_permits_licenses"/>
+            <field name="description">Building permits, licenses, and regulatory approval fees</field>
+            <field name="product_template_id" ref="product_construction_permits"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">5000.0</field>
+            <field name="standard_price">6000.0</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- OVERHEAD COST CODES -->
+        <!-- ========================================== -->
+        
+        <!-- Project Management Category -->
+        <record id="cost_code_project_management" model="construction.cost.code">
+            <field name="name">Project Management</field>
+            <field name="code">OH.PMG</field>
+            <field name="cost_type">overhead</field>
+            <field name="parent_id" ref="cost_code_overhead_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Project management and administrative overhead</field>
+        </record>
+
+        <record id="cost_code_project_mgmt_services" model="construction.cost.code">
+            <field name="name">Project Management Services</field>
+            <field name="code">OH.PMG.001</field>
+            <field name="cost_type">overhead</field>
+            <field name="parent_id" ref="cost_code_project_management"/>
+            <field name="description">Project management, coordination, and administrative services</field>
+            <field name="product_template_id" ref="product_project_management"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">8000.0</field>
+            <field name="standard_price">9600.0</field>
+        </record>
+
+        <!-- Insurance &amp; Risk Category -->
+        <record id="cost_code_insurance_risk" model="construction.cost.code">
+            <field name="name">Insurance &amp; Risk</field>
+            <field name="code">OH.INS</field>
+            <field name="cost_type">overhead</field>
+            <field name="parent_id" ref="cost_code_overhead_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Construction insurance and risk management costs</field>
+        </record>
+
+        <record id="cost_code_construction_insurance" model="construction.cost.code">
+            <field name="name">Construction Insurance</field>
+            <field name="code">OH.INS.001</field>
+            <field name="cost_type">overhead</field>
+            <field name="parent_id" ref="cost_code_insurance_risk"/>
+            <field name="description">Construction all-risk insurance and liability coverage</field>
+            <field name="product_template_id" ref="product_construction_insurance"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">3000.0</field>
+            <field name="standard_price">3600.0</field>
+        </record>
+
+        <!-- Quality Control Category -->
+        <record id="cost_code_quality_control" model="construction.cost.code">
+            <field name="name">Quality Control</field>
+            <field name="code">OH.QCT</field>
+            <field name="cost_type">overhead</field>
+            <field name="parent_id" ref="cost_code_overhead_root"/>
+            <field name="is_category">True</field>
+            <field name="description">Quality control, testing, and inspection services</field>
+        </record>
+
+        <record id="cost_code_quality_testing" model="construction.cost.code">
+            <field name="name">Quality Control &amp; Testing</field>
+            <field name="code">OH.QCT.001</field>
+            <field name="cost_type">overhead</field>
+            <field name="parent_id" ref="cost_code_quality_control"/>
+            <field name="description">Material testing, quality inspections, and compliance verification</field>
+            <field name="product_template_id" ref="product_quality_control"/>
+            <field name="default_uom_id" ref="uom.product_uom_unit"/>
+            <field name="standard_cost">2000.0</field>
+            <field name="standard_price">2400.0</field>
+        </record>
+
+    </data>
+</odoo>

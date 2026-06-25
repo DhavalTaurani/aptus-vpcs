@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Progressive Payment Category -->
+        <record id="module_category_progressive_payment" model="res.groups.privilege">
+            <field name="name">Progressive Payment</field>
+            <field name="description">Manage progressive payment terms and milestones</field>
+            <field name="sequence">25</field>
+        </record>
+        
+        <!-- Progressive Payment User Group -->
+        <record id="group_progressive_payment_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="privilege_id" ref="module_category_progressive_payment"/>
+            <field name="implied_ids" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="comment">Users can use progressive payment terms in sales orders and invoices</field>
+        </record>
+        
+        <!-- Progressive Payment Manager Group -->
+        <record id="group_progressive_payment_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="privilege_id" ref="module_category_progressive_payment"/>
+            <field name="implied_ids" eval="[(4, ref('group_progressive_payment_user')), (4, ref('account.group_account_user'))]"/>
+            <field name="comment">Users can create and manage progressive payment terms and templates</field>
+        </record>
+        
+        <!-- Record Rules -->
+        
+        <!-- Payment Term Access Rule -->
+        <record id="payment_term_progressive_rule" model="ir.rule">
+            <field name="name">Progressive Payment Terms: Multi-company</field>
+            <field name="model_id" ref="account.model_account_payment_term"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_progressive_payment_user'))]"/>
+        </record>
+        
+    </data>
+</odoo>

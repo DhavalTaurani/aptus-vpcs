@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Project Task Views with Milestone Integration -->
+    <record id="view_task_form_milestone_integration" model="ir.ui.view">
+        <field name="name">project.task.form.milestone.integration</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="payment_milestone_id" 
+                        invisible="not is_boq_item"
+                        options="{'no_create': True, 'no_edit': True}"/>
+                <!-- Add invisible field for proper field loading -->
+                <field name="is_boq_item" invisible="1"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='stage_id']" position="after">
+                <field name="milestone_state" 
+                        invisible="not payment_milestone_id"
+                        widget="badge"
+                        decoration-success="milestone_state == 'paid'"
+                        decoration-warning="milestone_state == 'invoiced'"
+                        decoration-info="milestone_state == 'ready'"
+                        decoration-muted="milestone_state == 'draft'"
+                        decoration-danger="milestone_state == 'cancelled'"/>
+                <field name="milestone_progress" 
+                        invisible="not payment_milestone_id"
+                        widget="progressbar"/>
+                <!-- Add invisible fields for proper field loading -->
+                <field name="milestone_amount" invisible="1"/>
+                <field name="milestone_percentage" invisible="1"/>
+            </xpath>
+            
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_payment_milestone" 
+                        type="object" 
+                        class="oe_stat_button" 
+                        icon="fa-target"
+                        invisible="not payment_milestone_id">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="milestone_percentage" widget="percentage"/>
+                        </span>
+                        <span class="o_stat_text">Milestone</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Project Task Tree View with Milestone Info -->
+    <record id="view_task_tree_milestone_integration" model="ir.ui.view">
+        <field name="name">project.task.tree.milestone.integration</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='stage_id']" position="after">
+                <field name="milestone_state" 
+                        optional="hide"
+                        widget="badge"
+                        decoration-success="milestone_state == 'paid'"
+                        decoration-warning="milestone_state == 'invoiced'"
+                        decoration-info="milestone_state == 'ready'"
+                        decoration-muted="milestone_state == 'draft'"
+                        decoration-danger="milestone_state == 'cancelled'"/>
+                <field name="milestone_progress" 
+                        optional="hide"
+                        widget="progressbar"/>
+                <field name="milestone_amount" 
+                        optional="hide"
+                        widget="monetary"/>
+                <!-- Add invisible fields for proper field loading -->
+                <field name="payment_milestone_id" invisible="1"/>
+                <field name="is_boq_item" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Construction Project Form View Enhancement -->
+    <record id="view_project_form_milestone_integration" model="ir.ui.view">
+        <field name="name">project.project.form.milestone.integration</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_payment_milestones" 
+                        type="object" 
+                        class="oe_stat_button" 
+                        icon="fa-target"
+                        context="{'default_project_id': id}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="payment_milestone_count"/>
+                        </span>
+                        <span class="o_stat_text">Payment Milestones</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Task Kanban View with Milestone Info -->
+    <record id="view_task_kanban_milestone_integration" model="ir.ui.view">
+        <field name="name">project.task.kanban.milestone.integration</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <!-- Add invisible fields to ensure they are loaded in context -->
+            <field name="stage_id" position="after">
+                <field name="payment_milestone_id" invisible="1"/>
+                <field name="milestone_state" invisible="1"/>
+                <field name="milestone_progress" invisible="1"/>
+                <field name="milestone_percentage" invisible="1"/>
+                <field name="is_boq_item" invisible="1"/>
+            </field>
+
+            <xpath expr="//footer/div[hasclass('d-flex', 'align-items-center')]" position="inside">
+                <div t-if="record.payment_milestone_id and record.payment_milestone_id.raw_value" class="o_kanban_inline_block">
+                    <i class="fa fa-target" title="Payment Milestone"/>
+                    <t t-esc="record.milestone_percentage and record.milestone_percentage.value or 0"/>%
+                </div>
+            </xpath>
+            
+            <xpath expr="//footer/div[hasclass('d-flex', 'ms-auto')]" position="inside">
+                <div t-if="record.milestone_progress and record.milestone_progress.raw_value and record.milestone_progress.raw_value &gt; 0" class="o_kanban_inline_block">
+                    <progress t-att-value="record.milestone_progress.raw_value"
+                            max="100"
+                            class="o_progress_bar"
+                            style="width: 50px;"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

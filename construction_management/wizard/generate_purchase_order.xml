@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_generate_purchase_order_form" model="ir.ui.view">
+            <field name="name">generate.purchase.order.form</field>
+            <field name="model">construction.generate.purchase.order</field>
+            <field name="arch" type="xml">
+                <form string="Generate Purchase Order from BOQ">
+                    <group>
+                        <field name="project_id" options="{'no_create': True}" invisible="context.get('active_model') == 'project.task'"/>
+                        <field name="task_ids" widget="many2many_tags" options="{'no_create': True}" context="{'tree_view_ref': 'construction_management.boq_items_tree_view'}"/>
+                    </group>
+                    <group>
+                        <field name="create_new_po"/>
+                    </group>
+                    <group invisible="not create_new_po">
+                        <field name="vendor_id" options="{'no_create': True}" placeholder="Leave blank to group by product vendor"/>
+                    </group>
+                    <group invisible="create_new_po">
+                        <field name="purchase_order_id" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="date_planned"/>
+                    </group>
+                    <footer>
+                        <button name="generate_purchase_order" string="Generate PO" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_generate_purchase_order_wizard"
+            name="Generate Purchase Orders"
+            res_model="construction.generate.purchase.order"
+            view_mode="form"
+            target="new"
+            binding_model="project.project"/>
+    </data>
+</odoo>

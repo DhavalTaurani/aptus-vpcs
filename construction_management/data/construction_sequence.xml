@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Sequence for Construction Projects -->
+        <record id="seq_construction_project" model="ir.sequence">
+            <field name="name">Construction Project</field>
+            <field name="code">construction.project</field>
+            <field name="prefix">PROJ-</field>
+            <field name="suffix"></field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for BOQ Items -->
+        <record id="seq_construction_boq_code" model="ir.sequence">
+            <field name="name">BOQ Code</field>
+            <field name="code">construction.boq.code</field>
+            <field name="prefix">BOQ-</field>
+            <field name="suffix"></field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for Cost Codes -->
+        <record id="seq_construction_cost_code" model="ir.sequence">
+            <field name="name">Construction Cost Code</field>
+            <field name="code">construction.cost.code</field>
+            <field name="prefix">CC-</field>
+            <field name="suffix"></field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for Subcontractors -->
+        <record id="seq_construction_subcontractor" model="ir.sequence">
+            <field name="name">Construction Subcontractor</field>
+            <field name="code">construction.subcontractor</field>
+            <field name="prefix">SUB-</field>
+            <field name="suffix"></field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for Submittals -->
+        <record id="seq_construction_submittal" model="ir.sequence">
+            <field name="name">Construction Submittal</field>
+            <field name="code">construction.submittal</field>
+            <field name="prefix">SUB-</field>
+            <field name="suffix"></field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for Incidents -->
+        <record id="seq_construction_incident" model="ir.sequence">
+            <field name="name">Construction Incident</field>
+            <field name="code">construction.incident</field>
+            <field name="prefix">INC-</field>
+            <field name="suffix"></field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for Quality Inspections -->
+        <record id="seq_construction_quality_inspection" model="ir.sequence">
+            <field name="name">Construction Quality Inspection</field>
+            <field name="code">construction.quality.inspection</field>
+            <field name="prefix">QI-</field>
+            <field name="suffix"></field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for Revenue Recognition -->
+        <record id="seq_construction_revenue_recognition" model="ir.sequence">
+            <field name="name">Construction Revenue Recognition</field>
+            <field name="code">construction.revenue.recognition</field>
+            <field name="prefix">REV-</field>
+            <field name="suffix"></field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

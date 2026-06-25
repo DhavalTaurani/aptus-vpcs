@@ -1,0 +1,96 @@
+<odoo>
+    <data noupdate="1">
+<!--        <record id="seq_sale_quotation_custom" model="ir.sequence">-->
+<!--            <field name="name">Sale Quotation</field>-->
+<!--            <field name="code">sale.quotation.custom</field>-->
+<!--            <field name="prefix">AI/ITS/</field>-->
+<!--            <field name="suffix">/%(range_year)s</field>-->
+<!--            <field name="padding">4</field>-->
+<!--            <field name="number_next">1</field>-->
+<!--        </record>-->
+
+<!--        <record id="seq_sale_order_custom" model="ir.sequence">-->
+<!--            <field name="name">Sale Order</field>-->
+<!--            <field name="code">sale.order.custom</field>-->
+<!--            <field name="prefix">AI/SO/</field>-->
+<!--            <field name="suffix">/%(range_year)s</field>-->
+<!--            <field name="padding">4</field>-->
+<!--            <field name="number_next">1</field>-->
+<!--        </record>-->
+
+        <!--new sequences-->
+
+        <!-- ========== SALES QUOTATION SEQUENCES ========== -->
+        <record id="seq_quotation_software" model="ir.sequence">
+            <field name="name">Quotation - SOFTWARE</field>
+            <field name="code">sale.order.software.quotation</field>
+            <field name="prefix">QT/SW/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="company_id" eval="2" />
+        </record>
+
+        <record id="seq_quotation_elv" model="ir.sequence">
+            <field name="name">Quotation - ELV</field>
+            <field name="code">sale.order.elv.quotation</field>
+            <field name="prefix">QT/ELV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="company_id" eval="3" />
+        </record>
+
+        <record id="seq_quotation_solar" model="ir.sequence">
+            <field name="name">Quotation - SOLAR</field>
+            <field name="code">sale.order.solar.quotation</field>
+            <field name="prefix">QT/SLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="company_id" eval="4" />
+        </record>
+
+        <record id="seq_quotation_sgi" model="ir.sequence">
+            <field name="name">Quotation - SGI</field>
+            <field name="code">sale.order.sgi.quotation</field>
+            <field name="prefix">QT/SGI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="company_id" eval="5" />
+        </record>
+
+        <!-- ========== SALES ORDER SEQUENCES ========== -->
+        <record id="seq_sale_order_software" model="ir.sequence">
+            <field name="name">Sale Order - SOFTWARE</field>
+            <field name="code">sale.order.software</field>
+            <field name="prefix">SO/SW/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="company_id" eval="2" />
+        </record>
+
+        <record id="seq_sale_order_elv" model="ir.sequence">
+            <field name="name">Sale Order - ELV</field>
+            <field name="code">sale.order.elv</field>
+            <field name="prefix">SO/ELV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3" />
+        </record>
+
+        <record id="seq_sale_order_solar" model="ir.sequence">
+            <field name="name">Sale Order - SOLAR</field>
+            <field name="code">sale.order.solar</field>
+            <field name="prefix">SO/SLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4" />
+        </record>
+
+        <record id="seq_sale_order_sgi" model="ir.sequence">
+            <field name="name">Sale Order - SGI</field>
+            <field name="code">sale.order.sgi</field>
+            <field name="prefix">SO/SGI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5" />
+        </record>
+
+        <!--/new sequences-->
+    </data>
+</odoo>

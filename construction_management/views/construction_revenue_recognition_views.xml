@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Base Form View for Construction Revenue Recognition -->
+        <record id="view_construction_revenue_recognition_form_base" model="ir.ui.view">
+            <field name="name">construction.revenue.recognition.form.base</field>
+            <field name="model">construction.revenue.recognition</field>
+            <field name="arch" type="xml">
+                <form string="Revenue Recognition">
+                    <header>
+                        <button name="action_recognize_revenue" type="object" 
+                                string="Recognize Revenue" 
+                                class="oe_highlight"
+                                invisible="revenue_remaining == 0"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Revenue Recognition Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_id"/>
+                                <field name="partner_id"/>
+                                <field name="recognition_method"/>
+                                <field name="total_contract_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_estimated_cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="actual_cost_to_date" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="percentage_complete" widget="progressbar"/>
+                            </group>
+                            <group>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="revenue_to_recognize" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="revenue_recognized" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="revenue_remaining" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="milestone_ids" widget="many2many_tags"/>
+                                <field name="income_account_id"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Inherited View for Smart Button -->
+        <record id="view_construction_revenue_recognition_form_smart_button" model="ir.ui.view">
+            <field name="name">construction.revenue.recognition.form.smart.button</field>
+            <field name="model">construction.revenue.recognition</field>
+            <field name="inherit_id" ref="construction_management.view_construction_revenue_recognition_form_base"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button"
+                        type="object"
+                        name="action_view_invoices"
+                        icon="fa-pencil-square-o"
+                        invisible="invoice_count == 0">
+                        <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Tree View for Construction Revenue Recognition -->
+        <record id="view_construction_revenue_recognition_tree" model="ir.ui.view">
+            <field name="name">construction.revenue.recognition.tree</field>
+            <field name="model">construction.revenue.recognition</field>
+            <field name="arch" type="xml">
+                <list string="Revenue Recognition" multi_edit="1">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="partner_id"/>
+                    <field name="recognition_method"/>
+                    <field name="total_contract_value" widget="monetary" sum="Total Contract Value"/>
+                    <field name="revenue_to_recognize" widget="monetary" sum="Revenue to Recognize"/>
+                    <field name="revenue_recognized" widget="monetary" sum="Revenue Recognized"/>
+                    <field name="revenue_remaining" widget="monetary" sum="Revenue Remaining"/>
+                    <field name="percentage_complete" widget="progressbar"/>
+                    <field name="invoice_count"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <button name="action_recognize_revenue" type="object" 
+                            string="Recognize Revenue" 
+                            class="btn-primary"
+                            invisible="revenue_remaining == 0"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Action for Construction Revenue Recognition -->
+        <record id="action_construction_revenue_recognition" model="ir.actions.act_window">
+            <field name="name">Revenue Recognition</field>
+            <field name="res_model">construction.revenue.recognition</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_construction_revenue_recognition_tree"/>
+        </record>
+
+        <!-- Search View for Construction Revenue Recognition -->
+        <record id="view_construction_revenue_recognition_search" model="ir.ui.view">
+            <field name="name">construction.revenue.recognition.search</field>
+            <field name="model">construction.revenue.recognition</field>
+            <field name="arch" type="xml">
+                <search string="Revenue Recognition">
+                    <field name="name" string="Name"/>
+                    <field name="project_id" string="Project"/>
+                    <field name="partner_id" string="Customer"/>
+                    <field name="recognition_method"/>
+                    <separator/>
+                    <filter name="pending_recognition" string="Pending Recognition" 
+                            domain="[('revenue_remaining', '!=', 0)]"/>
+                    <filter name="fully_recognized" string="Fully Recognized" 
+                            domain="[('revenue_remaining', '=', 0)]"/>
+                    <separator/>
+                    <filter name="percentage_completion" string="Percentage Completion" 
+                            domain="[('recognition_method', '=', 'percentage_completion')]"/>
+                    <filter name="milestone_based" string="Milestone Based" 
+                            domain="[('recognition_method', '=', 'milestone')]"/>
+                    <filter name="completed_contract" string="Completed Contract" 
+                            domain="[('recognition_method', '=', 'completed_contract')]"/>
+                    <separator/>
+                    <filter name="group_by_project" string="Project" 
+                            context="{'group_by': 'project_id'}"/>
+                    <filter name="group_by_method" string="Recognition Method" 
+                            context="{'group_by': 'recognition_method'}"/>
+                    <filter name="group_by_customer" string="Customer" 
+                            context="{'group_by': 'partner_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Server Action for Bulk Revenue Recognition -->
+        <record id="action_bulk_revenue_recognition" model="ir.actions.server">
+            <field name="name">Bulk Revenue Recognition</field>
+            <field name="model_id" ref="model_construction_revenue_recognition"/>
+            <field name="binding_model_id" ref="model_construction_revenue_recognition"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.action_recognize_revenue_bulk()
+                    if action:
+                        action = action
+            </field>
+        </record>
+
+        <!-- Menu Item for Construction Revenue Recognition -->
+        <menuitem id="menu_construction_revenue_recognition"
+            name="Revenue Recognition"
+            parent="construction_management.menu_construction_financial"
+            action="action_construction_revenue_recognition"
+            sequence="10"/>
+
+    </data>
+</odoo>

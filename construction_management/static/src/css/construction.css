@@ -1,0 +1,87 @@
+/* Construction Management CSS */
+
+.construction-dashboard {
+    padding: 20px;
+}
+
+.construction-kpi-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.construction-kpi-value {
+    font-size: 2em;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.construction-kpi-label {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.boq-item-card {
+    border-left: 4px solid #3498db;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+}
+
+.boq-item-code {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.boq-item-progress {
+    margin-top: 10px;
+}
+
+.progress-bar-construction {
+    background-color: #27ae60;
+    height: 8px;
+    border-radius: 4px;
+}
+
+.cost-variance-positive {
+    color: #27ae60;
+}
+
+.cost-variance-negative {
+    color: #e74c3c;
+}
+
+.construction-status-draft {
+    background-color: #95a5a6;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+.construction-status-approved {
+    background-color: #27ae60;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+.construction-status-in-progress {
+    background-color: #f39c12;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+.construction-status-completed {
+    background-color: #2c3e50;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}

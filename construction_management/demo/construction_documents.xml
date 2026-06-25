@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================== -->
+        <!-- DOCUMENT DIRECTORIES -->
+        <!-- ========================================== -->
+        
+        <!-- Metro Tower Document Directories -->
+        <record id="doc_dir_metro_drawings" model="construction.document.directory">
+            <field name="name">Architectural Drawings</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="document_type">drawings</field>
+        </record>
+
+        <record id="doc_dir_metro_specifications" model="construction.document.directory">
+            <field name="name">Technical Specifications</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="document_type">specifications</field>
+        </record>
+
+        <record id="doc_dir_metro_contracts" model="construction.document.directory">
+            <field name="name">Contracts &amp; Agreements</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="document_type">contracts</field>
+        </record>
+
+        <record id="doc_dir_metro_permits" model="construction.document.directory">
+            <field name="name">Permits &amp; Approvals</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="document_type">permits</field>
+        </record>
+
+        <record id="doc_dir_metro_photos" model="construction.document.directory">
+            <field name="name">Progress Photos</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="document_type">photos</field>
+        </record>
+
+        <record id="doc_dir_metro_reports" model="construction.document.directory">
+            <field name="name">Progress Reports</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="document_type">reports</field>
+        </record>
+
+        <record id="doc_dir_metro_correspondence" model="construction.document.directory">
+            <field name="name">Project Correspondence</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="document_type">correspondence</field>
+        </record>
+
+        <!-- Skyline Residential Document Directories -->
+        <record id="doc_dir_skyline_drawings" model="construction.document.directory">
+            <field name="name">Architectural Plans</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="document_type">drawings</field>
+        </record>
+
+        <record id="doc_dir_skyline_specifications" model="construction.document.directory">
+            <field name="name">Construction Specifications</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="document_type">specifications</field>
+        </record>
+
+        <record id="doc_dir_skyline_permits" model="construction.document.directory">
+            <field name="name">Building Permits</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="document_type">permits</field>
+        </record>
+
+        <!-- Green Valley Document Directories -->
+        <record id="doc_dir_green_valley_drawings" model="construction.document.directory">
+            <field name="name">Eco-Design Plans</field>
+            <field name="project_id" ref="project_green_valley_housing"/>
+            <field name="document_type">drawings</field>
+        </record>
+
+        <record id="doc_dir_green_valley_environmental" model="construction.document.directory">
+            <field name="name">Environmental Reports</field>
+            <field name="project_id" ref="project_green_valley_housing"/>
+            <field name="document_type">reports</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- SUBMITTALS -->
+        <!-- ========================================== -->
+        
+        <record id="submittal_metro_electrical_panels" model="construction.submittal">
+            <field name="name">Electrical Panel Specifications</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="submittal_type">shop_drawings</field>
+            <field name="subcontractor_id" ref="subcontractor_powertech_metro"/>
+            <field name="state">submitted</field>
+            <field name="submission_date" eval="(datetime.now() + relativedelta(days=-15)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(datetime.now() + relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="description">Detailed specifications and shop drawings for main electrical panels</field>
+        </record>
+
+        <record id="submittal_metro_hvac_equipment" model="construction.submittal">
+            <field name="name">HVAC Equipment Specifications</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="submittal_type">product_data</field>
+            <field name="subcontractor_id" ref="subcontractor_hvac_metro"/>
+            <field name="state">under_review</field>
+            <field name="submission_date" eval="(datetime.now() + relativedelta(days=-10)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(datetime.now() + relativedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="description">Product data sheets for HVAC equipment and components</field>
+        </record>
+
+        <record id="submittal_metro_plumbing_fixtures" model="construction.submittal">
+            <field name="name">Plumbing Fixture Catalog</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="submittal_type">samples</field>
+            <field name="subcontractor_id" ref="subcontractor_aquaflow_metro"/>
+            <field name="state">approved</field>
+            <field name="submission_date" eval="(datetime.now() + relativedelta(days=-25)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(datetime.now() + relativedelta(days=-5)).strftime('%Y-%m-%d')"/>
+            <field name="approval_date" eval="(datetime.now() + relativedelta(days=-8)).strftime('%Y-%m-%d')"/>
+            <field name="description">Sample catalog and specifications for bathroom and kitchen fixtures</field>
+        </record>
+
+        <record id="submittal_skyline_flooring_samples" model="construction.submittal">
+            <field name="name">Flooring Material Samples</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="submittal_type">samples</field>
+            <field name="subcontractor_id" ref="subcontractor_flooring_skyline"/>
+            <field name="state">draft</field>
+            <field name="required_date" eval="(datetime.now() + relativedelta(days=30)).strftime('%Y-%m-%d')"/>
+            <field name="description">Physical samples of proposed flooring materials for residential units</field>
+        </record>
+
+        <record id="submittal_skyline_paint_colors" model="construction.submittal">
+            <field name="name">Paint Color Schemes</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="submittal_type">samples</field>
+            <field name="subcontractor_id" ref="subcontractor_painting_skyline"/>
+            <field name="state">draft</field>
+            <field name="required_date" eval="(datetime.now() + relativedelta(days=45)).strftime('%Y-%m-%d')"/>
+            <field name="description">Color schemes and paint samples for interior and exterior finishes</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- QUALITY INSPECTIONS (Placeholder) -->
+        <!-- ========================================== -->
+        
+        <record id="quality_inspection_metro_foundation" model="construction.quality.inspection">
+            <field name="name">Foundation Concrete Quality Check</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="inspection_type">concrete_strength</field>
+            <field name="task_id" ref="task_metro_foundation_concrete"/>
+            <field name="inspector_id" ref="vendor_quality_testing_labs"/>
+            <field name="inspection_date" eval="(datetime.now() + relativedelta(days=-20)).strftime('%Y-%m-%d')"/>
+            <field name="state">passed</field>
+            <field name="notes">Concrete strength test results meet M25 grade requirements. Compressive strength: 28.5 MPa</field>
+        </record>
+
+        <record id="quality_inspection_metro_steel" model="construction.quality.inspection">
+            <field name="name">Steel Reinforcement Inspection</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="inspection_type">reinforcement</field>
+            <field name="task_id" ref="task_metro_foundation_steel"/>
+            <field name="inspector_id" ref="vendor_quality_testing_labs"/>
+            <field name="inspection_date" eval="(datetime.now() + relativedelta(days=-15)).strftime('%Y-%m-%d')"/>
+            <field name="state">passed</field>
+            <field name="notes">TMT bar placement and spacing verified as per structural drawings. All reinforcement meets IS 1786 standards</field>
+        </record>
+
+        <record id="quality_inspection_skyline_masonry" model="construction.quality.inspection">
+            <field name="name">Masonry Work Quality Check</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="inspection_type">masonry</field>
+            <field name="task_id" ref="task_skyline_masonry_work"/>
+            <field name="inspector_id" ref="vendor_quality_testing_labs"/>
+            <field name="inspection_date" eval="(datetime.now() + relativedelta(days=-5)).strftime('%Y-%m-%d')"/>
+            <field name="state">pending</field>
+            <field name="notes">Scheduled for inspection of completed masonry work in Building A</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- SAFETY INCIDENTS (Placeholder) -->
+        <!-- ========================================== -->
+        
+        <record id="incident_metro_minor_injury" model="construction.incident">
+            <field name="name">Minor Cut Injury - Worker Safety</field>
+            <field name="project_id" ref="project_metro_tower"/>
+            <field name="incident_type">injury</field>
+            <field name="severity">minor</field>
+            <field name="incident_date" eval="(datetime.now() + relativedelta(days=-12)).strftime('%Y-%m-%d')"/>
+            <field name="location">Foundation work area, Level B2</field>
+            <field name="description">Worker sustained minor cut on hand while handling steel reinforcement. First aid provided on site.</field>
+            <field name="reported_by_id" ref="base.user_admin"/>
+            <field name="state">resolved</field>
+            <field name="resolution_date" eval="(datetime.now() + relativedelta(days=-10)).strftime('%Y-%m-%d')"/>
+            <field name="corrective_action">Additional safety briefing conducted. Mandatory glove usage reinforced for all steel handling activities.</field>
+        </record>
+
+        <record id="incident_skyline_near_miss" model="construction.incident">
+            <field name="name">Near Miss - Equipment Operation</field>
+            <field name="project_id" ref="project_skyline_residential"/>
+            <field name="incident_type">near_miss</field>
+            <field name="severity">low</field>
+            <field name="incident_date" eval="(datetime.now() + relativedelta(days=-8)).strftime('%Y-%m-%d')"/>
+            <field name="location">Site entrance, material delivery area</field>
+            <field name="description">Excavator nearly collided with delivery truck due to poor visibility during material unloading.</field>
+            <field name="reported_by_id" ref="base.user_admin"/>
+            <field name="state">under_investigation</field>
+            <field name="corrective_action">Installing additional mirrors and warning signals in material delivery area. Reviewing traffic management procedures.</field>
+        </record>
+
+    </data>
+</odoo>

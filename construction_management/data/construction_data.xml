@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Construction Project Types -->
+        <record id="construction_type_residential" model="ir.config_parameter">
+            <field name="key">construction.default.residential.type</field>
+            <field name="value">residential</field>
+        </record>
+
+        <record id="construction_type_commercial" model="ir.config_parameter">
+            <field name="key">construction.default.commercial.type</field>
+            <field name="value">commercial</field>
+        </record>
+
+        <!-- Default Cost Code Categories -->
+        <record id="cost_category_material" model="product.category">
+            <field name="name">Construction Materials</field>
+            <field name="parent_id" eval="False"/>
+            <field name="property_cost_method">fifo</field>
+            <field name="property_valuation">real_time</field>
+        </record>
+
+        <record id="cost_category_labour" model="product.category">
+            <field name="name">Construction Labour</field>
+            <field name="parent_id" eval="False"/>
+            <field name="property_cost_method">standard</field>
+            <field name="property_valuation">periodic</field>
+        </record>
+
+        <record id="cost_category_equipment" model="product.category">
+            <field name="name">Construction Equipment</field>
+            <field name="parent_id" eval="False"/>
+            <field name="property_cost_method">standard</field>
+            <field name="property_valuation">periodic</field>
+        </record>
+
+        <record id="cost_category_subcontractor" model="product.category">
+            <field name="name">Subcontractor Services</field>
+            <field name="parent_id" eval="False"/>
+            <field name="property_cost_method">standard</field>
+            <field name="property_valuation">periodic</field>
+        </record>
+
+        <record id="cost_category_miscellaneous" model="product.category">
+            <field name="name">Miscellaneous Costs</field>
+            <field name="parent_id" eval="False"/>
+            <field name="property_cost_method">standard</field>
+            <field name="property_valuation">periodic</field>
+        </record>
+
+        <record id="cost_category_overhead" model="product.category">
+            <field name="name">Overhead Costs</field>
+            <field name="parent_id" eval="False"/>
+            <field name="property_cost_method">standard</field>
+            <field name="property_valuation">periodic</field>
+        </record>
+
+        <!-- Default Units of Measure for Construction -->
+        
+
+        
+
+        
+
+        <!-- Default Project Stages for Construction -->
+        <record id="project_stage_initiation" model="project.project.stage">
+            <field name="name">Project Initiation</field>
+            <field name="sequence">1</field>
+            <field name="fold">False</field>
+        </record>
+
+        <record id="project_stage_planning" model="project.project.stage">
+            <field name="name">Planning &amp; Design</field>
+            <field name="sequence">2</field>
+            <field name="fold">False</field>
+        </record>
+
+        <record id="project_stage_execution" model="project.project.stage">
+            <field name="name">Construction Execution</field>
+            <field name="sequence">3</field>
+            <field name="fold">False</field>
+        </record>
+
+        <record id="project_stage_monitoring" model="project.project.stage">
+            <field name="name">Monitoring &amp; Control</field>
+            <field name="sequence">4</field>
+            <field name="fold">False</field>
+        </record>
+
+        <record id="project_stage_closure" model="project.project.stage">
+            <field name="name">Project Closure</field>
+            <field name="sequence">5</field>
+            <field name="fold">True</field>
+        </record>
+
+        <!-- Default Task Stages for BOQ Items -->
+        <record id="task_stage_draft" model="project.task.type">
+            <field name="name">Draft</field>
+            <field name="sequence">1</field>
+            <field name="fold">False</field>
+        </record>
+
+        <record id="task_stage_approved" model="project.task.type">
+            <field name="name">Approved</field>
+            <field name="sequence">2</field>
+            <field name="fold">False</field>
+        </record>
+
+        <record id="task_stage_in_progress" model="project.task.type">
+            <field name="name">In Progress</field>
+            <field name="sequence">3</field>
+            <field name="fold">False</field>
+        </record>
+
+        <record id="task_stage_completed" model="project.task.type">
+            <field name="name">Completed</field>
+            <field name="sequence">4</field>
+            <field name="fold">True</field>
+        </record>
+
+        <!-- Email Templates -->
+        <record id="email_template_boq_approval" model="mail.template">
+            <field name="name">BOQ Item Approval Required</field>
+            <field name="model_id" ref="project.model_project_task"/>
+            <field name="subject">BOQ Item Approval Required: ${object.name}</field>
+            <field name="body_html"><![CDATA[
+                <p>Dear ${object.user_ids.name or 'Team'},</p>
+                <p>A BOQ item requires your approval:</p>
+                <ul>
+                    <li><strong>Project:</strong> ${object.project_id.name}</li>
+                    <li><strong>BOQ Item:</strong> ${object.name}</li>
+                    <li><strong>BOQ Code:</strong> ${object.boq_code or 'N/A'}</li>
+                    <li><strong>Estimated Value:</strong> ${object.boq_value}</li>
+                </ul>
+                <p>Please review and approve this item to proceed with the project.</p>
+                <p>Best regards,<br/>Construction Management System</p>
+            ]]></field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Server Actions for Automation -->
+        <record id="action_boq_approval_notification" model="ir.actions.server">
+            <field name="name">Send BOQ Approval Notification</field>
+            <field name="model_id" ref="project.model_project_task"/>
+            <field name="state">code</field>
+            <field name="code">
+for record in records:
+    record.message_post_with_template(env.ref('construction_management.email_template_boq_approval').id)
+            </field>
+        </record>
+
+    </data>
+</odoo>

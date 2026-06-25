@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Demo Service Products with Construction Templates -->
+        <record id="product_elv_service" model="product.template">
+            <field name="name">ELV System Installation Service</field>
+            <field name="type">service</field>
+            <field name="service_tracking">task_in_project</field>
+            <field name="service_policy">delivered_milestones</field>
+            <field name="list_price">25000</field>
+            <field name="standard_price">18000</field>
+            <field name="construction_template_id" ref="construction_management.template_elv"/>
+            <field name="description">Complete ELV system installation including CCTV, access control, and fire alarm systems</field>
+        </record>
+        
+        <record id="product_mep_service" model="product.template">
+            <field name="name">MEP System Installation Service</field>
+            <field name="type">service</field>
+            <field name="service_tracking">task_in_project</field>
+            <field name="service_policy">delivered_milestones</field>
+            <field name="list_price">45000</field>
+            <field name="standard_price">35000</field>
+            <field name="construction_template_id" ref="construction_management.template_mep"/>
+            <field name="description">Complete MEP system installation including HVAC, electrical, and plumbing</field>
+        </record>
+        
+        <record id="product_civil_service" model="product.template">
+            <field name="name">Civil Construction Service</field>
+            <field name="type">service</field>
+            <field name="service_tracking">task_in_project</field>
+            <field name="service_policy">delivered_milestones</field>
+            <field name="list_price">80000</field>
+            <field name="standard_price">65000</field>
+            <field name="construction_template_id" ref="construction_management.template_civil"/>
+            <field name="description">Civil construction works including foundations and structural elements</field>
+        </record>
+        
+        <!-- Demo Standard Project Templates (Odoo 17 Standard) -->
+        <record id="standard_project_template_elv" model="project.project">
+            <field name="name">ELV Project Template</field>
+            <field name="description">Standard project template for ELV installations</field>
+            <field name="active">True</field>
+            <field name="allow_milestones">True</field>
+            <field name="allow_task_dependencies">True</field>
+        </record>
+        
+        <record id="standard_project_template_mep" model="project.project">
+            <field name="name">MEP Project Template</field>
+            <field name="description">Standard project template for MEP installations</field>
+            <field name="active">True</field>
+            <field name="allow_milestones">True</field>
+            <field name="allow_task_dependencies">True</field>
+        </record>
+        
+        <!-- Link Construction Templates to Standard Templates -->
+        <record id="construction_management.template_elv" model="construction.project.template">
+            <field name="project_template_id" ref="standard_project_template_elv"/>
+        </record>
+        
+        <record id="construction_management.template_mep" model="construction.project.template">
+            <field name="project_template_id" ref="standard_project_template_mep"/>
+        </record>
+        
+        <!-- Demo Customer -->
+        <record id="partner_construction_client" model="res.partner">
+            <field name="name">ABC Construction Client</field>
+            <field name="is_company">True</field>
+            <field name="customer_rank">1</field>
+            <field name="email">client@abcconstruction.com</field>
+            <field name="phone">+1-555-0123</field>
+            <field name="street">123 Business District</field>
+            <field name="city">New York</field>
+            <field name="zip">10001</field>
+            <field name="country_id" ref="base.us"/>
+        </record>
+        
+        <!-- Demo Sale Order with Construction Services -->
+        <record id="sale_order_construction_demo" model="sale.order">
+            <field name="name">SO-CONST-001</field>
+            <field name="partner_id" ref="partner_construction_client"/>
+            <field name="state">draft</field>
+            <field name="date_order" eval="(DateTime.now() - timedelta(days=5))"/>
+        </record>
+        
+        <!-- Product Variants -->
+        <record id="product_elv_service_variant" model="product.product">
+            <field name="product_tmpl_id" ref="product_elv_service"/>
+        </record>
+        
+        <record id="product_mep_service_variant" model="product.product">
+            <field name="product_tmpl_id" ref="product_mep_service"/>
+        </record>
+        
+        <record id="product_civil_service_variant" model="product.product">
+            <field name="product_tmpl_id" ref="product_civil_service"/>
+        </record>
+        
+        <record id="sale_order_line_elv" model="sale.order.line">
+            <field name="order_id" ref="sale_order_construction_demo"/>
+            <field name="product_id" ref="product_elv_service_variant"/>
+            <field name="product_uom_qty">1</field>
+            <field name="price_unit">25000</field>
+            <field name="name">ELV System Installation - Complete CCTV and Access Control</field>
+        </record>
+        
+        <record id="sale_order_line_mep" model="sale.order.line">
+            <field name="order_id" ref="sale_order_construction_demo"/>
+            <field name="product_id" ref="product_mep_service_variant"/>
+            <field name="product_uom_qty">1</field>
+            <field name="price_unit">45000</field>
+            <field name="name">MEP System Installation - HVAC, Electrical, and Plumbing</field>
+        </record>
+        
+    </data>
+</odoo>

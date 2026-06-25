@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Sub-milestone Template Action -->
+    <record id="action_sub_milestone_templates" model="ir.actions.act_window">
+        <field name="name">Sub-milestone Templates</field>
+        <field name="res_model">account.payment.term.line.sub.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+    </record>
+    
+    <!-- Main Sub-milestone Template Action -->
+    <record id="action_sub_milestone_templates_main" model="ir.actions.act_window">
+        <field name="name">Sub-milestone Templates</field>
+        <field name="res_model">account.payment.term.line.sub.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first sub-milestone template!
+            </p>
+            <p>
+                Sub-milestone templates help standardize milestone breakdowns across projects.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Menu Item -->
+    <menuitem id="menu_sub_milestone_templates"
+            name="Sub-milestone Templates"
+            parent="construction_management.menu_construction_financial"
+            action="action_sub_milestone_templates_main"
+            sequence="30"/>
+
+</odoo>

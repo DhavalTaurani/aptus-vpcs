@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Demo Progressive Payment Term for ELV Project -->
+        <record id="demo_payment_term_elv_security_system" model="account.payment.term">
+            <field name="name">ELV Security System - Progressive Payment</field>
+            <field name="is_progressive" eval="True"/>
+            <field name="is_template" eval="False"/>
+            <field name="construction_category">elv</field>
+            <field name="display_on_invoice" eval="False"/>
+            <field name="template_description">Progressive payment term for ELV security system installation project</field>
+            <field name="sequence">100</field>
+        </record>
+        
+        <!-- Demo ELV Lines -->
+        <record id="demo_payment_term_line_elv_advance" model="account.payment.term.line">
+            <field name="payment_id" ref="demo_payment_term_elv_security_system"/>
+            <field name="value">percent</field>
+            <field name="value_amount">25.0</field>
+            <field name="nb_days">0</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">advance</field>
+            <field name="milestone_description">&lt;p&gt;Advance payment for security system project mobilization&lt;/p&gt;</field>
+            <field name="trigger_condition">manual</field>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="demo_payment_term_line_elv_material" model="account.payment.term.line">
+            <field name="payment_id" ref="demo_payment_term_elv_security_system"/>
+            <field name="value">percent</field>
+            <field name="value_amount">30.0</field>
+            <field name="nb_days">21</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">material_delivery</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon delivery of security cameras, access control panels, and cabling materials&lt;/p&gt;</field>
+            <field name="trigger_condition">delivery_based</field>
+            <field name="allow_sub_milestones" eval="True"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="demo_payment_term_line_elv_installation" model="account.payment.term.line">
+            <field name="payment_id" ref="demo_payment_term_elv_security_system"/>
+            <field name="value">percent</field>
+            <field name="value_amount">30.0</field>
+            <field name="nb_days">45</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">installation</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon completion of camera installation, access control setup, and system wiring&lt;/p&gt;</field>
+            <field name="trigger_condition">progress_based</field>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="demo_payment_term_line_elv_testing" model="account.payment.term.line">
+            <field name="payment_id" ref="demo_payment_term_elv_security_system"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">60</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">testing_commissioning</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon system testing, user training, and handover completion&lt;/p&gt;</field>
+            <field name="trigger_condition">approval_based</field>
+            <field name="approval_required" eval="True"/>
+            <field name="required_documents">System test report, User training completion certificate, Operation manual handover</field>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="demo_payment_term_line_elv_retention" model="account.payment.term.line">
+            <field name="payment_id" ref="demo_payment_term_elv_security_system"/>
+            <field name="value">percent</field>
+            <field name="value_amount">5.0</field>
+            <field name="nb_days">365</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">retention</field>
+            <field name="milestone_description">&lt;p&gt;Retention release after 12-month warranty period&lt;/p&gt;</field>
+            <field name="trigger_condition">date_based</field>
+            <field name="sequence">50</field>
+        </record>
+        
+        <!-- Demo Progressive Payment Term for MEP Project -->
+        <record id="demo_payment_term_mep_hvac_system" model="account.payment.term">
+            <field name="name">MEP HVAC System - Progressive Payment</field>
+            <field name="is_progressive" eval="True"/>
+            <field name="is_template" eval="False"/>
+            <field name="construction_category">mep</field>
+            <field name="display_on_invoice" eval="False"/>
+            <field name="template_description">Progressive payment term for MEP HVAC system installation project</field>
+            <field name="sequence">101</field>
+        </record>
+        
+        <!-- Demo MEP Lines -->
+        <record id="demo_payment_term_line_mep_advance" model="account.payment.term.line">
+            <field name="payment_id" ref="demo_payment_term_mep_hvac_system"/>
+            <field name="value">percent</field>
+            <field name="value_amount">20.0</field>
+            <field name="nb_days">0</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">advance</field>
+            <field name="milestone_description">&lt;p&gt;Advance payment for HVAC project mobilization and equipment procurement&lt;/p&gt;</field>
+            <field name="trigger_condition">manual</field>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="demo_payment_term_line_mep_material" model="account.payment.term.line">
+            <field name="payment_id" ref="demo_payment_term_mep_hvac_system"/>
+            <field name="value">percent</field>
+            <field name="value_amount">35.0</field>
+            <field name="nb_days">30</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">material_delivery</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon delivery of HVAC units, ductwork, and control systems&lt;/p&gt;</field>
+            <field name="trigger_condition">delivery_based</field>
+            <field name="allow_sub_milestones" eval="True"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="demo_payment_term_line_mep_installation" model="account.payment.term.line">
+            <field name="payment_id" ref="demo_payment_term_mep_hvac_system"/>
+            <field name="value">percent</field>
+            <field name="value_amount">30.0</field>
+            <field name="nb_days">75</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">installation</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon completion of HVAC equipment installation and ductwork&lt;/p&gt;</field>
+            <field name="trigger_condition">progress_based</field>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="demo_payment_term_line_mep_testing" model="account.payment.term.line">
+            <field name="payment_id" ref="demo_payment_term_mep_hvac_system"/>
+            <field name="value">percent</field>
+            <field name="value_amount">10.0</field>
+            <field name="nb_days">90</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">testing_commissioning</field>
+            <field name="milestone_description">&lt;p&gt;Payment upon system commissioning, balancing, and performance testing&lt;/p&gt;</field>
+            <field name="trigger_condition">approval_based</field>
+            <field name="approval_required" eval="True"/>
+            <field name="required_documents">Commissioning report, System balancing certificate, Performance test results</field>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="demo_payment_term_line_mep_retention" model="account.payment.term.line">
+            <field name="payment_id" ref="demo_payment_term_mep_hvac_system"/>
+            <field name="value">percent</field>
+            <field name="value_amount">5.0</field>
+            <field name="nb_days">365</field>
+            <field name="is_milestone" eval="True"/>
+            <field name="milestone_type">retention</field>
+            <field name="milestone_description">&lt;p&gt;Retention release after warranty period and defect liability completion&lt;/p&gt;</field>
+            <field name="trigger_condition">date_based</field>
+            <field name="sequence">50</field>
+        </record>
+        
+    </data>
+</odoo>

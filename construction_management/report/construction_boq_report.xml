@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- BOQ Report Action -->
+    <record id="action_construction_boq_report" model="ir.actions.report">
+        <field name="name">BOQ Report</field>
+        <field name="model">project.project</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">construction_management.construction_boq_report_template</field>
+        <field name="report_file">construction_management.construction_boq_report_template</field>
+        <field name="binding_model_id" ref="project.model_project_project"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- BOQ Report Template -->
+    <template id="construction_boq_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="project">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        
+                        <!-- Header -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h2>Bill of Quantities (BOQ) Report</h2>
+                                <h3 t-field="project.name"/>
+                            </div>
+                        </div>
+                        
+                        <!-- Project Information -->
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Project Manager:</strong> <span t-field="project.user_id.name"/><br/>
+                                <strong>Customer:</strong> <span t-field="project.partner_id.name"/><br/>
+                                <strong>Contract Value:</strong> <span t-field="project.contract_value" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Start Date:</strong> <span t-field="project.contract_start_date"/><br/>
+                                <strong>End Date:</strong> <span t-field="project.contract_end_date"/><br/>
+                                <strong>Report Date:</strong> <span t-esc="datetime.datetime.now().strftime('%Y-%m-%d')"/>
+                            </div>
+                        </div>
+                        
+                        <!-- BOQ Items Table -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4>BOQ Items</h4>
+                                <table class="table table-sm table-bordered">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Item Code</th>
+                                            <th>Description</th>
+                                            <th>Cost Code</th>
+                                            <th>Unit</th>
+                                            <th>Est. Qty</th>
+                                            <th>Rev. Qty</th>
+                                            <th>Unit Cost</th>
+                                            <th>Total Cost</th>
+                                            <th>Progress %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="project.task_ids.filtered(lambda t: t.is_boq_item)" t-as="boq_item">
+                                            <tr>
+                                                <td><span t-field="boq_item.boq_code"/></td>
+                                                <td><span t-field="boq_item.name"/></td>
+                                                <td><span t-field="boq_item.cost_code_id.display_name"/></td>
+                                                <td><span t-field="boq_item.uom_id.name"/></td>
+                                                <td class="text-right"><span t-field="boq_item.estimated_quantity"/></td>
+                                                <td class="text-right"><span t-field="boq_item.revised_quantity"/></td>
+                                                <td class="text-right"><span t-field="boq_item.unit_cost" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/></td>
+                                                <td class="text-right"><span t-field="boq_item.total_cost" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/></td>
+                                                <td class="text-right"><span t-field="boq_item.physical_progress"/>%</td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="font-weight-bold">
+                                            <td colspan="7" class="text-right">Total BOQ Value:</td>
+                                            <td class="text-right">
+                                                <span t-esc="sum(project.task_ids.filtered(lambda t: t.is_boq_item).mapped('total_cost'))" 
+                                                    t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Summary -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4>Summary</h4>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Total BOQ Items:</strong> <span t-esc="len(project.task_ids.filtered(lambda t: t.is_boq_item))"/><br/>
+                                        <strong>Completed Items:</strong> <span t-esc="len(project.task_ids.filtered(lambda t: t.is_boq_item and t.physical_progress == 100))"/><br/>
+                                        <strong>In Progress Items:</strong> <span t-esc="len(project.task_ids.filtered(lambda t: t.is_boq_item and 0 &lt; t.physical_progress &lt; 100))"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <strong>Overall Progress:</strong> <span t-esc="round(sum(project.task_ids.filtered(lambda t: t.is_boq_item).mapped('physical_progress')) / len(project.task_ids.filtered(lambda t: t.is_boq_item)) if project.task_ids.filtered(lambda t: t.is_boq_item) else 0, 2)"/>%<br/>
+                                        <strong>Total Value:</strong> <span t-esc="sum(project.task_ids.filtered(lambda t: t.is_boq_item).mapped('total_cost'))" t-options="{'widget': 'monetary', 'display_currency': project.currency_id}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

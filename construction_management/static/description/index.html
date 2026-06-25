@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Construction Management</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; }
+        .feature { background: #f8f9fa; padding: 15px; margin: 10px 0; border-left: 4px solid #3498db; }
+        .highlight { background: #e8f4fd; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        ul { padding-left: 20px; }
+        li { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Construction Management System</h1>
+    
+    <div class="highlight">
+        <p><strong>A comprehensive construction project management system built on Odoo 19 Enterprise</strong></p>
+        <p>Transform your construction business with integrated project management, cost control, and financial tracking.</p>
+    </div>
+
+    <h2>Key Features</h2>
+    
+    <div class="feature">
+        <h3>📋 Project Hierarchy Management</h3>
+        <ul>
+            <li>Organize projects into phases and work packages</li>
+            <li>Bill of Quantities (BOQ) management and tracking</li>
+            <li>Progress monitoring and milestone tracking</li>
+        </ul>
+    </div>
+
+    <div class="feature">
+        <h3>💰 Cost Management</h3>
+        <ul>
+            <li>Integrated cost code system with product catalog</li>
+            <li>Real-time cost tracking and variance analysis</li>
+            <li>Budget management and forecasting</li>
+        </ul>
+    </div>
+
+    <div class="feature">
+        <h3>🛒 Procurement Integration</h3>
+        <ul>
+            <li>Seamless integration with purchase orders</li>
+            <li>Material tracking and inventory management</li>
+            <li>Automated cost allocation to projects</li>
+        </ul>
+    </div>
+
+    <div class="feature">
+        <h3>📊 Financial Integration</h3>
+        <ul>
+            <li>Revenue recognition and project accounting</li>
+            <li>Real-time financial reporting</li>
+            <li>Integration with Odoo's accounting modules</li>
+        </ul>
+    </div>
+
+    <div class="feature">
+        <h3>📱 Mobile Ready</h3>
+        <ul>
+            <li>Responsive design for field operations</li>
+            <li>Offline capabilities for remote sites</li>
+            <li>Touch-optimized interface</li>
+        </ul>
+    </div>
+
+    <h2>Technical Requirements</h2>
+    <ul>
+        <li>Odoo 19.0 Enterprise Edition</li>
+        <li>Project Management modules</li>
+        <li>Accounting and Analytics modules</li>
+        <li>Purchase and Inventory modules</li>
+    </ul>
+
+    <h2>Installation</h2>
+    <ol>
+        <li>Install the module through the Apps menu</li>
+        <li>Configure user groups and permissions</li>
+        <li>Set up cost codes and project templates</li>
+        <li>Begin creating construction projects</li>
+    </ol>
+
+    <h2>Configuration Flow</h2>
+    <ul>
+        <h3><u>Group Access</u></h3>
+        <li>
+            First give access to the User from the user groups for project stage.
+            <br><br>
+            <img src="stage_access.png" alt="Project Stage Access" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>User Rights</u></h3>
+        <li>
+            Allow User to construction related rights and also give access to user or an manager for progressive payment terms rights.
+            <br><br>
+            <img src="user_allow.png" alt="User Allow" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Cost Codes</u></h3>
+        <li>
+            Cost Codes define category of your cost for your construction project.
+            <br><br>
+            <img src="cost_code_option.png" alt="cost codes" style="width:100%; max-width:800px; border-bottom: 2px solid #000;"><br><br>
+            <img src="cost_codes_templates.png" alt="cost codes" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Link Cost Codes with Product</u></h3>
+        <li>
+            Cost codes have different category for project for all you have to link the product for the required <br>
+            category so direct get for that category whenever apply. Also Set price for the product in cost codes.
+        </li>
+
+        <li>
+            For cost code product create a product base on cost codes define with product type is Service or an <br>Goods which will use as purchase side, so direct link with cost codes.
+        </li>
+
+        <li>
+            In below cost code is equipment so Goods product type is select which use as purchase the product, <br>This way you all configure cost codes base on your requirements link products with cost codes.
+            <br><br>
+            <img src="cost_codes_form.png" alt="cost codes form" style="width:100%; max-width:800px; border-bottom: 2px solid #000;"><br><br>
+            <img src="product_creation.png" alt="product create" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            In Below cost code is labour so Service type product link this way base on cost codes product link with cost.
+            <br><br>
+            <img src="service_product.png" alt="cost codes" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Lead Creation</u></h3>
+        <li>
+            Create a lead from crm for construction project and mark stage on Proposition.
+            <br><br>
+            <img src="crm_lead.png" alt="crm lead" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Quotation</u></h3>
+        <li>
+            Create Quotation from the lead.
+            <br><br>
+            <img src="quotation_create.png" alt="quotation" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Product add in order line is always service type and also select category for the product required so project will link with sale order.
+            <br><br>
+            <img src="product_link.png" alt="product" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Project Creation</u></h3>
+        <li>
+            After Confirm the quotation to make sale order when it confirm the project is created and link with the sale order.
+            <br><br>
+            <img src="project_link.png" alt="project" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Verify Before select the construction template that from construction templates it is approved or not ,<br> if no then first approve them.  <br><br>for see this tab move<b>  Configuration > Templates > Project Templates</b>
+            <br><br>
+            <img src="construction_temp.png" alt="construction template" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Show BOQ Templates Which is default added in the the construction templates.
+            <br><br>
+            <img src="boq_templates.png" alt="construction template" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Construction Project Creation</u></h3>
+        <li>
+            Construction Project link the construction template to link the BOQ items with project.
+            <br><br>
+            <img src="boq_items_link.png" alt="Link boq items" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            After Select template and Save that boq items created and link.
+            <br><br>
+            <img src="boq_items.png" alt="boq items" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Boq Item Created</u></h3>
+        <li>
+            Boq Item (task) created base on construction template selected.
+            <br><br>
+            <img src="boq_items_show.png" alt="show items" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Define BOQ Details and then Approve that for further processing, if any subtask present then first approve them <br> then main task approve, for all task boq details fill for quantity.
+            <br><br>
+            <img src="boq_details.png" alt="boq details" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            First Check Subtask present then approve that first then approve the main task,<br>This way approve all subtask and main task.
+            <br><br>
+            <img src="subtask.png" alt="sub-task" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            All Sub-task and Main task approved so show in the approved stage.
+            <br><br>
+            <img src="approved_task.png" alt="approved-task" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Update all Approved Task stage from in progress to approved which is odoo standard stages.
+            <br><br>
+            <img src="approve_stage.png" alt="stage-approved" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <h3><u>Purchase Order Generate</u></h3>
+        <li>
+            From Approved task create purchase order for that selected task.
+            <br><br>
+            <img src="generate_purchase_order.png" alt="generate po" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            Select task for include in the purchase order.
+            <br><br>
+            <img src="purchase_order_item.png" alt="purchase order item" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+
+        <li>
+            In the products tab show all products which is link with the project also link with purchase.<br>Then Confirm order for purchase products from vendors. 
+            <br><br>
+            <img src="purchase_order_confirm.png" alt="confirm purchase order" style="width:100%; max-width:800px; border-bottom: 2px solid #000;">
+        </li><br>
+    </ul>
+
+    <div class="highlight">
+        <p><strong>Ready to transform your construction management?</strong></p>
+        <p>Get started today with the most comprehensive construction management solution for Odoo.</p>
+    </div>
+
+    <center>
+        <section class="oe_container oe_dark" style="padding: 30px;">
+            <div class="oe_container oe_dark" style="padding: 30px;">
+                <div class="oe_spaced">
+                    <a href="http://www.vperfectcs.com" target="_blank">
+                        <h2 class="oe_slogan" style="color:#875A7B;">
+                            <img src="VPerfectCS.jpeg" width="35%" height="50%">
+                        </h2>
+                    </a>
+                    <h3 class="oe_slogan">Veracious solutions to grow your business.</h3>
+                </div>
+                <div class="text-center">
+                    You can checkout our shop for demo and all apps on the below link <br/>
+                    <h3><a href="https://vpcscloud.com/shop" target="_blank">vpcscloud.com</a></h3>
+                </div>
+                <div class="text-center">
+                    <a href="https://vperfectcs.com/aboutus" target="_blank">
+                        <h2>About us</h2>
+                    </a>
+                    <div>
+                        <a href="http://www.vperfectcs.com/" target="_blank">
+                            Website
+                        </a> |
+                        <a href="http://www.vperfectcs.com/blog/our-blog-1" target="_blank">
+                            Blog
+                        </a> |
+                        <a href="http://www.vperfectcs.com/contactus" target="_blank">
+                            Contact us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </center>
+</body>
+</html>

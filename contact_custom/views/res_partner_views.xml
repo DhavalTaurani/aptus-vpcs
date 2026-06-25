@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partners_form_contact_custom" model="ir.ui.view">
+        <field name="name">view.res.partner.form.contact.custom</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Addon Details" name="addon_details_fields">
+                    <group>
+                        <group>
+                            <field name="account_owner"/>
+                            <field name="account_type"/>
+                            <field name="ownership"/>
+                        </group>
+                        <group>
+                            <field name="kare"/>
+                            <field name="locked"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_construction_cost_allocation_form" model="ir.ui.view">
+            <field name="name">construction.cost.allocation.form</field>
+            <field name="model">construction.cost.allocation</field>
+            <field name="arch" type="xml">
+                <form string="Allocate Costs to BOQ">
+                    <group>
+                        <field name="move_id" readonly="1" force_save="1"/>
+                        <field name="project_id" options="{'no_create': True}"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Allocation Lines">
+                            <field name="allocation_line_ids">
+                                <list editable="bottom">
+                                    <field name="task_id" domain="[ ('is_boq_item', '=', True), ('project_id', '=', parent.project_id)]" options="{'no_create': True}"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="total_to_allocate"/>
+                        <field name="total_allocated"/>
+                        <field name="remaining_amount" class="oe_subtotal_footer_separator"/>
+                    </group>
+                    <footer>
+                        <button name="allocate_costs" string="Allocate" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_construction_cost_allocation" model="ir.actions.act_window">
+            <field name="name">Allocate Costs to BOQ</field>
+            <field name="res_model">construction.cost.allocation</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_view_types">form</field>
+        </record>
+    </data>
+</odoo>

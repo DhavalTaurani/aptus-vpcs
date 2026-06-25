@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_employee_form_inherited_custom" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.custom</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='job_id']" position="after">
+                <field name="employee_grade"/>
+            </xpath>
+            <!-- Insert after the existing notebook -->
+            <xpath expr="//page[@name='personal_information']" position="inside">
+                <!-- Section: Employee Basic Info and Address -->
+                <group>
+                    <group>
+                        <separator string="Employee Basic Info" colspan="2"/>
+                        <field name="employee_code"/>
+                        <field name="employee_status"/>
+                        <field name="nationality"/>
+                        <field name="date_of_joining"/>
+                        <separator string="Address Details" colspan="2"/>
+                        <field name="permanent_address"/>
+                        <field name="residence_address"/>
+                        <field name="house_contract_start_date"/>
+                        <field name="house_contract_expiry_date"/>
+                    </group>
+                    <group>
+                        <separator string="Passport Information" colspan="2"/>
+                        <field name="passport_number"/>
+                        <field name="passport_issue_date"/>
+                        <field name="passport_expiry_date"/>
+                        <separator string="Visa Details" colspan="2"/>
+                        <field name="visa_number"/>
+                        <field name="visa_id_card_number"/>
+                        <field name="visa_issue_date"/>
+                        <field name="visa_expiry_date"/>
+                    </group>
+                </group>
+                <!-- Section: Office Assets -->
+                <separator string="Office Assets" colspan="4"/>
+                <group>
+                    <group>
+                        <separator string="Car Info" colspan="2"/>
+                        <field name="car_brand"/>
+                        <field name="car_model"/>
+                        <field name="car_number"/>
+                        <field name="car_registration_number"/>
+                        <field name="car_registration_date"/>
+                        <field name="car_expiry_date"/>
+                        <field name="insurance_date"/>
+                        <field name="insurance_expiry_date"/>
+                    </group>
+                    <group string="Laptop Info">
+                        <field name="laptop_brand"/>
+                        <field name="laptop_model"/>
+                        <field name="laptop_serial_number"/>
+                        <separator string="Mobile Info" colspan="2"/>
+                        <field name="mobile_number"/>
+                    </group>
+                </group>
+                <!-- Section: Family Info -->
+                <separator string="Family Information" colspan="4"/>
+                <group>
+                    <group>
+                        <separator string="Spouse Details" colspan="2"/>
+                        <field name="spouse_ids" widget="one2many">
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="passport_number"/>
+                                        <field name="passport_issue_date"/>
+                                        <field name="passport_expiry_date"/>
+                                        <field name="id_card_number"/>
+                                        <field name="id_issue_date"/>
+                                        <field name="id_expiry_date"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                            <list>
+                                <field name="name"/>
+                                <field name="passport_number"/>
+                                <field name="passport_issue_date"/>
+                                <field name="passport_expiry_date"/>
+                                <field name="id_card_number"/>
+                                <field name="id_issue_date"/>
+                                <field name="id_expiry_date"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group>
+                        <separator string="Children Details" colspan="2"/>
+                        <field name="children_ids" widget="one2many">
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="passport_number"/>
+                                        <field name="passport_issue_date"/>
+                                        <field name="passport_expiry_date"/>
+                                        <field name="id_card_number"/>
+                                        <field name="id_issue_date"/>
+                                        <field name="id_expiry_date"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                            <list>
+                                <field name="name"/>
+                                <field name="passport_number"/>
+                                <field name="passport_issue_date"/>
+                                <field name="passport_expiry_date"/>
+                                <field name="id_card_number"/>
+                                <field name="id_issue_date"/>
+                                <field name="id_expiry_date"/>
+                            </list>
+                        </field>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Construction Menu -->
+    <menuitem id="menu_construction_main" 
+            name="Construction" 
+            sequence="10" 
+            web_icon="construction_management,static/description/icon.png"
+            groups="group_construction_user,group_construction_manager,group_construction_admin"/>
+    
+    <!-- Projects Submenu -->
+    <menuitem id="menu_construction_projects" 
+            name="Projects" 
+            parent="menu_construction_main" 
+            sequence="10"
+            groups="group_construction_user,group_construction_manager,group_construction_admin"/>
+    
+
+    <!-- Document Management Submenu -->
+    <!-- <menuitem id="menu_construction_document_management" 
+            name="Document Management" 
+            parent="menu_construction_main" 
+            sequence="30"
+            groups="group_construction_manager,group_construction_admin"/> -->
+
+
+    <!-- Subcontractors Submenu -->
+    <!-- <menuitem id="menu_construction_subcontractors" 
+            name="Subcontractors" 
+            parent="menu_construction_main" 
+            sequence="20"
+            groups="group_construction_manager,group_construction_admin,group_construction_procurement"/> -->
+
+
+    <!-- Financial Submenu -->
+    <menuitem id="menu_construction_financial" 
+            name="Financial" 
+            parent="menu_construction_main" 
+            sequence="40"
+            groups="group_construction_finance,group_construction_admin"/>
+
+
+    <!-- Configuration Submenu -->
+    <menuitem id="menu_construction_configuration" 
+            name="Configuration" 
+            parent="menu_construction_main" 
+            sequence="90"
+            groups="group_construction_admin,group_construction_procurement"/>
+
+    <!-- Configuration - Master Data -->
+    <menuitem id="menu_construction_config_master_data" 
+            name="Master Data" 
+            parent="menu_construction_configuration" 
+            sequence="10"/>
+
+
+
+    <!-- Products Configuration -->
+    <menuitem id="menu_construction_config_products" 
+            name="Products" 
+            parent="menu_construction_config_master_data" 
+            action="product.product_template_action_all" 
+            sequence="20"/>
+
+    <!-- Product Categories Configuration -->
+    <menuitem id="menu_construction_config_product_categories" 
+            name="Product Categories" 
+            parent="menu_construction_config_master_data" 
+            action="product.product_category_action_form" 
+            sequence="25"/>
+
+    <!-- Units of Measure Configuration -->
+    <menuitem id="menu_construction_config_uom" 
+            name="Units of Measure" 
+            parent="menu_construction_config_master_data" 
+            action="uom.product_uom_form_action" 
+            sequence="30"/>
+
+    <!-- Configuration - Partners -->
+    <menuitem id="menu_construction_config_partners" 
+            name="Partners" 
+            parent="menu_construction_configuration" 
+            sequence="20"
+            groups="group_construction_admin"/>
+
+    <!-- Customers Configuration -->
+    <menuitem id="menu_construction_config_customers" 
+            name="Customers" 
+            parent="menu_construction_config_partners" 
+            action="base.action_partner_customer_form" 
+            sequence="10"/>
+
+    <!-- Vendors Configuration -->
+    <menuitem id="menu_construction_config_vendors" 
+            name="Vendors" 
+            parent="menu_construction_config_partners" 
+            action="base.action_partner_supplier_form" 
+            sequence="20"/>
+
+
+
+    <!-- Configuration - Project Settings -->
+    <menuitem id="menu_construction_config_project_settings" 
+            name="Project Settings" 
+            parent="menu_construction_configuration" 
+            sequence="30"/>
+
+    <!-- Note: Project-related configuration items are available through standard Project module menus -->
+
+    <!-- Configuration - Financial Settings -->
+    <menuitem id="menu_construction_config_financial" 
+            name="Financial Settings" 
+            parent="menu_construction_configuration" 
+            sequence="40"
+            groups="group_construction_finance,group_construction_admin"/>
+
+    <!-- Chart of Accounts -->
+    <menuitem id="menu_construction_config_chart_accounts" 
+            name="Chart of Accounts" 
+            parent="menu_construction_config_financial" 
+            action="account.action_account_form" 
+            sequence="10"/>
+
+    <!-- Journals Configuration -->
+    <menuitem id="menu_construction_config_journals" 
+            name="Journals" 
+            parent="menu_construction_config_financial" 
+            action="account.action_account_journal_form" 
+            sequence="20"/>
+
+    <!-- Taxes Configuration -->
+    <menuitem id="menu_construction_config_taxes" 
+            name="Taxes" 
+            parent="menu_construction_config_financial" 
+            action="account.action_tax_form" 
+            sequence="30"/>
+
+    <!-- Configuration - Document Management -->
+    <!-- <menuitem id="menu_construction_config_document" 
+            name="Document Management" 
+            parent="menu_construction_configuration" 
+            sequence="50"
+            groups="group_construction_manager,group_construction_admin"/> -->
+
+
+
+    <!-- Configuration - Quality and Safety -->
+    <!-- <menuitem id="menu_construction_config_quality" 
+            name="Quality &amp; Safety" 
+            parent="menu_construction_configuration" 
+            sequence="60"
+            groups="group_construction_quality,group_construction_admin"/> -->
+
+
+
+
+
+    <!-- Note: System Settings and Data Management are available through standard Odoo Settings -->
+    
+</odoo>

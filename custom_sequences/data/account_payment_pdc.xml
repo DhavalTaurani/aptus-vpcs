@@ -1,0 +1,76 @@
+<odoo>
+    <data noupdate="1">
+
+    <!-- Sequence for PDC payment - SOFTWARE company-->
+        <record id="seq_payment_pdc_software" model="ir.sequence">
+            <field name="name">PDC Payment - SOFTWARE</field>
+            <field name="code">PAYMENT - PDC SOFTWARE</field>
+            <field name="prefix">PYT/SW/PDC/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="2"/>
+        </record>
+
+        <!-- Sequence for PDC payment - ELV company -->
+        <record id="seq_payment_pdc_elv" model="ir.sequence">
+            <field name="name">PDC Payment - ELV</field>
+            <field name="code">PAYMENT - PDC ELV</field>
+            <field name="prefix">PYT/ELV/PDC/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3"/>
+        </record>
+
+        <!-- Sequence for PDC payment - SOLAR company -->
+        <record id="seq_payment_pdc_solar" model="ir.sequence">
+            <field name="name">PDC Payment - SOLAR</field>
+            <field name="code">PAYMENT - PDC SOLAR</field>
+            <field name="prefix">PYT/SLR/PDC/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4"/>
+        </record>
+
+        <!-- Sequence for PDC payment - SGI company -->
+        <record id="seq_payment_pdc_sgi" model="ir.sequence">
+            <field name="name">PDC Payment - SGI</field>
+            <field name="code">PAYMENT - PDC SGI</field>
+            <field name="prefix">PYT/SGI/PDC/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5"/>
+        </record>
+
+
+
+        <!-- Sequence for PDC receipt - SOFTWARE company-->
+        <record id="seq_payment_pdc_software_receipt" model="ir.sequence">
+            <field name="name">PDC Receipt - SOFTWARE</field>
+            <field name="code">RECEIPT - PDC SOFTWARE</field>
+            <field name="prefix">RCPT/SW/PDC/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="2"/>
+        </record>
+
+        <record id="seq_payment_pdc_elv_receipt" model="ir.sequence">
+            <field name="name">PDC Receipt - ELV</field>
+            <field name="code">RECEIPT - PDC ELV</field>
+            <field name="prefix">RCPT/ELV/PDC/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3"/>
+        </record>
+
+        <record id="seq_payment_pdc_solar_receipt" model="ir.sequence">
+            <field name="name">PDC Receipt - SOLAR</field>
+            <field name="code">RECEIPT - PDC SOLAR</field>
+            <field name="prefix">RCPT/SLR/PDC/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4"/>
+        </record>
+
+        <record id="seq_payment_pdc_sgi_receipt" model="ir.sequence">
+            <field name="name">PDC Receipt - SGI</field>
+            <field name="code">RECEIPT - PDC SGI</field>
+            <field name="prefix">RCPT/SGI/PDC/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5"/>
+        </record>
+
+    </data>
+</odoo>

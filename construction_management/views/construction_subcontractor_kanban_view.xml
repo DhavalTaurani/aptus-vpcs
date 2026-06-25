@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_construction_subcontractor_kanban" model="ir.ui.view">
+            <field name="name">construction.subcontractor.kanban</field>
+            <field name="model">construction.subcontractor</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state">
+                    <field name="state"/>
+                    <field name="project_id"/>
+                    <field name="progress_percentage"/>
+                    <field name="invoiced_amount"/>
+                    <field name="paid_amount"/>
+                    <field name="retention_amount"/>
+                    <templates>
+                        <t t-name="card">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('res.partner', 'image_128', record.partner_id.raw_value)" alt="Partner Image"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <ul>
+                                        <li>Project: <field name="project_id"/></li>
+                                        <li>Contract Value: <field name="contract_value" widget="monetary" options="{'currency_field': 'currency_id'}"/></li>
+                                        <li>Progress: <field name="progress_percentage" widget="progressbar"/></li>
+                                        <li>Invoiced: <field name="invoiced_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/></li>
+                                        <li>Paid: <field name="paid_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/></li>
+                                        <li>Retention: <field name="retention_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    </data>
+</odoo>

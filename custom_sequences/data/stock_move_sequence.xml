@@ -1,0 +1,71 @@
+<odoo>
+    <data noupdate="1">
+
+        <!-- Incoming GRN Sequences -->
+        <record id="seq_stock_grn_software" model="ir.sequence">
+            <field name="name">GRN - SOFTWARE</field>
+            <field name="code">stock.picking.grn.software</field>
+            <field name="prefix">GRN/SW/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="2" />
+        </record>
+
+        <record id="seq_stock_grn_elv" model="ir.sequence">
+            <field name="name">GRN - ELV</field>
+            <field name="code">stock.picking.grn.elv</field>
+            <field name="prefix">GRN/ELV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3" />
+        </record>
+
+        <record id="seq_stock_grn_solar" model="ir.sequence">
+            <field name="name">GRN - SOLAR</field>
+            <field name="code">stock.picking.grn.solar</field>
+            <field name="prefix">GRN/SLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4" />
+        </record>
+
+        <record id="seq_stock_grn_sgi" model="ir.sequence">
+            <field name="name">GRN - SGI</field>
+            <field name="code">stock.picking.grn.sgi</field>
+            <field name="prefix">GRN/SGI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5" />
+        </record>
+
+        <!-- Outgoing Delivery Sequences -->
+        <record id="seq_stock_delivery_software" model="ir.sequence">
+            <field name="name">Delivery - SOFTWARE</field>
+            <field name="code">stock.picking.delivery.software</field>
+            <field name="prefix">DO/SW/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="2" />
+        </record>
+
+        <record id="seq_stock_delivery_elv" model="ir.sequence">
+            <field name="name">Delivery - ELV</field>
+            <field name="code">stock.picking.delivery.elv</field>
+            <field name="prefix">DO/ELV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="3" />
+        </record>
+
+        <record id="seq_stock_delivery_solar" model="ir.sequence">
+            <field name="name">Delivery - SOLAR</field>
+            <field name="code">stock.picking.delivery.solar</field>
+            <field name="prefix">DO/SLR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="4" />
+        </record>
+
+        <record id="seq_stock_delivery_sgi" model="ir.sequence">
+            <field name="name">Delivery - SGI</field>
+            <field name="code">stock.picking.delivery.sgi</field>
+            <field name="prefix">DO/SGI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="5" />
+        </record>
+
+    </data>
+</odoo>
