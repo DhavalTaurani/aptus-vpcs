@@ -6,6 +6,10 @@
             <field name="name">Profit Loss Report Template</field>
         </record>
 
+        <function name="unlink" model="account.report.line">
+            <value model="account.report.line" eval="obj().search([('report_id', '=', ref('account_report_template.account_report_template_pl')), ('code', 'in', ['TR', 'TCOGS', 'GROSS', 'PRR', 'ADJP', 'MAXREM', 'ALRM', 'TAXINC', 'TTXLB'])]).ids"/>
+        </function>
+
         <!-- Income -->
         <record id="pl_income_line" model="account.report.line">
             <field name="name">Income</field>
@@ -27,6 +31,7 @@
             <field name="code">OR</field>
         </record>
 
+        <!-- Product Sales -->
         <record id="pl_product_sales_line" model="account.report.line">
             <field name="name">Product Sales</field>
             <field name="user_groupby">account_id</field>
@@ -41,11 +46,12 @@
         <record id="product_sales_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Product Sales')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'PS')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_product_sales_line"/>
         </record>
 
+        <!-- Service Revenue -->
         <record id="pl_service_revenue_line" model="account.report.line">
             <field name="name">Service Revenue</field>
             <field name="user_groupby">account_id</field>
@@ -60,7 +66,7 @@
         <record id="service_revenue_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Service Revenue')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'SR')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_service_revenue_line"/>
         </record>
@@ -79,7 +85,7 @@
         <record id="contract_revenue_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Contract Revenue')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'CR')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_contract_revenue_line"/>
         </record>
@@ -98,7 +104,7 @@
         <record id="rental_income_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Rental Income')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'RI')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_rental_income_line"/>
         </record>
@@ -117,7 +123,7 @@
         <record id="commission_income_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Commission Income')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'CI')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_comission_income_line"/>
         </record>
@@ -148,12 +154,30 @@
         <record id="interest_income_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Interest Income')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'II')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_interest_income_line"/>
         </record>
 
+        <!-- Total Revenue -->
+        <record id="pl_total_revenue_line" model="account.report.line">
+            <field name="name">Total Revenue</field>
+            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="sequence">8</field>
+            <field name="hierarchy_level">5</field>
+            <field name="code">TR</field>
+        </record>
+
+        <record id="total_revenue_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">PS.balance+SR.balance+CR.balance+RI.balance+CI.balance</field>
+            <field name="report_line_id" ref="pl_total_revenue_line"/>
+        </record>
+
+
         
+        <!-- Foreign Exchange Gain -->
         <record id="pl_foreign_exc_gain_line" model="account.report.line">
             <field name="name">Foreign Exchange Gain</field>
             <field name="user_groupby">account_id</field>
@@ -167,11 +191,12 @@
         <record id="foreign_exc_gain_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Foreign Exchange Gain')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'FEG')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_foreign_exc_gain_line"/>
         </record>
 
+        <!-- Gain on Asset Disposal -->
         <record id="pl_gain_assets_disposal_line" model="account.report.line">
             <field name="name">Gain on Asset Disposal</field>
             <field name="user_groupby">account_id</field>
@@ -185,11 +210,12 @@
         <record id="gain_assets_disposal_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Gain on Asset Disposal')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'GAD')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_gain_assets_disposal_line"/>
         </record>
 
+        <!-- Other Non-operating Income -->
         <record id="pl_other_non_op_income_line" model="account.report.line">
             <field name="name">Other Non-operating Income</field>
             <field name="user_groupby">account_id</field>
@@ -203,11 +229,12 @@
         <record id="other_non_op_income_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Other Non-operating Income')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'ONI')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_other_non_op_income_line"/>
         </record>
 
+        <!-- Dividend Income -->
         <record id="pl_dividend_income_line" model="account.report.line">
             <field name="name">Dividend Income</field>
             <field name="user_groupby">account_id</field>
@@ -221,11 +248,12 @@
         <record id="dividend_income_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Dividend Income')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'DI_PL')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_dividend_income_line"/>
         </record>
 
+        <!-- Miscellaneous Income -->
         <record id="pl_miscellaneous_income_line" model="account.report.line">
             <field name="name">Miscellaneous Income</field>
             <field name="user_groupby">account_id</field>
@@ -239,11 +267,29 @@
         <record id="miscellaneous_income_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Miscellaneous Income')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'MI')]</field>
             <field name="subformula">-sum</field>
             <field name="report_line_id" ref="pl_miscellaneous_income_line"/>
         </record>
 
+
+        <!-- Total COGS -->
+        <record id="pl_total_cogs_line" model="account.report.line">
+            <field name="name">Total COGS</field>
+            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="sequence">14</field>
+            <field name="hierarchy_level">5</field>
+            <field name="code">TCOGS</field>
+        </record>
+
+        <record id="total_cogs_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">PURCHASE.balance + DE.balance + CS.balance + CGST.balance</field>
+            <field name="report_line_id" ref="pl_total_cogs_line"/>
+        </record>
+
+        <!-- Total Income -->
         <record id="pl_total_income_line" model="account.report.line">
             <field name="name">Total Income</field>
             <!-- <field name="user_groupby">account_id</field> -->
@@ -272,6 +318,24 @@
             <field name="code">EXPENSES</field>
         </record>
 
+        <!-- Gross Profit -->
+        <record id="pl_gross_profit_line" model="account.report.line">
+            <field name="name">Gross Profit</field>
+            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="sequence">15</field>
+            <field name="hierarchy_level">0</field>
+            <field name="code">GROSS</field>
+        </record>
+
+        <record id="gross_profit_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">TR.balance - TCOGS.balance</field>
+            <field name="report_line_id" ref="pl_gross_profit_line"/>
+        </record>
+
+
+        <!-- Cost of Goods Sold -->
         <record id="pl_cost_of_goods_sold_line" model="account.report.line">
             <field name="name">Cost of Goods Sold</field>
             <field name="foldable">true</field>
@@ -288,6 +352,7 @@
             <field name="report_line_id" ref="pl_cost_of_goods_sold_line"/>
         </record>
 
+        <!-- Opening Stock -->
         <record id="pl_opening_stock_line" model="account.report.line">
             <field name="name">Opening Stock</field>
             <field name="user_groupby">account_id</field>
@@ -301,11 +366,12 @@
         <record id="opening_stock_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Opening Stock')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'OS')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_opening_stock_line"/>
         </record>
 
+        <!-- Purchase -->
         <record id="pl_purchase_line" model="account.report.line">
             <field name="name">Purchase</field>
             <field name="user_groupby">account_id</field>
@@ -319,11 +385,12 @@
         <record id="purchase_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Purchase')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'PURCHASE')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_purchase_line"/>
         </record>
 
+        <!-- Direct Expenses -->
         <record id="pl_direct_expenses_line" model="account.report.line">
             <field name="name">Direct Expenses</field>
             <field name="user_groupby">account_id</field>
@@ -337,11 +404,12 @@
         <record id="de_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Direct Expenses')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'DE')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_direct_expenses_line"/>
         </record>
 
+        <!-- Closing Stock (–) -->
         <record id="pl_closing_stock_line" model="account.report.line">
             <field name="name">Closing Stock (–)</field>
             <field name="user_groupby">account_id</field>
@@ -355,11 +423,12 @@
         <record id="cs_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Closing Stock')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'CS')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_closing_stock_line"/>
         </record>
         
+        <!-- Operating Expenses -->
         <record id="pl_operating_expenses_line" model="account.report.line">
             <field name="name">Operating Expenses</field>
             <field name="user_groupby">account_id</field>
@@ -370,6 +439,7 @@
             <field name="code">OE</field>
         </record>
 
+        <!-- Salaries and Wages -->
         <record id="pl_sw_line" model="account.report.line">
             <field name="name">Salaries and Wages</field>
             <field name="user_groupby">account_id</field>
@@ -383,11 +453,12 @@
         <record id="sw_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Salaries and Wages')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'SW')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_sw_line"/>
         </record>
 
+        <!-- Staff Benefits -->
         <record id="pl_sb_line" model="account.report.line">
             <field name="name">Staff Benefits</field>
             <field name="user_groupby">account_id</field>
@@ -401,11 +472,12 @@
         <record id="sb_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Staff Benefits')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'SB')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_sb_line"/>
         </record>
 
+        <!-- Accommodation Expense -->
         <record id="pl_ae_line" model="account.report.line">
             <field name="name">Accommodation Expense</field>
             <field name="user_groupby">account_id</field>
@@ -419,11 +491,12 @@
         <record id="ae_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Accommodation Expense')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'AE')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_ae_line"/>
         </record>
 
+        <!-- Transport Expense -->
         <record id="pl_te_line" model="account.report.line">
             <field name="name">Transport Expense</field>
             <field name="user_groupby">account_id</field>
@@ -437,11 +510,12 @@
         <record id="te_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Transport Expense')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'TE')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_te_line"/>
         </record>
 
+        <!-- Rent Expense -->
         <record id="pl_re_line" model="account.report.line">
             <field name="name">Rent Expense</field>
             <field name="user_groupby">account_id</field>
@@ -455,11 +529,12 @@
         <record id="re_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Rent Expense')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'RE')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_re_line"/>
         </record>
 
+        <!-- Repairs and Maintenance -->
         <record id="pl_rm_line" model="account.report.line">
             <field name="name">Repairs and Maintenance</field>
             <field name="user_groupby">account_id</field>
@@ -473,11 +548,12 @@
         <record id="rm_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Repairs and Maintenance')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'RM')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_rm_line"/>
         </record>
 
+        <!-- Vehicle Repairs and Maintenance -->
         <record id="pl_vrm_line" model="account.report.line">
             <field name="name">Vehicle Repairs and Maintenance</field>
             <field name="user_groupby">account_id</field>
@@ -491,11 +567,12 @@
         <record id="vrm_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Vehicle Repairs and Maintenance')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'VRM')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_vrm_line"/>
         </record>
 
+        <!-- Office and Administrative Expenses -->
         <record id="pl_oae_line" model="account.report.line">
             <field name="name">Office and Administrative Expenses</field>
             <field name="user_groupby">account_id</field>
@@ -509,11 +586,32 @@
         <record id="oae_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Office and Administrative Expenses')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'OAE')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_oae_line"/>
         </record>
 
+        <!-- Partners Remuneration -->
+        <record id="pl_partners_remuneration_line" model="account.report.line">
+            <field name="name">Partners Remuneration</field>
+            <field name="user_groupby">account_id</field>
+            <field name="foldable">true</field>
+            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="sequence">28</field>
+            <field name="hierarchy_level">5</field>
+            <field name="code">PRR</field>
+        </record>
+
+        <record id="partners_remuneration_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">domain</field>
+            <field name="formula">[('account_id.tag_ids', 'in', ['Member withdrawal','Salary Rajesh Malaviya'])]</field>
+            <field name="subformula">sum</field>
+            <field name="report_line_id" ref="pl_partners_remuneration_line"/>
+        </record>
+
+
+        <!-- Audit Fees -->
         <record id="pl_af_line" model="account.report.line">
             <field name="name">Audit Fees</field>
             <field name="user_groupby">account_id</field>
@@ -527,11 +625,12 @@
         <record id="af_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Audit Fees A/c')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'AF')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_af_line"/>
         </record>
 
+        <!-- Legal and Professional Fees -->
         <record id="pl_lpf_line" model="account.report.line">
             <field name="name">Legal and Professional Fees</field>
             <field name="user_groupby">account_id</field>
@@ -545,11 +644,12 @@
         <record id="lpf_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Legal and Professional Fees')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'LPF')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_lpf_line"/>
         </record>
 
+        <!-- Insurance -->
         <record id="pl_ins_line" model="account.report.line">
             <field name="name">Insurance</field>
             <field name="user_groupby">account_id</field>
@@ -563,11 +663,12 @@
         <record id="ins_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Insurance')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'INS')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_ins_line"/>
         </record>
 
+        <!-- IT and Software Expenses -->
         <record id="pl_itse_line" model="account.report.line">
             <field name="name">IT and Software Expenses</field>
             <field name="user_groupby">account_id</field>
@@ -581,11 +682,12 @@
         <record id="itse_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'IT and Software Expenses')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'ITSE')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_itse_line"/>
         </record>
 
+        <!-- Marketing and Selling Expenses -->
         <record id="pl_mse_line" model="account.report.line">
             <field name="name">Marketing and Selling Expenses</field>
             <field name="user_groupby">account_id</field>
@@ -599,11 +701,12 @@
         <record id="mse_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Marketing and Selling Expenses')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'MSE')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_mse_line"/>
         </record>
 
+        <!-- Travel and Conveyance -->
         <record id="pl_tc_line" model="account.report.line">
             <field name="name">Travel and Conveyance</field>
             <field name="user_groupby">account_id</field>
@@ -617,11 +720,12 @@
         <record id="tc_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Travel and Conveyance')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'TC')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_tc_line"/>
         </record>
 
+        <!-- Internet & Mobile Expenses -->
         <record id="pl_ime_line" model="account.report.line">
             <field name="name">Internet &amp; Mobile Expenses</field>
             <field name="user_groupby">account_id</field>
@@ -635,11 +739,12 @@
         <record id="ime_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Internet &amp; Mobile Expenses')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'IME')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_ime_line"/>
         </record>
 
+        <!-- Other Expenses -->
         <record id="pl_oe_line" model="account.report.line">
             <field name="name">Other Expenses</field>
             <field name="user_groupby">account_id</field>
@@ -653,11 +758,12 @@
         <record id="oe_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Other Expenses')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'OE')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_oe_line"/>
         </record>
 
+        <!-- Finance Costs -->
         <record id="pl_finance_cost_line" model="account.report.line">
             <field name="name">Finance Costs</field>
             <field name="foldable">true</field>
@@ -667,6 +773,7 @@
             <field name="code">FC</field>
         </record>
 
+        <!-- Interest on Loans -->
         <record id="pl_il_line" model="account.report.line">
             <field name="name">Interest on Loans</field>
             <field name="user_groupby">account_id</field>
@@ -680,11 +787,12 @@
         <record id="il_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Interest on Loans')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'IL')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_il_line"/>
         </record>
 
+        <!-- Bank Charges -->
         <record id="pl_bc_line" model="account.report.line">
             <field name="name">Bank Charges</field>
             <field name="user_groupby">account_id</field>
@@ -698,11 +806,12 @@
         <record id="bc_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'Bank Charges')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'BC')]</field>
             <field name="subformula">sum</field>
             <field name="report_line_id" ref="pl_bc_line"/>
         </record>
 
+        <!-- Net Profit / (Loss) Before Depreciation -->
         <record id="pl_npbd_line" model="account.report.line">
             <field name="name">Net Profit / (Loss) Before Depreciation</field>
             <field name="foldable">true</field>
@@ -718,6 +827,87 @@
             <field name="formula">TI.balance - CGS.balance - O_E.balance - FC.balance</field>
             <field name="report_line_id" ref="pl_npbd_line"/>
         </record> -->
+
+        <!-- Adjusted Profit -->
+        <record id="pl_adjusted_profit_line" model="account.report.line">
+            <field name="name">Adjusted Profit</field>
+            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="sequence">55</field>
+            <field name="hierarchy_level">1</field>
+            <field name="code">ADJP</field>
+        </record>
+
+        <record id="adjusted_profit_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">CPL.balance + PRR.balance</field>
+            <field name="report_line_id" ref="pl_adjusted_profit_line"/>
+        </record>
+
+        <!-- Max Remuneration (25% of Adjusted Profit) -->
+        <record id="pl_max_remuneration_line" model="account.report.line">
+            <field name="name">Max Remuneration (25% of Adjusted Profit)</field>
+            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="sequence">56</field>
+            <field name="hierarchy_level">1</field>
+            <field name="code">MAXREM</field>
+        </record>
+
+        <record id="max_remuneration_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">ADJP.balance * 0.25</field>
+            <field name="report_line_id" ref="pl_max_remuneration_line"/>
+        </record>
+
+        <!-- Allowable Remuneration (Lower of Actual or Above) -->
+        <record id="pl_allowable_remuneration_line" model="account.report.line">
+            <field name="name">Allowable Remuneration (Lower of Actual or Above)</field>
+            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="sequence">57</field>
+            <field name="hierarchy_level">1</field>
+            <field name="code">ALRM</field>
+        </record>
+
+        <record id="allowable_remuneration_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">custom</field>
+            <field name="formula">_report_custom_engine_min_remuneration</field>
+            <field name="report_line_id" ref="pl_allowable_remuneration_line"/>
+        </record>
+
+        <!-- Taxable Profit -->
+        <record id="pl_taxable_profit_line" model="account.report.line">
+            <field name="name">Taxable Profit</field>
+            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="sequence">58</field>
+            <field name="hierarchy_level">1</field>
+            <field name="code">TAXINC</field>
+        </record>
+
+        <record id="taxable_profit_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">ADJP.balance - ALRM.balance</field>
+            <field name="report_line_id" ref="pl_taxable_profit_line"/>
+        </record>
+
+        <!-- Total Tax Liability (15% of Taxable Profit) -->
+        <record id="pl_total_tax_liability_line" model="account.report.line">
+            <field name="name">Total Tax Liability (15% of Taxable Profit)</field>
+            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="sequence">58</field>
+            <field name="hierarchy_level">1</field>
+            <field name="code">TTXLB</field>
+        </record>
+
+        <record id="total_tax_liability_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">TAXINC.balance * 0.15</field>
+            <field name="report_line_id" ref="pl_total_tax_liability_line"/>
+        </record>
+
 
         <record id="report_column_pnl" model="account.report.column">
             <field name="name">Balance</field>

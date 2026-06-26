@@ -10,6 +10,12 @@
              "data/pnl_report_data.xml",
              "views/account_report_menu.xml"
               ],
+    "assets": {
+        "web.assets_backend": [
+            "account_report_template/static/src/components/**/*.js",
+            "account_report_template/static/src/components/**/*.xml",
+        ],
+    },
     "license": "LGPL-3",
     "installable": True,
     "auto_install": False,

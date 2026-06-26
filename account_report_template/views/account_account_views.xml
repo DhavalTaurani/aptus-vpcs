@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_account_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="oman_format" placeholder="Select Oman Format Mapping..."/>
+                <field name="oman_format" widget="oman_format_selection" placeholder="Select Oman Format Mapping..."/>
             </xpath>
         </field>
     </record>
