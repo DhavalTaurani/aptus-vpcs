@@ -488,18 +488,25 @@
             <field name="code">TCA</field>
         </record>
 
-        <!-- <record id="total_ca_expression" model="account.report.expression">
+        <record id="total_ca_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
             <field name="formula">INV.balance + WIP.balance + TR.balance + CONT.balance + RR.balance + OR.balance + STI.balance + CIH.balance + BANK.balance + FD.balance + PREP.balance + AI.balance + VAT.balance + STA.balance + OCA.balance</field>
             <field name="report_line_id" ref="bs_total_ca_line"/>
-        </record> -->
+        </record>
 
         <!-- Total Assets -->
         <record id="bs_total_assets_line" model="account.report.line">
             <field name="name">Total Assets</field>
             <field name="report_id" ref="account_report_template_pnl"/>
             <field name="sequence">31</field>
+        </record>
+
+        <record id="total_assets_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">TNCA.balance + TCA.balance</field>
+            <field name="report_line_id" ref="bs_total_assets_line"/>
         </record>
 
         <record id="bs_equity_line" model="account.report.line">
@@ -523,7 +530,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'SHARE_CAP')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_share_capital_line"/>
         </record>
 
@@ -557,7 +564,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'STR')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_statutory_reserve_line"/>
         </record>
 
@@ -574,7 +581,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'GR')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_general_reserve_line"/>
         </record>
 
@@ -608,22 +615,53 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'ACC_PROFIT_LOSS')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_accumulated_profit_line"/>
+        </record>
+
+        <!-- Current Year Unallocated Earnings -->
+        <record id="bs_curr_year_earnings_line" model="account.report.line">
+            <field name="name">Current Year Unallocated Earnings</field>
+            <field name="parent_id" ref="bs_equity_line"/>
+            <field name="sequence">39</field>
+            <field name="code">CURR_YEAR_EARNINGS</field>
+        </record>
+
+        <record id="curr_year_earnings_expression_pnl" model="account.report.expression">
+            <field name="label">pnl</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">NEP.balance</field>
+            <field name="subformula">cross_report(account_reports.profit_and_loss)</field>
+            <field name="report_line_id" ref="bs_curr_year_earnings_line"/>
+        </record>
+
+        <record id="curr_year_earnings_expression_alloc" model="account.report.expression">
+            <field name="label">alloc</field>
+            <field name="engine">domain</field>
+            <field name="formula">[('account_id.account_type', '=', 'equity_unaffected')]</field>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="bs_curr_year_earnings_line"/>
+        </record>
+
+        <record id="curr_year_earnings_expression_balance" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">CURR_YEAR_EARNINGS.pnl + CURR_YEAR_EARNINGS.alloc</field>
+            <field name="report_line_id" ref="bs_curr_year_earnings_line"/>
         </record>
 
         <!-- Total Equity -->
         <record id="bs_total_equity_line" model="account.report.line">
             <field name="name">Total Equity</field>
             <field name="parent_id" ref="bs_equity_line"/>
-            <field name="sequence">39</field>
+            <field name="sequence">40</field>
             <field name="code">TEQ</field>
         </record>
 
         <record id="total_equity_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
-            <field name="formula">SC.balance + MCA.balance + SR.balance + GR.balance + FVR.balance + APL.balance</field>
+            <field name="formula">SC.balance + MCA.balance + SR.balance + GR.balance + FVR.balance + APL.balance + CURR_YEAR_EARNINGS.balance</field>
             <field name="report_line_id" ref="bs_total_equity_line"/>
         </record>
 
@@ -631,7 +669,7 @@
             <field name="name">Non-Current Liabilities</field>
             <field name="foldable">true</field>
             <field name="report_id" ref="account_report_template_pnl"/>
-            <field name="sequence">40</field>
+            <field name="sequence">41</field>
             <field name="code">NCL</field>
         </record>
 
@@ -640,7 +678,7 @@
             <field name="name">Long-term Borrowings</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_non_current_liabilities_line"/>
-            <field name="sequence">41</field>
+            <field name="sequence">42</field>
             <field name="code">LTB</field>
         </record>
 
@@ -657,7 +695,7 @@
             <field name="name">Lease Liabilities</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_non_current_liabilities_line"/>
-            <field name="sequence">42</field>
+            <field name="sequence">43</field>
             <field name="code">LL</field>
         </record>
 
@@ -665,7 +703,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'LL')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_lease_liabilities_line"/>
         </record>
 
@@ -674,7 +712,7 @@
             <field name="name">Employee Terminal Benefit</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_non_current_liabilities_line"/>
-            <field name="sequence">43</field>
+            <field name="sequence">44</field>
             <field name="code">ETB</field>
         </record>
 
@@ -682,7 +720,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'ETB')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_employee_terminal_benefit_line"/>
         </record>
 
@@ -691,7 +729,7 @@
             <field name="name">Deferred Tax Liability</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_non_current_liabilities_line"/>
-            <field name="sequence">44</field>
+            <field name="sequence">45</field>
             <field name="code">DTL</field>
         </record>
 
@@ -708,7 +746,7 @@
             <field name="name">Long-term Provisions</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_non_current_liabilities_line"/>
-            <field name="sequence">45</field>
+            <field name="sequence">46</field>
             <field name="code">LTP</field>
         </record>
 
@@ -725,7 +763,7 @@
             <field name="name">Other Non-Current Liabilities</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_non_current_liabilities_line"/>
-            <field name="sequence">46</field>
+            <field name="sequence">47</field>
             <field name="code">ONCL</field>
         </record>
 
@@ -741,7 +779,7 @@
         <record id="bs_total_ncl_line" model="account.report.line">
             <field name="name">Total Non-Current Liabilities</field>
             <field name="parent_id" ref="bs_non_current_liabilities_line"/>
-            <field name="sequence">47</field>
+            <field name="sequence">48</field>
             <field name="code">TNCL</field>
         </record>
 
@@ -756,7 +794,7 @@
             <field name="name">Current Liabilities</field>
             <field name="foldable">true</field>
             <field name="report_id" ref="account_report_template_pnl"/>
-            <field name="sequence">48</field>
+            <field name="sequence">49</field>
             <field name="code">CL</field>
         </record>
 
@@ -765,7 +803,7 @@
             <field name="name">Trade Payables</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">49</field>
+            <field name="sequence">50</field>
             <field name="code">TP</field>
         </record>
 
@@ -773,7 +811,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'TP')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_trade_payables_line"/>
         </record>
 
@@ -782,7 +820,7 @@
             <field name="name">Contract Liabilities</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">50</field>
+            <field name="sequence">51</field>
             <field name="code">CONTL</field>
         </record>
 
@@ -799,7 +837,7 @@
             <field name="name">Retention Payable</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">51</field>
+            <field name="sequence">52</field>
             <field name="code">RP</field>
         </record>
 
@@ -815,7 +853,7 @@
         <record id="bs_accrued_expenses_line" model="account.report.line">
             <field name="name">Accrued Expenses</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">52</field>
+            <field name="sequence">53</field>
             <field name="code">AE</field>
         </record>
 
@@ -827,7 +865,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'ACCR_EXP')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_accrued_expenses_line"/>
         </record>
 
@@ -836,7 +874,7 @@
             <field name="name">Short-term Borrowings</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">53</field>
+            <field name="sequence">54</field>
             <field name="code">STB</field>
         </record>
 
@@ -844,7 +882,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'STB')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_st_borrowings_line"/>
         </record>
 
@@ -853,7 +891,7 @@
             <field name="name">Current Portion of Long-term Debt</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">54</field>
+            <field name="sequence">55</field>
             <field name="code">CPLTD</field>
         </record>
 
@@ -870,7 +908,7 @@
             <field name="name">VAT Payable</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">55</field>
+            <field name="sequence">56</field>
             <field name="code">VATP</field>
         </record>
 
@@ -878,7 +916,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'VAT_PAY')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_vat_payable_line"/>
         </record>
 
@@ -887,7 +925,7 @@
             <field name="name">Withholding / Other Taxes Payable</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">56</field>
+            <field name="sequence">58</field>
             <field name="code">WTP</field>
         </record>
 
@@ -895,7 +933,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'WHT_PAY')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_withholding_taxes_payable_line"/>
         </record>
 
@@ -904,7 +942,7 @@
             <field name="name">Payroll Payables</field>
             <!-- <field name="user_groupby">account_id</field> -->
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">57</field>
+            <field name="sequence">59</field>
             <field name="code">PP</field>
         </record>
 
@@ -912,7 +950,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'PAYROLL_PAY')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_payroll_payables_line"/>
         </record>
 
@@ -921,7 +959,7 @@
             <field name="name">Dividends Payable</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">58</field>
+            <field name="sequence">60</field>
             <field name="code">DP</field>
         </record>
 
@@ -942,14 +980,14 @@
             <field name="name">Import VAT</field>
             <field name="foldable">true</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">59</field>
+            <field name="sequence">57</field>
             <field name="code">IMPV</field>
         </record>
 
         <record id="import_vat_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.tag_ids', 'in', ['Input VAT From Busy'])]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'IMPV')]</field>
             <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_import_vat_line"/>
         </record>
@@ -959,7 +997,7 @@
             <field name="name">Other Current Liabilities</field>
             <field name="user_groupby">account_id</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">60</field>
+            <field name="sequence">61</field>
             <field name="code">OCL</field>
         </record>
 
@@ -967,7 +1005,7 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'OCL')]</field>
-            <field name="subformula">sum</field>
+            <field name="subformula">-sum</field>
             <field name="report_line_id" ref="bs_other_cl_line"/>
         </record>
 
@@ -975,14 +1013,14 @@
         <record id="bs_total_cl_line" model="account.report.line">
             <field name="name">Total Current Liabilities</field>
             <field name="parent_id" ref="bs_current_liabilities_line"/>
-            <field name="sequence">61</field>
+            <field name="sequence">62</field>
             <field name="code">TCL</field>
         </record>
 
         <record id="total_cl_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
-            <field name="formula">TP.balance + CONTL.balance + RP.balance + STB.balance + CPLTD.balance + VATP.balance + WTP.balance + PP.balance + DP.balance + OCL.balance</field>
+            <field name="formula">TP.balance + CONTL.balance + RP.balance + STB.balance + CPLTD.balance + VATP.balance + WTP.balance + PP.balance + DP.balance + OCL.balance + AE.balance + IMPV.balance</field>
             <field name="report_line_id" ref="bs_total_cl_line"/>
         </record>
 
@@ -990,7 +1028,7 @@
         <record id="bs_total_equity_liabilities_line" model="account.report.line">
             <field name="name">Total Equity and Liabilities</field>
             <field name="report_id" ref="account_report_template_pnl"/>
-            <field name="sequence">62</field>
+            <field name="sequence">63</field>
             <field name="code">TEL</field>
         </record>
 

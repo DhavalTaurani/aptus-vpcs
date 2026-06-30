@@ -1,82 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <data>
-        <!-- Account Report Template -->
+        
         <record id="account_report_template_pl" model="account.report">
             <field name="name">Profit Loss Report Template</field>
         </record>
 
         <function name="unlink" model="account.report.line">
-            <value model="account.report.line" eval="obj().search([('report_id', '=', ref('account_report_template.account_report_template_pl')), ('code', 'in', ['TR', 'TCOGS', 'GROSS', 'PRR', 'ADJP', 'MAXREM', 'ALRM', 'TAXINC', 'TTXLB'])]).ids"/>
+            <value model="account.report.line" eval="obj().search([('report_id', '=', ref('account_report_template.account_report_template_pl')), ('code', 'in', ['TR', 'TCOGS', 'GROSS', 'PRR', 'ADJP', 'MAXREM', 'ALRM', 'TAXINC', 'TTXLB'])]).ids" />
         </function>
 
-        <!-- Income -->
+        
         <record id="pl_income_line" model="account.report.line">
             <field name="name">Income</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">1</field>
             <field name="code">INCOME</field>
         </record>
 
-         <!-- Operating Revenue -->
+         
         <record id="pl_operating_revenue_line" model="account.report.line">
             <field name="name">Operating Revenue</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">2</field>
             <field name="hierarchy_level">3</field>
             <field name="code">OR</field>
         </record>
 
-        <!-- Product Sales -->
+        
         <record id="pl_product_sales_line" model="account.report.line">
             <field name="name">Product Sales</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">3</field>
             <field name="hierarchy_level">5</field>
             <field name="code">PS</field>
         </record>
 
-        <!-- Product Sales Expression -->
+        
         <record id="product_sales_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'PS')]</field>
-            <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_product_sales_line"/>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="pl_product_sales_line" />
         </record>
 
-        <!-- Service Revenue -->
+        
         <record id="pl_service_revenue_line" model="account.report.line">
             <field name="name">Service Revenue</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">4</field>
             <field name="hierarchy_level">5</field>
             <field name="code">SR</field>
         </record>
 
-        <!-- Service Revenue Expression -->
+        
         <record id="service_revenue_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'SR')]</field>
-            <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_service_revenue_line"/>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="pl_service_revenue_line" />
         </record>
 
-        <!-- Contract Revenue -->
+        
         <record id="pl_contract_revenue_line" model="account.report.line">
             <field name="name">Contract Revenue</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">5</field>
             <field name="hierarchy_level">5</field>
             <field name="code">CR</field>
@@ -86,17 +86,17 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'CR')]</field>
-            <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_contract_revenue_line"/>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="pl_contract_revenue_line" />
         </record>
 
-        <!-- Rental Income -->
+        
         <record id="pl_rental_income_line" model="account.report.line">
             <field name="name">Rental Income</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">5</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">6</field>
             <field name="hierarchy_level">5</field>
             <field name="code">RI</field>
         </record>
@@ -105,17 +105,17 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'RI')]</field>
-            <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_rental_income_line"/>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="pl_rental_income_line" />
         </record>
 
-        <!-- Commission Income -->
+        
         <record id="pl_comission_income_line" model="account.report.line">
             <field name="name">Commission Income</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">6</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">7</field>
             <field name="hierarchy_level">5</field>
             <field name="code">CI</field>
         </record>
@@ -124,45 +124,45 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'CI')]</field>
-            <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_comission_income_line"/>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="pl_comission_income_line" />
         </record>
 
-        <!-- Other Income -->
+        
         <record id="pl_other_income_line" model="account.report.line">
             <field name="name">Other Income</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">7</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">16</field>
             <field name="hierarchy_level">3</field>
             <field name="code">OI</field>
         </record>
 
-        <!-- Interest Income -->
+        
         <record id="pl_interest_income_line" model="account.report.line">
             <field name="name">Interest Income</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">8</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">17</field>
             <field name="hierarchy_level">5</field>
             <field name="code">II</field>
         </record>
 
-        <!-- Other Income Expression -->
+        
         <record id="interest_income_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'II')]</field>
-            <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_interest_income_line"/>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="pl_interest_income_line" />
         </record>
 
-        <!-- Total Revenue -->
+        
         <record id="pl_total_revenue_line" model="account.report.line">
             <field name="name">Total Revenue</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">8</field>
             <field name="hierarchy_level">5</field>
             <field name="code">TR</field>
@@ -172,18 +172,18 @@
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
             <field name="formula">PS.balance+SR.balance+CR.balance+RI.balance+CI.balance</field>
-            <field name="report_line_id" ref="pl_total_revenue_line"/>
+            <field name="report_line_id" ref="pl_total_revenue_line" />
         </record>
 
 
         
-        <!-- Foreign Exchange Gain -->
+        
         <record id="pl_foreign_exc_gain_line" model="account.report.line">
             <field name="name">Foreign Exchange Gain</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">9</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">18</field>
             <field name="hierarchy_level">5</field>
             <field name="code">FEG</field>
         </record>
@@ -192,17 +192,17 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'FEG')]</field>
-            <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_foreign_exc_gain_line"/>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="pl_foreign_exc_gain_line" />
         </record>
 
-        <!-- Gain on Asset Disposal -->
+        
         <record id="pl_gain_assets_disposal_line" model="account.report.line">
             <field name="name">Gain on Asset Disposal</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">10</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">19</field>
             <field name="hierarchy_level">5</field>
             <field name="code">GAD</field>
         </record>
@@ -211,17 +211,17 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'GAD')]</field>
-            <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_gain_assets_disposal_line"/>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="pl_gain_assets_disposal_line" />
         </record>
 
-        <!-- Other Non-operating Income -->
+        
         <record id="pl_other_non_op_income_line" model="account.report.line">
             <field name="name">Other Non-operating Income</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">11</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">20</field>
             <field name="hierarchy_level">5</field>
             <field name="code">ONI</field>
         </record>
@@ -230,17 +230,17 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'ONI')]</field>
-            <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_other_non_op_income_line"/>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="pl_other_non_op_income_line" />
         </record>
 
-        <!-- Dividend Income -->
+        
         <record id="pl_dividend_income_line" model="account.report.line">
             <field name="name">Dividend Income</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">12</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">22</field>
             <field name="hierarchy_level">5</field>
             <field name="code">DI</field>
         </record>
@@ -249,17 +249,17 @@
             <field name="label">balance</field>
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'DI_PL')]</field>
-            <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_dividend_income_line"/>
+            <field name="subformula">-sum</field>
+            <field name="report_line_id" ref="pl_dividend_income_line" />
         </record>
 
-        <!-- Miscellaneous Income -->
+        
         <record id="pl_miscellaneous_income_line" model="account.report.line">
             <field name="name">Miscellaneous Income</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">13</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">23</field>
             <field name="hierarchy_level">5</field>
             <field name="code">MI</field>
         </record>
@@ -269,14 +269,33 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'MI')]</field>
             <field name="subformula">-sum</field>
-            <field name="report_line_id" ref="pl_miscellaneous_income_line"/>
+            <field name="report_line_id" ref="pl_miscellaneous_income_line" />
         </record>
 
 
-        <!-- Total COGS -->
+        
+        <record id="pl_cgst_line" model="account.report.line">
+            <field name="name">Cost of Goods Sold in Trading</field>
+            <field name="user_groupby">account_id</field>
+            <field name="foldable">true</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">10</field>
+            <field name="hierarchy_level">5</field>
+            <field name="code">CGST</field>
+        </record>
+
+        <record id="cgst_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">domain</field>
+            <field name="formula">[('account_id.oman_format', '=', 'CGST')]</field>
+            <field name="subformula">sum</field>
+            <field name="report_line_id" ref="pl_cgst_line" />
+        </record>
+
+        
         <record id="pl_total_cogs_line" model="account.report.line">
             <field name="name">Total COGS</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">14</field>
             <field name="hierarchy_level">5</field>
             <field name="code">TCOGS</field>
@@ -286,15 +305,15 @@
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
             <field name="formula">PURCHASE.balance + DE.balance + CS.balance + CGST.balance</field>
-            <field name="report_line_id" ref="pl_total_cogs_line"/>
+            <field name="report_line_id" ref="pl_total_cogs_line" />
         </record>
 
-        <!-- Total Income -->
+        
         <record id="pl_total_income_line" model="account.report.line">
             <field name="name">Total Income</field>
-            <!-- <field name="user_groupby">account_id</field> -->
+            
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">14</field>
             <field name="hierarchy_level">3</field>
             <field name="code">TI</field>
@@ -304,24 +323,24 @@
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
             <field name="formula">PS.balance + SR.balance + CR.balance + RI.balance + CI.balance + II.balance + FEG.balance + GAD.balance + ONI.balance + DI.balance + MI.balance</field>
-            <!-- <field name="subformula">sum</field> -->
-            <field name="report_line_id" ref="pl_total_income_line"/>
+            
+            <field name="report_line_id" ref="pl_total_income_line" />
         </record>
 
-        <!-- Expenses -->
+        
         <record id="pl_expense_line" model="account.report.line">
             <field name="name">Expenses</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">15</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">24</field>
             <field name="code">EXPENSES</field>
         </record>
 
-        <!-- Gross Profit -->
+        
         <record id="pl_gross_profit_line" model="account.report.line">
             <field name="name">Gross Profit</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">15</field>
             <field name="hierarchy_level">0</field>
             <field name="code">GROSS</field>
@@ -331,16 +350,16 @@
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
             <field name="formula">TR.balance - TCOGS.balance</field>
-            <field name="report_line_id" ref="pl_gross_profit_line"/>
+            <field name="report_line_id" ref="pl_gross_profit_line" />
         </record>
 
 
-        <!-- Cost of Goods Sold -->
+        
         <record id="pl_cost_of_goods_sold_line" model="account.report.line">
             <field name="name">Cost of Goods Sold</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">16</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">9</field>
             <field name="hierarchy_level">3</field>
             <field name="code">CGS</field>
         </record>
@@ -349,15 +368,15 @@
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
             <field name="formula">OS.balance + PURCHASE.balance + DE.balance - CS.balance</field>
-            <field name="report_line_id" ref="pl_cost_of_goods_sold_line"/>
+            <field name="report_line_id" ref="pl_cost_of_goods_sold_line" />
         </record>
 
-        <!-- Opening Stock -->
+        
         <record id="pl_opening_stock_line" model="account.report.line">
             <field name="name">Opening Stock</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">16</field>
             <field name="hierarchy_level">5</field>
             <field name="code">OS</field>
@@ -368,16 +387,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'OS')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_opening_stock_line"/>
+            <field name="report_line_id" ref="pl_opening_stock_line" />
         </record>
 
-        <!-- Purchase -->
+        
         <record id="pl_purchase_line" model="account.report.line">
             <field name="name">Purchase</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">17</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">11</field>
             <field name="hierarchy_level">5</field>
             <field name="code">PURCHASE</field>
         </record>
@@ -387,16 +406,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'PURCHASE')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_purchase_line"/>
+            <field name="report_line_id" ref="pl_purchase_line" />
         </record>
 
-        <!-- Direct Expenses -->
+        
         <record id="pl_direct_expenses_line" model="account.report.line">
             <field name="name">Direct Expenses</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">18</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">12</field>
             <field name="hierarchy_level">5</field>
             <field name="code">DE</field>
         </record>
@@ -406,16 +425,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'DE')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_direct_expenses_line"/>
+            <field name="report_line_id" ref="pl_direct_expenses_line" />
         </record>
 
-        <!-- Closing Stock (–) -->
+        
         <record id="pl_closing_stock_line" model="account.report.line">
             <field name="name">Closing Stock (–)</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">19</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">13</field>
             <field name="hierarchy_level">5</field>
             <field name="code">CS</field>
         </record>
@@ -425,27 +444,27 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'CS')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_closing_stock_line"/>
+            <field name="report_line_id" ref="pl_closing_stock_line" />
         </record>
         
-        <!-- Operating Expenses -->
+        
         <record id="pl_operating_expenses_line" model="account.report.line">
             <field name="name">Operating Expenses</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">20</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">25</field>
             <field name="hierarchy_level">3</field>
             <field name="code">OE</field>
         </record>
 
-        <!-- Salaries and Wages -->
+        
         <record id="pl_sw_line" model="account.report.line">
             <field name="name">Salaries and Wages</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">21</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">26</field>
             <field name="hierarchy_level">5</field>
             <field name="code">SW</field>
         </record>
@@ -455,16 +474,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'SW')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_sw_line"/>
+            <field name="report_line_id" ref="pl_sw_line" />
         </record>
 
-        <!-- Staff Benefits -->
+        
         <record id="pl_sb_line" model="account.report.line">
             <field name="name">Staff Benefits</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">22</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">27</field>
             <field name="hierarchy_level">5</field>
             <field name="code">SB</field>
         </record>
@@ -474,16 +493,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'SB')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_sb_line"/>
+            <field name="report_line_id" ref="pl_sb_line" />
         </record>
 
-        <!-- Accommodation Expense -->
+        
         <record id="pl_ae_line" model="account.report.line">
             <field name="name">Accommodation Expense</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">23</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">29</field>
             <field name="hierarchy_level">5</field>
             <field name="code">AE</field>
         </record>
@@ -493,16 +512,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'AE')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_ae_line"/>
+            <field name="report_line_id" ref="pl_ae_line" />
         </record>
 
-        <!-- Transport Expense -->
+        
         <record id="pl_te_line" model="account.report.line">
             <field name="name">Transport Expense</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">24</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">30</field>
             <field name="hierarchy_level">5</field>
             <field name="code">TE</field>
         </record>
@@ -512,16 +531,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'TE')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_te_line"/>
+            <field name="report_line_id" ref="pl_te_line" />
         </record>
 
-        <!-- Rent Expense -->
+        
         <record id="pl_re_line" model="account.report.line">
             <field name="name">Rent Expense</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">25</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">31</field>
             <field name="hierarchy_level">5</field>
             <field name="code">RE</field>
         </record>
@@ -531,16 +550,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'RE')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_re_line"/>
+            <field name="report_line_id" ref="pl_re_line" />
         </record>
 
-        <!-- Repairs and Maintenance -->
+        
         <record id="pl_rm_line" model="account.report.line">
             <field name="name">Repairs and Maintenance</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">26</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">33</field>
             <field name="hierarchy_level">5</field>
             <field name="code">RM</field>
         </record>
@@ -550,16 +569,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'RM')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_rm_line"/>
+            <field name="report_line_id" ref="pl_rm_line" />
         </record>
 
-        <!-- Vehicle Repairs and Maintenance -->
+        
         <record id="pl_vrm_line" model="account.report.line">
             <field name="name">Vehicle Repairs and Maintenance</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">27</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">34</field>
             <field name="hierarchy_level">5</field>
             <field name="code">VRM</field>
         </record>
@@ -569,16 +588,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'VRM')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_vrm_line"/>
+            <field name="report_line_id" ref="pl_vrm_line" />
         </record>
 
-        <!-- Office and Administrative Expenses -->
+        
         <record id="pl_oae_line" model="account.report.line">
             <field name="name">Office and Administrative Expenses</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">28</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">35</field>
             <field name="hierarchy_level">5</field>
             <field name="code">OAE</field>
         </record>
@@ -588,15 +607,15 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'OAE')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_oae_line"/>
+            <field name="report_line_id" ref="pl_oae_line" />
         </record>
 
-        <!-- Partners Remuneration -->
+        
         <record id="pl_partners_remuneration_line" model="account.report.line">
             <field name="name">Partners Remuneration</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">28</field>
             <field name="hierarchy_level">5</field>
             <field name="code">PRR</field>
@@ -605,19 +624,19 @@
         <record id="partners_remuneration_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.tag_ids', 'in', ['Member withdrawal','Salary Rajesh Malaviya'])]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'PRR')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_partners_remuneration_line"/>
+            <field name="report_line_id" ref="pl_partners_remuneration_line" />
         </record>
 
 
-        <!-- Audit Fees -->
+        
         <record id="pl_af_line" model="account.report.line">
             <field name="name">Audit Fees</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">29</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">36</field>
             <field name="hierarchy_level">5</field>
             <field name="code">AF</field>
         </record>
@@ -627,16 +646,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'AF')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_af_line"/>
+            <field name="report_line_id" ref="pl_af_line" />
         </record>
 
-        <!-- Legal and Professional Fees -->
+        
         <record id="pl_lpf_line" model="account.report.line">
             <field name="name">Legal and Professional Fees</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">30</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">37</field>
             <field name="hierarchy_level">5</field>
             <field name="code">LPF</field>
         </record>
@@ -646,16 +665,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'LPF')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_lpf_line"/>
+            <field name="report_line_id" ref="pl_lpf_line" />
         </record>
 
-        <!-- Insurance -->
+        
         <record id="pl_ins_line" model="account.report.line">
             <field name="name">Insurance</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">31</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">38</field>
             <field name="hierarchy_level">5</field>
             <field name="code">INS</field>
         </record>
@@ -665,16 +684,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'INS')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_ins_line"/>
+            <field name="report_line_id" ref="pl_ins_line" />
         </record>
 
-        <!-- IT and Software Expenses -->
+        
         <record id="pl_itse_line" model="account.report.line">
             <field name="name">IT and Software Expenses</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">32</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">39</field>
             <field name="hierarchy_level">5</field>
             <field name="code">ITSE</field>
         </record>
@@ -684,16 +703,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'ITSE')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_itse_line"/>
+            <field name="report_line_id" ref="pl_itse_line" />
         </record>
 
-        <!-- Marketing and Selling Expenses -->
+        
         <record id="pl_mse_line" model="account.report.line">
             <field name="name">Marketing and Selling Expenses</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">33</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">40</field>
             <field name="hierarchy_level">5</field>
             <field name="code">MSE</field>
         </record>
@@ -703,16 +722,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'MSE')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_mse_line"/>
+            <field name="report_line_id" ref="pl_mse_line" />
         </record>
 
-        <!-- Travel and Conveyance -->
+        
         <record id="pl_tc_line" model="account.report.line">
             <field name="name">Travel and Conveyance</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">34</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">41</field>
             <field name="hierarchy_level">5</field>
             <field name="code">TC</field>
         </record>
@@ -722,16 +741,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'TC')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_tc_line"/>
+            <field name="report_line_id" ref="pl_tc_line" />
         </record>
 
-        <!-- Internet & Mobile Expenses -->
+        
         <record id="pl_ime_line" model="account.report.line">
             <field name="name">Internet &amp; Mobile Expenses</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">35</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">42</field>
             <field name="hierarchy_level">5</field>
             <field name="code">IME</field>
         </record>
@@ -741,16 +760,35 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'IME')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_ime_line"/>
+            <field name="report_line_id" ref="pl_ime_line" />
         </record>
 
-        <!-- Other Expenses -->
+        
+        <record id="pl_utl_line" model="account.report.line">
+            <field name="name">Utilities</field>
+            <field name="user_groupby">account_id</field>
+            <field name="foldable">true</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">32</field>
+            <field name="hierarchy_level">5</field>
+            <field name="code">UTL</field>
+        </record>
+
+        <record id="utl_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">domain</field>
+            <field name="formula">[('account_id.oman_format', '=', 'UTL')]</field>
+            <field name="subformula">sum</field>
+            <field name="report_line_id" ref="pl_utl_line" />
+        </record>
+
+        
         <record id="pl_oe_line" model="account.report.line">
             <field name="name">Other Expenses</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">36</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">43</field>
             <field name="hierarchy_level">5</field>
             <field name="code">O_E</field>
         </record>
@@ -758,28 +796,28 @@
         <record id="oe_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">domain</field>
-            <field name="formula">[('account_id.oman_format', '=', 'OE')]</field>
+            <field name="formula">[('account_id.oman_format', '=', 'O_E')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_oe_line"/>
+            <field name="report_line_id" ref="pl_oe_line" />
         </record>
 
-        <!-- Finance Costs -->
+        
         <record id="pl_finance_cost_line" model="account.report.line">
             <field name="name">Finance Costs</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">37</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">44</field>
             <field name="hierarchy_level">3</field>
             <field name="code">FC</field>
         </record>
 
-        <!-- Interest on Loans -->
+        
         <record id="pl_il_line" model="account.report.line">
             <field name="name">Interest on Loans</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">38</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">45</field>
             <field name="hierarchy_level">5</field>
             <field name="code">IL</field>
         </record>
@@ -789,16 +827,16 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'IL')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_il_line"/>
+            <field name="report_line_id" ref="pl_il_line" />
         </record>
 
-        <!-- Bank Charges -->
+        
         <record id="pl_bc_line" model="account.report.line">
             <field name="name">Bank Charges</field>
             <field name="user_groupby">account_id</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">39</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">46</field>
             <field name="hierarchy_level">5</field>
             <field name="code">BC</field>
         </record>
@@ -808,30 +846,135 @@
             <field name="engine">domain</field>
             <field name="formula">[('account_id.oman_format', '=', 'BC')]</field>
             <field name="subformula">sum</field>
-            <field name="report_line_id" ref="pl_bc_line"/>
+            <field name="report_line_id" ref="pl_bc_line" />
         </record>
 
-        <!-- Net Profit / (Loss) Before Depreciation -->
+        
         <record id="pl_npbd_line" model="account.report.line">
             <field name="name">Net Profit / (Loss) Before Depreciation</field>
             <field name="foldable">true</field>
-            <field name="report_id" ref="account_report_template_pl"/>
-            <field name="sequence">40</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">48</field>
             <field name="hierarchy_level">1</field>
             <field name="code">NPLBD</field>
         </record>
 
-        <!-- <record id="npbd_expression" model="account.report.expression">
+        
+        <record id="npbd_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
-            <field name="formula">TI.balance - CGS.balance - O_E.balance - FC.balance</field>
-            <field name="report_line_id" ref="pl_npbd_line"/>
-        </record> -->
+            <field name="formula">GROSS.balance + FEG.balance + MI.balance - TE1.balance</field>
+            <field name="report_line_id" ref="pl_npbd_line" />
+        </record>
 
-        <!-- Adjusted Profit -->
+        
+        <record id="pl_te1_line" model="account.report.line">
+            <field name="name">Total Operating Expenses</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">47</field>
+            <field name="hierarchy_level">3</field>
+            <field name="code">TE1</field>
+        </record>
+
+        <record id="te1_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">SW.balance + SB.balance + AE.balance + TE.balance + RE.balance + UTL.balance + RM.balance + VRM.balance + OAE.balance + AF.balance + LPF.balance + INS.balance + ITSE.balance + MSE.balance + TC.balance + IME.balance + O_E.balance + IL.balance + BC.balance + PRR.balance</field>
+            <field name="report_line_id" ref="pl_te1_line" />
+        </record>
+
+        
+        <record id="pl_da_line" model="account.report.line">
+            <field name="name">Depreciation &amp; Amortisation</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">49</field>
+            <field name="hierarchy_level">3</field>
+            <field name="code">DA</field>
+        </record>
+
+        
+        <record id="pl_dep_line" model="account.report.line">
+            <field name="name">Depreciation</field>
+            <field name="user_groupby">account_id</field>
+            <field name="foldable">true</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">50</field>
+            <field name="hierarchy_level">5</field>
+            <field name="code">DEP</field>
+        </record>
+
+        <record id="dep_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">domain</field>
+            <field name="formula">[('account_id.oman_format', '=', 'DEP')]</field>
+            <field name="subformula">sum</field>
+            <field name="report_line_id" ref="pl_dep_line" />
+        </record>
+
+        
+        <record id="pl_nplad_line" model="account.report.line">
+            <field name="name">Net Profit / (Loss) After Depreciation</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">51</field>
+            <field name="hierarchy_level">1</field>
+            <field name="code">NPLAD</field>
+        </record>
+
+        <record id="nplad_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">NPLBD.balance - DEP.balance</field>
+            <field name="report_line_id" ref="pl_nplad_line" />
+        </record>
+
+        
+        <record id="pl_taxes_line" model="account.report.line">
+            <field name="name">Taxes</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">52</field>
+            <field name="hierarchy_level">3</field>
+            <field name="code">TAXES</field>
+        </record>
+
+        
+        <record id="pl_ite_line" model="account.report.line">
+            <field name="name">Income Tax Expense</field>
+            <field name="user_groupby">account_id</field>
+            <field name="foldable">true</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">53</field>
+            <field name="hierarchy_level">5</field>
+            <field name="code">ITE</field>
+        </record>
+
+        <record id="ite_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">domain</field>
+            <field name="formula">[('account_id.oman_format', '=', 'ITE')]</field>
+            <field name="subformula">sum</field>
+            <field name="report_line_id" ref="pl_ite_line" />
+        </record>
+
+        
+        <record id="pl_cpl_line" model="account.report.line">
+            <field name="name">Comprehensive Profit/(Loss) for the year</field>
+            <field name="report_id" ref="account_report_template_pl" />
+            <field name="sequence">54</field>
+            <field name="hierarchy_level">0</field>
+            <field name="code">CPL</field>
+        </record>
+
+        <record id="cpl_expression" model="account.report.expression">
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">NPLAD.balance - ITE.balance</field>
+            <field name="report_line_id" ref="pl_cpl_line" />
+        </record>
+
+        
         <record id="pl_adjusted_profit_line" model="account.report.line">
             <field name="name">Adjusted Profit</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">55</field>
             <field name="hierarchy_level">1</field>
             <field name="code">ADJP</field>
@@ -841,13 +984,13 @@
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
             <field name="formula">CPL.balance + PRR.balance</field>
-            <field name="report_line_id" ref="pl_adjusted_profit_line"/>
+            <field name="report_line_id" ref="pl_adjusted_profit_line" />
         </record>
 
-        <!-- Max Remuneration (25% of Adjusted Profit) -->
+        
         <record id="pl_max_remuneration_line" model="account.report.line">
             <field name="name">Max Remuneration (25% of Adjusted Profit)</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">56</field>
             <field name="hierarchy_level">1</field>
             <field name="code">MAXREM</field>
@@ -857,29 +1000,29 @@
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
             <field name="formula">ADJP.balance * 0.25</field>
-            <field name="report_line_id" ref="pl_max_remuneration_line"/>
+            <field name="report_line_id" ref="pl_max_remuneration_line" />
         </record>
 
-        <!-- Allowable Remuneration (Lower of Actual or Above) -->
+        
         <record id="pl_allowable_remuneration_line" model="account.report.line">
             <field name="name">Allowable Remuneration (Lower of Actual or Above)</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">57</field>
             <field name="hierarchy_level">1</field>
             <field name="code">ALRM</field>
         </record>
 
-        <record id="allowable_remuneration_expression" model="account.report.expression">
+       <record id="allowable_remuneration_expression" model="account.report.expression">
             <field name="label">balance</field>
             <field name="engine">custom</field>
             <field name="formula">_report_custom_engine_min_remuneration</field>
             <field name="report_line_id" ref="pl_allowable_remuneration_line"/>
         </record>
 
-        <!-- Taxable Profit -->
+        
         <record id="pl_taxable_profit_line" model="account.report.line">
             <field name="name">Taxable Profit</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">58</field>
             <field name="hierarchy_level">1</field>
             <field name="code">TAXINC</field>
@@ -889,13 +1032,13 @@
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
             <field name="formula">ADJP.balance - ALRM.balance</field>
-            <field name="report_line_id" ref="pl_taxable_profit_line"/>
+            <field name="report_line_id" ref="pl_taxable_profit_line" />
         </record>
 
-        <!-- Total Tax Liability (15% of Taxable Profit) -->
+        
         <record id="pl_total_tax_liability_line" model="account.report.line">
             <field name="name">Total Tax Liability (15% of Taxable Profit)</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="sequence">58</field>
             <field name="hierarchy_level">1</field>
             <field name="code">TTXLB</field>
@@ -905,32 +1048,28 @@
             <field name="label">balance</field>
             <field name="engine">aggregation</field>
             <field name="formula">TAXINC.balance * 0.15</field>
-            <field name="report_line_id" ref="pl_total_tax_liability_line"/>
+            <field name="report_line_id" ref="pl_total_tax_liability_line" />
         </record>
 
 
         <record id="report_column_pnl" model="account.report.column">
             <field name="name">Balance</field>
             <field name="expression_label">balance</field>
-            <field name="report_id" ref="account_report_template_pl"/>
+            <field name="report_id" ref="account_report_template_pl" />
             <field name="figure_type">monetary</field>
         </record>
 
-        <!-- Action -->
+        
 
         <record id="action_account_report_pl_custom" model="ir.actions.client">
             <field name="name">Profit &amp; Loss Report Template</field>
             <field name="tag">account_report</field>
             <field name="path">pnl-report</field>
-            <field name="context" eval="{'report_id': ref('account_report_template.account_report_template_pl')}"/>
+            <field name="context" eval="{'report_id': ref('account_report_template.account_report_template_pl')}" />
         </record>
 
-        <!-- Menu -->
-        <menuitem id="menu_account_report_pnl"
-                  name="Profit &amp; Loss Report Template"
-                  parent="account.account_reports_legal_statements_menu"
-                  action="action_account_report_pl_custom"
-                  sequence="10"/>
+        
+        <menuitem id="menu_account_report_pnl" name="Profit &amp; Loss Report Template" parent="account.account_reports_legal_statements_menu" action="action_account_report_pl_custom" sequence="10" />
 
     </data>
 </odoo>

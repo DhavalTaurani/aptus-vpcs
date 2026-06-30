@@ -27,6 +27,7 @@ class AccountAccount(models.Model):
         ('RM', 'Repairs and Maintenance'),
         ('VRM', 'Vehicle Repairs and Maintenance'),
         ('OAE', 'Office and Administrative Expenses'),
+        ('PRR', 'Partners Remuneration'),
         ('AF', 'Audit Fees A/c'),
         ('LPF', 'Legal and Professional Fees'),
         ('INS', 'Insurance'),
@@ -34,7 +35,7 @@ class AccountAccount(models.Model):
         ('MSE', 'Marketing and Selling Expenses'),
         ('TC', 'Travel and Conveyance'),
         ('IME', 'Internet & Mobile Expenses'),
-        ('OE', 'Other Expenses'),
+        ('O_E', 'Other Expenses'),
         ('IL', 'Interest on Loans'),
         ('BC', 'Bank Charges'),
         ('PPE', 'Property, Plant & Equipment'),
@@ -86,4 +87,391 @@ class AccountAccount(models.Model):
         ('PAYROLL_PAY', 'Payroll Payables'),
         ('DIV_PAY', 'Dividends Payable'),
         ('OCL', 'Other Current Liabilities'),
+        ('UTL', 'Utilities'),
+        ('CGST', 'Cost of Goods Sold in Trading'),
+        ('DEP', 'Depreciation'),
+        ('ITE', 'Income Tax'),
+        ('IMPV', 'Import VAT'),
     ], string='Oman Format Mapping', help='Used to map this account to a specific line in Oman format reports.')
+
+    def action_map_oman_format(self):
+        tag_mappings = {
+            'PS': ['Sales from Other Region','Sales Account','Sales of I/C'],
+            'SR': ['Service Income','Management Consultancy Fees'],
+            'CR': ['Contract Revenue'],
+            'RI': ['Rental Income'],
+            'CI': ['Commission Income'],
+            'II': ['Interest Revenue'],
+            'FEG': ['Bank Exchange Difference'],
+            'GAD': ['Gain on Asset Disposal'],
+            'ONI': ['Space Rental Income','Branding Income','Advertising Income'],
+            'DI_PL': ['Dividend Income'],
+            'MI': ['Cash Difference Gain','Capital Gain','Gain On Difference Of Exchange','Excess In Till','Other Income','Cash Discount Gain'],
+            'PURCHASE': ['Purchase'],
+            'DE': ['Freight & Forwarding Charges','Bill of Entry (BoE)'],
+            'CS': ['Closing Stock'],
+            'SW': [
+                'Advance to Irfanul Islam','Advance to Shoyeb Contract Labour','Leave Salary Amged','Advance to Hasan',
+                'Advance to Saiema Mariyam','Advance to Nithin Hired Labour','Advance to Fareed Afeef','Subcontract Labor Wages',
+                'Contract Labor- Salaries','Subcontarctor Smart Vision 328','Subcontract Ibra Expenses','Subcontractor Expenses',
+                'Wages','Staff-Salaries','Staff_Salaries_Software','Staff Salaries Oriental','Staff Salaries Infra',
+                'Staff Salaries Solar','Advance to Hason Contract labor','Advance to Irfanul Islam Contract Labor',
+                'Staff Salaries Software','Contract Labour','Staff - Salaries SGI','Salary Shazoor Siddiqui'
+            ],
+            'SB': [
+                'Omani Traning Fund','Moh Training','Over Time-Labor','Entertaintment Charges',
+                'Office Pantry & Entertainment Expenses','Staff - Medical Claim','Staff - Medical Insurance',
+                'Staff - Welfare','Staff Incentive','Staff Leave Salary','Staff-Gratuity',
+                'Visa & Clearnce Charges Manpower','Food Expense At Site','Staff - Medical Charges'
+            ],
+            'PRR': ['Member withdrawal','Salary Rajesh Malaviya'],
+            'AE': [
+                'Ghala Flat-63 Istanbul Building','Room Rent Duqqum','Room Rent Sohar','Room Rent Wadi bani Khalid',
+                'Room Rent Salalah','Accommodation Expenses at Site','Local Hotel Stay (Room Rent)','Rent Staff Residence',
+                'Hotel Booking (Events)'
+            ],
+            'TE': ['Transport Expense','Transportation Charges'],
+            'RE': [
+                'Rent Azaiba New Warehouse','Rent for Fluke Test','Rent Office Azaiba','Labour Room Rent',
+                'Room Rent Ghala (Staff) Flat-64','Rent Warehouse Smart Grid',
+                'Room Rent Ghala (Staff) Flat-63'
+            ],
+            'RM': [
+                'Office Equipment Maintenance','Office Renovation Expenses','Repairs & Maint.',
+                'Repairs And Maintenance-Under Warranty','Staff Flat Renovation','Ware House Expencess'
+            ],
+            'VRM': [
+                'Vehicle Maintenance Nissan Sunny 5801 Old Car','Vehicle Maintenance Geely 4704-MA -Makbool',
+                'Vehicle Maintenance Geely 2882-ML - Sujoy','Vehicle Maintenance Avalon YA 8137 Shakir',
+                'Vehicle Maintenance BMW MY 2040 Rajesh','Vehicle Maintenance Elantra B 59282 ','Vehicle Maintenance Geely AK 5460 Shehzad',
+                'Vehicle Maintenance Geely Y 417 Amged','Vehicle Maintenance Mercedes RW 4781 Rajul','Vehicle Maintenance Nissan Sunny YR 4210',
+                'Vehicle Maintenance Outlander Y 27952 Sooraj','Vehicle Maintenance Suzuki M 25847','Vehicle Maintenance Suzuki Y 61700',
+                'Vehicle Maintenances Geely MA 4712 Shadman','Vehicle Maintenances Geely YS 3851 Ananthu','Vehicle Mulkia Renewal',
+                'Vehicle Maintenance Rent Car 97450','Hyundai Elentra Maintinace 29282','Vehicle Maintenance Geely 2882-ML - Ajit',
+                'Vehicle Maintenance Geely 4704 MA Muna','Vehicle Maintenance Geely Y 417 Shazoor','Vehicle Maintenance Suzuki Dzire-808',
+                'Vehicle Maintenance Geely MA4704 Muna','Vehicle Maintenance Geely ML2882 Ajit','Vehicle Maintenance Geely MA 4712 Shadman',
+                'Vehicle Maintenance Mercedes 20023DD Rajul', 'Vehicle Maintenances Geely YS 3851 Waseem'
+            ],
+            'OAE': [
+                'Office and Administrative Expenses','Office Maintenance Expenses', 'Office Stationery',
+                'Printing & Stationery', 'Showroom Maintinance'
+            ],
+            'AF': ['Audit Fees A/c'],
+            'LPF': [
+                'Legal and Professional Fees','Renewals Legal Document','Visa & Clearnce Charges',
+                'Renewals Leagle','Legal Expenses'
+            ],
+            'INS': ['Social Insurance Expense(PASI)','Vehicle Insurance','Worker Compensation Insurance expenses'],
+            'ITSE': ['IT and Software Expenses','Website Development & Subscription','Software Renewals For Office Systems'],
+            'MSE': [
+                'Solar Marketing Expense','Infra-Marketing Expenses','Sales Promotion Expenses',
+                'Sponsership Fees','Software-Marketing Expenses','Marketing Expenses'
+            ],
+            'TC': [
+                'Rent A Car','Business Hotel Stay','Business Meals & Entertainmemt','Business Travel Expenses',
+                'Business Travel Ticket','Fuel Charge','Fuel Charge Avalon YA 8137 Shakir','Fuel Charge BMW MY 2040 Rajesh',
+                'Fuel Charge Elantra B 59282 ','Fuel Charge Geely AK 5460 Shehzad','Fuel Charge Geely MA 4712 Shadman',
+                'Fuel Charge Geely Y 417 Amged','Fuel Charge Geely YS 3851 Ananthu','Fuel Charge Mercedes RW 4781 Rajul',
+                'Fuel Charge Nissan Sunny YR 4210','Fuel Charge Outlander Y 27952 Sooraj','Fuel Charge Suzuki M 25847',
+                'Fuel Charge Suzuki Y 61700','International Visit Expenses','Local Transportation Charges',
+                'Fuel Charge Mercedes GLS-460 Rajesh','Rent A Car Expenses Salalah','Conveyance Taxi',
+                'Fuel Charge Geely 4704 MA Makhbool','Fuel Charges Geey Sujoy 2882','Fuel Charge Rent Car 61308AA',
+                'Fuel Charge 61308AA Afeef Fareed','Fuel Charge Elantra B 59282','Fuel Charge Geely 4704 MA Muna',
+                'Fuel Charge Geely Y 417 Shazoor','Fuel Charge Geely YS 3851 Waseem','Fuel Charge Mercedes 20023DD Rajul',
+                'Fuel Charge Suzuki Dzire-808 (61700)','Fuel Charges Geey Ajit 2882','Business Travelling Expense',
+                'Conveyance','Staff - Air Tickets','Fuel Charge Rent A Car','Fuel Charge Outlender Y 27952 Sooraj',
+                'Fuel Charge BMW BY 1992 Pratik', 'Fuel Charge Montero 41076 DD Sooraj'
+            ],
+            'IME': [
+                'Awasr Home A/c 150000128025-Ghobra','Awasr Office A/c 150000099354- Aptus','Mobile Expenses 79219501 - Prachi',
+                'Mobile Expenses 79902710 -Jayshree','Mobile Expenses 79902714 - Kartik','Mobile Expenses 79902726 - Suhail',
+                'Mobile Expenses 95217709 - Khizar Jamal','Mobile Expenses 95218187 - Makhbool','Mobile Expenses 95218260 - Wahid',
+                'Mobile Expenses 95218920 - Shakir','Mobile Expenses 95740672 - Waseem sajjad','Mobile Expenses 95740687 - Ananthu',
+                'Mobile Expenses 95740701 - Jyoti','Mobile Expenses 96674855 - Shehzad','Mobile Expenses 96792642 - Shadman',
+                'Mobile Expenses 96792644 - Mubin','Mobile Expenses 96792645 - Babu','Mobile Expenses 96792649 - Amged',
+                'Mobile Expenses 96792651 - Saji','Mobile Expenses 96792652 - Ajith','Mobile Expenses 96792655 - Sooraj',
+                'Mobile Expenses 99418481 - Rajesh','Mobile Expenses 99474750 - Rajul','Mobile Expenses 96674843 - Fareed Afeef',
+                'Mobile Expenses 96674792 - Sara','Office Omantel Line 24035668','Office Omantel Line 24238998',
+                'Omantel 92351771','Omantel 9884267','Omantel Account No 73525856','Omantel Account No.35501194',
+                'Omantel Account No.83289781','Omantel IVMS SIM_92307457','Omantel IVMS SIM_92408321','Omantel IVMS SIM_92576849',
+                'Omantel IVMS SIM_92590365','Omantel IVMS SIM_92665764','Telephone Charges (Mobile)','Mobile Expenses 96674791 - Noora',
+                'Mobile Expenses 96674852 - Almas','Mobile Expenses 96674854 - Mateeullah','Mobile Expenses -96674845 - Ahsan',
+                'Mobile Expenses 96674895 - Saeima mariam','Mobile Expenses 96674894 - Sujoy','Mobile Expenses 96674853-Shazoor',
+                'Mobile Expenses 96674794 - Basit','Mobile Expenses 96674889 - Shubra Jyoti','Mobile Expenses 95217709 - Pratik',
+                'Mobile Expenses 96674854 - (Matee) Canceled','Mobile Expenses 96792649 - Muna','Staff - Mobile','Mobile Expenses 96674846 - Ibrahim'
+            ],
+            'O_E': [
+                'Pots (tree)','Tender Bond (Bank Muscat)','Safety Kit','Nama Registration',
+                'Mess Bill Salalah Ayub Ali Vender','Diwali Expense','Documentation Fee','Business Expenses',
+                'Bad Debts Written Off','Company Renewal Expenses','Custom Duty','Directors Sitting Fees',
+                'Discount Allowed','Document Clearance Charges','Donation','Drawing & Drafting Expenses',
+                'Exchange Service Charges','Fines And Penalities','Food And Accomodation','Gadgets expenses',
+                'Gifts','Implementation Expenses','Installation Charges','Interest Charge on VAT',
+                'Kick-off Meeting Expenses','Labour Camp Rent','Medical & Visa Exps','Mess for Labour charges',
+                'Membership Fees','Miscellaneous Expenses','Miscellaneous Purchase','Newspaper & Periodicals',
+                'Oracle Corporation ( Dynamic DNS)','Other Charges','Partnership Fees','PRO Charges',
+                'Project Subcontractor exp','Provision for Bad Debts (ECL)','Renewal of Resident Card',
+                'Renewal Of Visa','Renewals others','Rounded Off','Subscription Charges','Sundry Balances W/off',
+                'Tender Board','Tender Purchase','VAT Expense Account','Vehicle Fine','Vehicle Fine Avalon YA 8137 Shakir',
+                'Vehicle Fine BMW MY 2040 Rajesh','Vehicle Fine Elantra B 59282 ','Vehicle Fine Geely AK 5460 Shehzad',
+                'Vehicle Fine Geely Y 417 Amged','Vehicle Fine Mercedes RW 4781 Rajul','Vehicle Fine Nissan Sunny YR 4210',
+                'Vehicle Fine Outlander Y 27952 Sooraj','Vehicle Fine Suzuki M 25847','Vehicle Fine Suzuki Y 61700',
+                'Vehicle Fines Geely MA 4712 Shadman','Vehicle Fines Geely YS 3851 Ananthu','Vehicle Registration',
+                'Visit Visa Expenses','Web Hosting Charges','Cash Difference Loss','Vehicle Fine Geely Y 417 Shazoor',
+                'Vehicle Fine Suzuki Dzire-808 (61700)','VAT Interest Expense Account','Project Expense', 'BOE',
+                'Cleaning & Services', 'Custom Duty', 'Government Charges', 'Documents Fee CR VAT', 'PASI -CRS',
+                'Loading Unloading Labour','Corprate Gifts',
+                'Vehicle Fine Geely ML 2882 Ajit', 'Vehicle Fine Mercedes 20023DD Rajul', 'Vehicle Fine Outlender Y 27952 Sooraj'
+            ],
+            'IL': [
+                'Interest Against Loan Chandresh Madani','Interest Against Loan to Gandhi Navin',
+                'Interest Against Loan to Milan Madani','Interest Against Loan to Rajul Madani',
+                'Interest Against Loan to Shareena Malaviya','Interest on Loan','Bank Charges For Facilities & LBD',
+                'Interest Against Loan to Shreena Madani'
+            ],
+            'BC': ['Bank Charges For Facilities','Bank Charges'],
+            'PPE': [
+                'Right of use Asset (IFRS 16)','Accumulated Depreciation right use asset (IFRS 16)',
+                'Accu. Depreciation On Geely 5460', 'Accu. Depreciation On Geely-4712',
+                'Acc. Deprn.Computer Hardware & Software', 'Acc. Depreciation of Motor Vehicles',
+                'Computer Hardware & Software', 'Acc.Deprn.of Furniture & Fixture', 'Acc.Deprn. of Office Equipment',
+                'Accu. Depreciation on BMW 2040 MY', 'Accu. Depreciation On Geely -3851-YS',
+                'Accu. Depreciation On Geely -3851-YS (copy)', 'Fixed Deposit (FD) Bank Muscat',
+                'Walkie-talkie (Vireless)', 'Fixed Asset- Office Equipments', 'Fixed Asset- Tools',
+                'Fixed Assets-Hyundai Elentra 29282', 'Fixed Asset-BMW 2040', 'Fixed Assets Vehcile',
+                'Fixed Asset Geely 3851', 'Fixed Asset-Geely 4712', 'Fixed Asset Geely 5460',
+                'Fixed Asset Geely 417', 'Fixed Asset Nissan Subby 4210', 'Fixed Asset-Laptops',
+                'Fixed Asset- Oddo Software', 'Fixed Assets -Furniture and Fixture', 'Fixed Asset Mercedes- 4781RW',
+                'Fixed Asset Geely 4704 MA', 'Fixed Asset Geely 2882 ML', 'Fixed Asset-Mitsubishi Outlander',
+                'Fixed Asset-Mercedes RW 4781','Acc. Depreciation of Furniture & Fixture',
+                'Acc. Depreciation of Office Equipment','Acc. Depreciation on BMW 2040 MY',
+                'Acc. Depreciation On Geely -3851-YS','Fixed Asset Mercedes- DD20023',
+                'Acc. Depreciation On Geely 5460','Acc. Depreciation On Geely-4712',
+                'Accumulated Depreciation of Furniture & Office Equipment',
+                'Accumulated Depreciation of Computer Hardware & Software',
+                'Accumulated Depreciation of Motor Vehicles',
+                'Accumulated Depreciation Right of use Asset (IFRS 16)',
+                'Acc. Depreciation Computer Hardware & Software',
+                'Fixed Asset Mercedes- DD200232'
+            ],
+            'CWIP': ['Capital Work in Progress'],
+            'IP': ['Investment Property'],
+            'ROU': ['Right of Use Assets'],
+            'IA': ['Intangible Assets'],
+            'GW': ['Goodwill'],
+            'LTI': ['Long-term Investments'],
+            'DTA': ['Deferred Tax Asset'],
+            'LTA': ['Long-term Advances'],
+            'DI_BS': ['Deferred Interest','Deferred Interest on 3 Geely Cars','Deferred Interest on BMW','Deferred Interest on Geely'],
+            'ONCA': ['Other Non-Current Assets'],
+            'INV': ['Stock Valuation', 'Stock Interim (Received)', 'Stock Interim (Delivered)', 'Opening stock','Stock Incoming'],
+            'WIP': ['Work in Progress'],
+            'TR': ['Accounts Receivable', 'Accounts Receivable (PoS)', 'Advance From Customer (Opening-Busy)'],
+            'CONTR_ASSET': ['Contract Assets'],
+            'RET_REC': [
+                'Reteinsion Ministry Of Health', 'Retension Saif Al Harasi Mobella schoolhool',
+                'Retention Al Hajiry Tuna Variation-11', 'Retention Al Hajiry Tuna Variation-2',
+                'Retension Dawood Contracting Sohar Site', 'Retension Saif Al Harsi Seeb School',
+                'Retension Saif al Harsi Sahma sameem', 'Retension Saif Al Harasi Dibba school',
+                'Retension Sandrose quriyat', 'Retension Smart Vison_328', 'Retension Adhi Oman Rafo Salalah',
+                'Retesnion Adhi Oman Al wusta', 'Retension Al Hajiry Amerat phase-1', 'Retesnion Al hajiry amerat phase-2',
+                'Retesnion Al Hajiry Tuna site', 'Retension Burj Oman Al hisham site', 'Retension SEDE',
+                'Retension Smart Vison_308'
+            ],
+            'OTH_REC': ['Other Receivables'],
+            'STI': ['BM-Performance Bond-2296260074', 'Performance Bond (Bank Sohar)'],
+            'CASH_HAND': ['Cash'],
+            'BANK_ACC': [
+                'Bank Payment (copy)', 'Bank', 'Sohar International', 'Bank Muscat OMR Account-2296260015',
+                'Bank Muscat USD Account', 'Bank Muscat Euro Account', 'Bank Dhofar OMR Account',
+                'Bank Payment-Infra (copy)', 'BM-Guarantees - Performance-2296260074', 'PDC Cheque',
+                'Bank Muscat Azaiba- BM12'
+            ],
+            'FD': ['Fixed Deposits'],
+            'PREP': [
+                'Room Rent Ghala (Staff)', 'Prepaid Expenses','Deferred Interest on 3 Geely Car','101005 Deferred Interest on 2 Geely VCHO2547347',
+                'Prepaid Office Rent', 'Prepaid Legal Fees', 'Prepaid Employees Housing', 'Prepaid Sponsorship Fees',
+                'Prepaid Schooling Fees', 'Prepaid Consultancy Fees', 'Prepaid Maintenance', 'Prepaid Medical Insurance',
+                'Prepaid Other Insurance', 'Prepaid Life Insurance', 'Prepaid Finance charge for Loans',
+                'Prepaid Bank Guarantee', 'Prepaid Advertisement Expenses', 'Prepaid License Fees', 'Other Prepayments'
+            ],
+            'ACCR_INC': ['Accrued Income'],
+            'VAT_REC': ['VAT Receivable'],
+            'STA': [
+                'Arabian Cables loan and advance', 'Awasr Home A/c 150000128025-Rajul',
+                'Awasr Office A/c 150000099354- Rajesh', 'Salary Noman Contract Labour',
+                'Aptus Solar Tech loan and advance A/c', 'Smart Grid (ACE) loan and advance A/c',
+                'Tawasul IT (Meghahertz ) SPC loan advance A/c', 'Prathyush smart way advnacvce',
+                'Smita (Pratik) Arun Sheth-Advance A/c', 'Ahsan Petty Cash', 'Rajesh Petty Cash',
+                'Avnace to Mohsin Contract Labour', 'Jamal Petty Cash', 'Salary Advance Account',
+                'Naresh Loan Account', 'Registration of Trademarks', 'Computer Card Renewal',
+                'Mateeulla Reimburse Account', 'Salary Jahidul Islam Contract Labor', 'Salary - Nithin Contract Labour',
+                'Solar Tech loan and advance A/c','Smart Grid loan and advance A/c','Tawasul IT SPC loan advance A/c',
+                'Advance to Abdul Sukker Contract Labour','Advance to Amged','Advance to Ananthu','Advance to Babu',
+                'Advance to Didar Contract Labour','Advance to Ismail Contract Labour','Advance to Aramex llc',
+                'Advance to Sujoy','Advance to Jashim', 'Salary Advance Account_Amged', 'Advance to Jayshree',
+                'Advance to Kartik', 'Advance to Makbool', 'Advance to Wahid', 'Advance to Ajith',
+                'Advance to Jyothi', 'Advance to Mohammad Shakir', 'Advance to Naresh', 'Advance to Noora',
+                'Advance to Rajul Madani', 'Advance to Saji', 'Advance to Serwar', 'Advance to Shadman',
+                'Advance to Shazoor', 'Advance to Shehzad', 'Advance to Sooraj', 'Advance to Suhail',
+                'Advance to Waseem Sajjad','Advance to Shubra Jyoti','Advance Salary Basith',
+                'Advance Salary Mohammed Morshed Contract Labor','Advance Salary Sujoy','Salary Advance Anantu',
+                'Advance to Shoyeb Contract Labour','Advance Against Leave Salary Waseem','Leave Salary Shadman',
+                'Advance to Dileep Kumar', 'Advance to Westcon LLC', 'Advance to Ali Office Boy',
+                'Advance to Almas', 'Advance to Mubin', 'Salary Advance Subhra Jyoti', 'Advance to Muna',
+                'Advance to Hason Contract labor', 'Advance to Md Shadat', 'Advance Salary Johirul Islam Contract Labor',
+                'Advance to Saiema Mariyam', 'Advance Salary Noman Contract Labour', 'Advance to Nithin Hired Labour',
+                'Advance Salary Surya Contract Labor', 'Advance Salary Prabhakar Contract Labor', 'Advance Salary Suhail',
+                'Mess Bill Salalah Ayub Ali Vender', 'Advance to Fareed Afeef', 'Advance Salary Almas',
+                'Salary Advance Ajith','Salary Advance Subhra Jyoti','Advance Salary Kartik',
+                'Advance from Masaken Al waha', 'Advance to Surya Hired Labor', 'Advance to Mahfujur Rahman',
+                'Advance Mohammad Mizan Uddin Contract Labour','Advance to Amish Vinodrai Malaviya',
+                'Advance to Rajul Madani',
+                'Advance Against Leave Salary Suhail', 'Advance Salary Ananthu New', 'Advance Salary Fareed Afeef',
+                'Advance Salary Mahfujur Rahman Contract Labor', 'Advance Salary Muna Ali Habib', 'Advance Salary Noor',
+                'Advance Salary Noora Salim', 'Advance to Mohsin Contract Labour', 'Advance to Sam Jeevan',
+                'Advance to Shazoor (Expenses)', 'Advance to Subhra Jyothi', 'Salary Advance  Subhra Jyoti',
+                'Leave Salary Babu', 'Leave Salary Makhbool'
+            ],
+            'OCA': [
+                'Security Cheque', 'Liquidity Transfer', 'PDC Receivable', 'Advance to Supplier (Opening-Busy)',
+                'Bank Suspense Account', 'Outstanding Receipts', 'Outstanding Payments', 'Write-off',
+                'Leasehold Improvement', 'Work In Progrees', 'Amortisation on Leasehold Improvement',
+                'Advance Salary Shazoor','Advance to Shazoor (Current Assets)'
+            ],
+            'SHARE_CAP': [
+                'Ali Abbas Sponser', 'Capital Account - Ali Abbas Al Balushi', 'Capital Account - Rajesh Malaviya',
+                'Capital Account - Rajul Natverlal Madani', 'Capital Account - Shreena Rajesh Malaviy',
+                'Ali Abbas Dar Capital Account','Rajul Madani Capital Account','Palak Rajesh Malaviya Capital',
+                'Shreena Rajesh Malaviya Capital'
+            ],
+            'MCA': ['Members Current Account'],
+            'STR': ['Statutory Reserve','Legal Reserve'],
+            'GR': ['General Reserve'],
+            'FVR': ['Fair Value Reserve'],
+            'ACC_PROFIT_LOSS': ['Accumulated Profit', 'Accumulated Loss', 'Retained Earning','Intercompany Profit before migration'],
+            'LTB': ['Long-term Borrowings'],
+            'LL': [
+                'Al Omaniya Financial Services-BMW', 'Al Omaniya Financial Services-Geely',
+                'United Finance Co SAOG- Outlander', 'Al Omaniya Financial Services-Geely New (Sujoy & Makbool)',
+                'Al Omaniya Financial Service_3Geely Cars'
+            ],
+            'ETB': [
+                'Leave Salary Sooraj','Provision for Gratuity', 'Provision for Leave Salary',
+                'Provision for Staff Air Ticket', 'End of Service Provision', 'Reservations',
+                'Airticket Provision', 'Staff Gratuity SGI', 'Staff Leave Salary SGI'
+            ],
+            'DTL': ['Deferred Tax Liability'],
+            'LTP': ['Long-term Provisions'],
+            'ONCL': ['Other Non-Current Liabilities'],
+            'TP': ['Payables', 'Smart Vision Payable'],
+            'CONTR_LIAB': ['Contract Liabilities'],
+            'RET_PAY': ['Retention Payable'],
+            'ACCR_EXP': [
+                'Provision For Payable', 'Awasr Broadband Fibre Optic', 'Interest on Loan Payable_Chandrish Madni',
+                'Interest on Loan Payable_Gandhi Navin', 'Interest on Loan Payable_Milan Madani',
+                'Interest on Loan Payable_Rajul Madani', 'Interest on Loan Payable_Shreena Madani',
+                'Provision for Audit fees', 'Provision for Directors Sitting Fees', 'Provision for Incentive',
+                'Provision for Insurance', 'Provision for Shreena director sitting', 'Rent Payable_Azaiba Office',
+                'Rent Payable_Staff Residence (Villa)', 'Vehicle Fine Payable'
+            ],
+            'STB': [
+                'Loan from Smart Grid ( ACE)','Loan from Rajesh Malaviya ','Advance Received',
+                'Loan from Rajul Madani','Loan from Shreena','Oman Investment & Finance Co.SAOG(OIFC)',
+                'Loan From Gandhi Navin','Milan Madani Loan','Aptus Infotech Loans and Advance'
+            ],
+            'CPLTD': ['Current Portion of Long-term Debt'],
+            'VAT_PAY': ['VAT Payable','Import VAT','Input VAT Credit A/C','VAT Output','VAT Input'],
+            'WHT_PAY': ['Provision for Income Tax'],
+            'PAYROLL_PAY': [
+                'Salary Rejaul Hasan Labor', 'Salary Mohammed Masud Hasan Labor', 'Salary Mohammed Jabed Hossen Hasan Labor',
+                'Salary Shadat Contract Labour', 'Salary-Mahfujur Rahman Contract Labour', 'Salary Surya Contract Labour',
+                'Salary - Subhra Jyoti', 'Salary Fareed Afeef', 'Salary Sara Mohammed Ali',
+                'Advance Salary Mohammed Morshed Hired Labour','Leave Salary Ananthu','Salary Advance Waseem',
+                'Salary Ibrahim Humaid Abdullah', 'Salary Prabhakar Hired Labor', 'Salary Irfanul Islam Hired Labor',
+                'Staff Advance Salary', 'Salary Advance Account_Amged', 'Advance Salary Johirul Islam Hired Labour',
+                'Pakistani labor Salary', 'Advance Salary Surya Hired Labour', 'Advance Salary Prabhakar Hired Labour',
+                'Salary Md Tareq Contract Labour', 'Advance Salary to Mahfujur Rahman Contract Labor',
+                'Salary Johirul Islam Hired Labour', 'Salary Shahin Contract Labor', 'Salary - Shoyeb Contract Labour',
+                'Member Salary - Rajul Madani', 'Member Salary - Rajesh Malaviya', 'Provision for PASI (VAN-9900010000004921)',
+                'Salary - Ajith', 'Salary - Amged El Faith', 'Salary - Amina Lalah Al Balushi', 'Salary - Babu',
+                'Salary - Didar Contract Labour', 'Salary - Fatma Al Balushi', 'Salary - Gee Saji Verghese', 'Salary - Hamza',
+                'Salary - Hason', 'Salary - Jashim', 'Salary - Jayshree', 'Salary - Kanchan Contract Labour', 'Salary - Kartik',
+                'Salary - Khizar Jamal', 'Salary - Laxmi', 'Salary - Makhbool', 'Salary - Mohd Abdul Sukker Contract Labour',
+                'Salary - Mohin Uddin', 'Salary - Mubin Mir', 'Salary - Naresh', 'Salary - Prachi Malviya',
+                'Salary - Sahida Al Balushi', 'Salary - Shadman', 'Salary - Shakir', 'Salary - Sooraj A Raj', 'Salary - Wahid',
+                'Salary - Waseem Sajjad', 'Salary -Noora Saleem', 'Salary -Serwar', 'Salary -Ananthu', 'Salary - Anoop',
+                'Salary - Shahzad', 'Salary- Staphinee', 'Salary-Baiju', 'Salary-Basith', 'Salary - Suhail', 'Salary - Almas',
+                'Salary - Sujoy', 'Salary - Jyothi Vilma', 'Salary - Mateeullah', 'Salary - Saeima Mariam', 'Salary Maha Yousel',
+                'Salary - Mohsin Contract Labour', 'Salary - Abdullah Al masud Contract Labour', 'Salary - Ismail Contract Labour',
+                'Salary - Mohammad Mizan Uddin Contract Labour', 'Salary - Abu Abbas', 'Salar Mohammed Mohin Uddin Contract Labour',
+                'Staff Salary- Payable Software', 'Staff Salary- Payable Infra', 'Staff Salary- Payable Solar',
+                'Staff Salary- Payable Oriental', 'Salary Osman Goni Contract Labor', 'Salary Md Rabbi Hired Labor',
+                'Salary Rakib Bin Alam Contract Labor', 'Nooriya Moosa_Salary', 'Salary Mohammed Morshed Hired labor',
+                'Salary Naeem Contract Labor', 'Salary Saeed Ahmad Contract Labor', 'Salary Nurun Nabi Contract Labor',
+                'Salary Ahsan Ahmad', 'Salary Ramesh Contract Labor', 'Salary Rabia Khalid', 'Provision For Salary Payable',
+                'Salary Rejaul Hasan Contract Labor', 'Salary Mohammed Masud Hasan Contract Labor',
+                'Salary Mohammed Jabed Hossen Hasan Contract Labor',
+                'Salary Shadman', 'Salary Prachi Malviya', 'Salary Mubin Mir', 'Salary - Saeima Mariam', 'Salary Jayshree', 'Salary Khizar Jamal',
+                'Salary Ajith', 'Salary Akmal Sirajuddin', 'Salary Amged El Faith', 'Salary Babu',
+                'Salary Didar Contract Labour', 'Salary Fatma Al Balushi', 'Salary Gee Saji Verghese', 'Salary Hamza',
+                'Salary Hason', 'Salary Jashim', 'Salary Kanchan Contract Labour', 'Salary Kartik',
+                'Salary Laxmi', 'Salary Makhbool', 'Salary Naresh', 'Salary Pratik Seth',
+                'Salary Sahida Al Balushi', 'Salary Shakir', 'Salary Shoyeb Contract Labour', 'Salary Sooraj A Raj',
+                'Salary Subhra Jyoti', 'Salary Wahid', 'Salary Mahfujur Rahman Contract Labour', 'Salary Shadat Contract Labor',
+                'Salary Johirul Islam Contract Labor', 'Salary Prabhakar Contract Labor', 'Salary Manjurul Islam Contract Labor',
+                'Salary Mohin Uddin Contract Labor', 'Salary Murshid Hasan Contract Labor', 'Salary Shajul Islam Contract Labor',
+                'Salary Umair Hassan Contract Labor', 'Pakistani Contract Labor Salary', 'Member Salary  - Rajul Madani',
+                'Salary Payable SGI', 'Provision for PASI'
+            ],
+            'DIV_PAY': ['Dividends Payable'],
+            'OCL': [
+                'Split JV From ELV 601', 'Cheque Issued But Not Presented', 'PDC Payable', 'Unserved Notice Period',
+                'Amex Credit Card OMR 7115', 'Amex Credit Card USD 8067', 'Balance Payable', 'Bank Muscat Visa Credit Card 0424',
+                'Omantel Payable Account No:139863588', 'Local Bills Discounted (LBD) Bank Musscat',
+                'Deferred Revenues - Other', 'Bank Muscat Rajesh Credit Card 2989 (0424)','Bank Muscat 2989 (0424)','Amex Credit Crad USD 8067'
+            ],
+            'UTL': [
+                'Electricity expenses','Electricity Exp Q 114245 Ghala Flat 64','Electricity Exp Q 28289 Ghobra Residence',
+                'Electricity Exp Q 63806 Labour accommd','Electricity Exp Q 63807-SGI','Electricity Exp Q 63811 Labour accommdation',
+                'Electricity Exp Q 65384 Aptus Office','Nama Water-D84143-Ghala- Flat 64',
+                'Water Exp D 15248 Ghobra Residence','Water Exp D 54547 Azaiba Office','Electricity Expense',
+                'Water Exp D 49859 Labour Accommodation','Electricity Exp Q 63807 SGI',
+                'Electricity Exp Q 114344 Ghala Flat 63', 'Nama Water-D84134-Ghala-Flat 63',
+                'Water Exp C 10626 Labour Camp', 'Water Exp D 49859  Labour Accommodation'
+            ],
+            'CGST': ['Cost of Goods Sold in Trading', 'Rebate on Purchase', 'Cost Of Goods Sold I/C Sales'],
+            'DEP': ['Depreciation A/c', 'Depreciation'],
+            'ITE': ['Income Tax'],
+            'IMPV': ['Input VAT From Busy'],
+        }
+        updated_count = 0
+        for account in self:
+            matched_key = False
+            account_tag_names = account.tag_ids.mapped('name')
+            for key, tags in tag_mappings.items():
+                if any(tag in account_tag_names for tag in tags):
+                    matched_key = key
+                    break
+            if account.oman_format != matched_key:
+                account.oman_format = matched_key
+                updated_count += 1
+
+        print(f"\n>>> DEBUG: action_map_oman_format called. Successfully updated {updated_count} accounts. <<<\n")
+        if updated_count > 0:
+            msg = f'Successfully updated {updated_count} accounts.'
+            msg_type = 'success'
+        else:
+            msg_type = 'info'
+            msg = 'Selected accounts are already up to date.'
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Oman Format Mappings',
+                'message': msg,
+                'type': msg_type,
+                'sticky': False,
+                'next': {'type': 'ir.actions.client', 'tag': 'soft_reload'},
+            }
+        }
