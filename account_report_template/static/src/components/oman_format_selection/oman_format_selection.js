@@ -1,3 +1,5 @@
+/** @odoo-module **/
+
 import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { SelectionField, selectionField } from "@web/views/fields/selection/selection_field";
@@ -25,7 +27,8 @@ export class OmanFormatSelection extends SelectionField {
 
         const pnlExpenseKeys = [
             'OS', 'PURCHASE', 'DE', 'CS', 'SW', 'SB', 'AE', 'TE', 'RE', 'RM', 
-            'VRM', 'OAE', 'AF', 'LPF', 'INS', 'ITSE', 'MSE', 'TC', 'IME', 'OE', 'IL', 'BC'
+            'VRM', 'OAE', 'PRR', 'AF', 'LPF', 'INS', 'ITSE', 'MSE', 'TC', 'IME', 
+            'O_E', 'IL', 'BC', 'UTL', 'CGST', 'DEP', 'ITE', 'IMPV'
         ];
 
         this.sections = [

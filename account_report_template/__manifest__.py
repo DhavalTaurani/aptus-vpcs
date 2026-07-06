@@ -5,7 +5,7 @@
     'category': 'Accounting',
     'author': 'VperfectCS',
     'summary': 'Create and manage account report templates',
-    'depends': ['account'],
+    'depends': ['account', 'accountant'],
     'data': [
         'views/account_account_views.xml',
         'data/bs_report_data.xml',
