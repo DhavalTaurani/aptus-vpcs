@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_zkteco" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.zkteco</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="ZKTeco Attendance" string="ZKTeco Attendance" name="zkteco_attendance" groups="zkteco_attendance.group_zkteco_manager">
+                    <block title="ZKTeco BioTime API Configuration" name="zkteco_api_setting_container">
+                        <setting id="zkteco_api_url" string="API Base URL" help="e.g., http://89.147.152.188:8080">
+                            <field name="zkteco_api_url"/>
+                        </setting>
+                        <setting id="zkteco_username" string="API Username">
+                            <field name="zkteco_username"/>
+                        </setting>
+                        <setting id="zkteco_password" string="API Password">
+                            <field name="zkteco_password" password="True"/>
+                        </setting>
+                        <setting id="zkteco_token_display" string="Current Token" help="This is the automatically generated token used for API requests.">
+                            <field name="zkteco_token" readonly="1"/>
+                        </setting>
+                    </block>
+                    <block title="Developer Testing Tools" name="zkteco_api_testing_container">
+                        <setting id="zkteco_test_connection" string="Test Connection &amp; Generate Token" help="Tests the credentials and saves the authentication token for syncing.">
+                            <button name="action_test_connection" type="object" string="Test Connection" class="btn-primary" icon="fa-plug"/>
+                        </setting>
+                        <setting id="zkteco_test_fetch" string="Fetch Sample Data" help="Fetches the last 5 transactions to verify the API returns data correctly.">
+                            <button name="action_test_fetch_transactions" type="object" string="Fetch Sample Data" class="btn-secondary" icon="fa-download"/>
+                        </setting>
+                        <setting id="zkteco_test_fetch_employees" string="Check Employee Count" help="Checks how many employees are registered in ZKTeco.">
+                            <button name="action_test_fetch_employees" type="object" string="Check Employee Count" class="btn-secondary" icon="fa-users"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="zkteco_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'zkteco_attendance'}</field>
+    </record>
+
+    <menuitem id="menu_zkteco_config" name="ZKTeco Attendance" parent="hr_attendance.menu_hr_attendance_settings" sequence="100" action="zkteco_config_settings_action" groups="zkteco_attendance.group_zkteco_manager"/>
+</odoo>

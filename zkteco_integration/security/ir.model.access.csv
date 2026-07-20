@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_zkteco_sync_user,zkteco.sync.user,model_zkteco_sync,zkteco_attendance.group_zkteco_user,1,1,1,1
+access_zkteco_sync_manager,zkteco.sync.manager,model_zkteco_sync,zkteco_attendance.group_zkteco_manager,1,1,1,1
