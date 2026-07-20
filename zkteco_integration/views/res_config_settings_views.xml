@@ -26,12 +26,7 @@
                         <setting id="zkteco_test_connection" string="Test Connection &amp; Generate Token" help="Tests the credentials and saves the authentication token for syncing.">
                             <button name="action_test_connection" type="object" string="Test Connection" class="btn-primary" icon="fa-plug"/>
                         </setting>
-                        <setting id="zkteco_test_fetch" string="Fetch Sample Data" help="Fetches the last 5 transactions to verify the API returns data correctly.">
-                            <button name="action_test_fetch_transactions" type="object" string="Fetch Sample Data" class="btn-secondary" icon="fa-download"/>
-                        </setting>
-                        <setting id="zkteco_test_fetch_employees" string="Check Employee Count" help="Checks how many employees are registered in ZKTeco.">
-                            <button name="action_test_fetch_employees" type="object" string="Check Employee Count" class="btn-secondary" icon="fa-users"/>
-                        </setting>
+
                     </block>
                 </app>
             </xpath>
