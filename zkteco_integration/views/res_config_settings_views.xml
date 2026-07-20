@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
-                <app data-string="ZKTeco Attendance" string="ZKTeco Attendance" name="zkteco_attendance" groups="zkteco_attendance.group_zkteco_manager">
+                <app data-string="ZKTeco Integration" string="ZKTeco Integration" name="zkteco_integration" groups="zkteco_integration.group_zkteco_manager">
                     <block title="ZKTeco BioTime API Configuration" name="zkteco_api_setting_container">
                         <setting id="zkteco_api_url" string="API Base URL" help="e.g., http://89.147.152.188:8080">
                             <field name="zkteco_api_url"/>
@@ -43,8 +43,8 @@
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
         <field name="target">current</field>
-        <field name="context">{'module' : 'zkteco_attendance'}</field>
+        <field name="context">{'module' : 'zkteco_integration'}</field>
     </record>
 
-    <menuitem id="menu_zkteco_config" name="ZKTeco Attendance" parent="hr_attendance.menu_hr_attendance_settings" sequence="100" action="zkteco_config_settings_action" groups="zkteco_attendance.group_zkteco_manager"/>
+    <menuitem id="menu_zkteco_config" name="ZKTeco Integration" parent="hr_attendance.menu_hr_attendance_settings" sequence="100" action="zkteco_config_settings_action" groups="zkteco_integration.group_zkteco_manager"/>
 </odoo>

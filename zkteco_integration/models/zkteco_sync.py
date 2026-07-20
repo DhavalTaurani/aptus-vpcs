@@ -13,7 +13,7 @@ class ZktecoSync(models.AbstractModel):
 
     @api.model
     def _get_api_headers(self):
-        token = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.token')
+        token = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.token')
         if not token:
             return False
         return {
@@ -58,7 +58,7 @@ class ZktecoSync(models.AbstractModel):
 
     @api.model
     def sync_employees(self):
-        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.api_url')
+        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.api_url')
         if not url:
             raise exceptions.UserError("ZKTeco Sync: API URL not configured.")
         if not url.endswith('/'):
@@ -148,7 +148,7 @@ class ZktecoSync(models.AbstractModel):
     def sync_attendance(self):
         _logger.info("Starting ZKTeco Attendance Sync...")
         
-        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.api_url')
+        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.api_url')
         if not url:
             _logger.warning("ZKTeco Sync: API URL not configured.")
             return
@@ -160,7 +160,7 @@ class ZktecoSync(models.AbstractModel):
         if not headers:
             return
 
-        last_sync_str = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.last_sync')
+        last_sync_str = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.last_sync')
         last_sync = fields.Datetime.from_string(last_sync_str) if last_sync_str else None
 
         transactions = self._fetch_transactions(url, headers, last_sync)
@@ -241,5 +241,5 @@ class ZktecoSync(models.AbstractModel):
                         _logger.error(f"Failed to create attendance for {employee.name} on {check_in}: {e}")
 
         # Update last sync time
-        self.env['ir.config_parameter'].sudo().set_param('zkteco_attendance.last_sync', fields.Datetime.now())
+        self.env['ir.config_parameter'].sudo().set_param('zkteco_integration.last_sync', fields.Datetime.now())
         _logger.info("ZKTeco Attendance Sync Completed.")

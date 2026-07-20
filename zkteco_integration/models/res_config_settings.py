@@ -6,17 +6,17 @@ import json
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    zkteco_api_url = fields.Char(string='ZKTeco API URL', config_parameter='zkteco_attendance.api_url', default='http://89.147.152.188:8080')
-    zkteco_username = fields.Char(string='Username', config_parameter='zkteco_attendance.username')
-    zkteco_password = fields.Char(string='Password', config_parameter='zkteco_attendance.password')
-    zkteco_token = fields.Char(string='Current Token', config_parameter='zkteco_attendance.token', help="Automatically generated token")
-    zkteco_last_sync = fields.Datetime(string='Last Sync Time', config_parameter='zkteco_attendance.last_sync')
+    zkteco_api_url = fields.Char(string='ZKTeco API URL', config_parameter='zkteco_integration.api_url', default='http://89.147.152.188:8080')
+    zkteco_username = fields.Char(string='Username', config_parameter='zkteco_integration.username')
+    zkteco_password = fields.Char(string='Password', config_parameter='zkteco_integration.password')
+    zkteco_token = fields.Char(string='Current Token', config_parameter='zkteco_integration.token', help="Automatically generated token")
+    zkteco_last_sync = fields.Datetime(string='Last Sync Time', config_parameter='zkteco_integration.last_sync')
 
     def action_test_connection(self):
         self.ensure_one()
-        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.api_url')
-        username = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.username')
-        password = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.password')
+        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.api_url')
+        username = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.username')
+        password = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.password')
         
         if not url or not username or not password:
             raise exceptions.UserError('Please save the URL, Username, and Password first.')
@@ -41,7 +41,7 @@ class ResConfigSettings(models.TransientModel):
                 
                 token = data.get('token')
                 if token:
-                    self.env['ir.config_parameter'].sudo().set_param('zkteco_attendance.token', token)
+                    self.env['ir.config_parameter'].sudo().set_param('zkteco_integration.token', token)
                     return {
                         'type': 'ir.actions.client',
                         'tag': 'display_notification',
@@ -58,8 +58,8 @@ class ResConfigSettings(models.TransientModel):
 
     def action_test_fetch_transactions(self):
         self.ensure_one()
-        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.api_url')
-        token = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.token')
+        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.api_url')
+        token = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.token')
 
         if not url or not token:
             raise exceptions.UserError('Please configure API settings and test connection to get a token first.')
@@ -92,8 +92,8 @@ class ResConfigSettings(models.TransientModel):
 
     def action_test_fetch_employees(self):
         self.ensure_one()
-        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.api_url')
-        token = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.token')
+        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.api_url')
+        token = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.token')
 
         if not url or not token:
             raise exceptions.UserError('Please configure API settings and test connection to get a token first.')

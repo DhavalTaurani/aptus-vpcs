@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="0">
-        <record id="module_category_zkteco_attendance" model="ir.module.category">
-            <field name="name">ZKTeco Attendance</field>
+        <record id="module_category_zkteco_integration" model="ir.module.category">
+            <field name="name">ZKTeco Integration</field>
             <field name="sequence">15</field>
         </record>
 
         <record model="res.groups.privilege" id="res_groups_privilege_zkteco">
             <field name="name">ZKTeco</field>
             <field name="sequence">10</field>
-            <field name="category_id" ref="module_category_zkteco_attendance"/>
+            <field name="category_id" ref="module_category_zkteco_integration"/>
         </record>
 
         <record id="group_zkteco_user" model="res.groups">
@@ -24,7 +24,7 @@
             <field name="name">ZKTeco Manager</field>
             <field name="sequence">20</field>
             <field name="privilege_id" ref="res_groups_privilege_zkteco"/>
-            <field name="implied_ids" eval="[(4, ref('zkteco_attendance.group_zkteco_user'))]"/>
+            <field name="implied_ids" eval="[(4, ref('zkteco_integration.group_zkteco_user'))]"/>
             <field name="comment">The user will be able to manage ZKTeco API settings and authentication passwords.</field>
         </record>
     </data>

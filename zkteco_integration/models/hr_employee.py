@@ -9,11 +9,11 @@ class HrEmployee(models.Model):
     def action_sync_zkteco_punch_id(self):
         """Server action to map ZKTeco punch_id based on employee name."""
         # Security Check
-        if not self.env.user.has_group('zkteco_attendance.group_zkteco_user'):
+        if not self.env.user.has_group('zkteco_integration.group_zkteco_user'):
             raise exceptions.UserError("You must be a ZKTeco User to run this action.")
             
         zkteco_sync_model = self.env['zkteco.sync']
-        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_attendance.api_url')
+        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.api_url')
         if not url:
             raise exceptions.UserError("ZKTeco Sync: API URL not configured.")
         if not url.endswith('/'):
