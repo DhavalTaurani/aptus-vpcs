@@ -22,7 +22,33 @@ class ZktecoSync(models.AbstractModel):
         }
 
     @api.model
-    def _fetch_transactions(self, url, headers, last_sync=None):
+    def _refresh_token(self):
+        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.api_url')
+        username = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.username')
+        password = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.password')
+
+        if not url or not username or not password:
+            _logger.error("ZKTeco Sync: Cannot refresh token. Missing credentials.")
+            return False
+
+        if not url.endswith('/'):
+            url += '/'
+            
+        auth_url = f"{url}jwt-api-token-auth/"
+        try:
+            response = requests.post(auth_url, json={'username': username, 'password': password}, timeout=10)
+            if response.status_code == 200:
+                token = response.json().get('token')
+                if token:
+                    self.env['ir.config_parameter'].sudo().set_param('zkteco_integration.token', token)
+                    _logger.info("ZKTeco Sync: Token successfully auto-refreshed.")
+                    return token
+        except Exception as e:
+            _logger.error(f"ZKTeco Sync: Auto-refresh failed: {str(e)}")
+        return False
+
+    @api.model
+    def _fetch_transactions(self, url, headers, last_sync=None, retry=True):
         transactions_url = f"{url}iclock/api/transactions/"
         params = {'page_size': 1000}
         
@@ -46,9 +72,14 @@ class ZktecoSync(models.AbstractModel):
                         next_url = next_data.get('next')
                     else:
                         break
-            elif response.status_code == 401:
-                _logger.warning("ZKTeco Sync: Token expired or unauthorized.")
-                # We could potentially try to auto-refresh the token here by calling action_test_connection logic
+            elif response.status_code == 401 and retry:
+                _logger.warning("ZKTeco Sync: Token expired. Attempting to auto-refresh...")
+                new_token = self._refresh_token()
+                if new_token:
+                    headers['Authorization'] = f'JWT {new_token}'
+                    return self._fetch_transactions(url, headers, last_sync, retry=False)
+                else:
+                    _logger.error("ZKTeco Sync: Token auto-refresh failed. Aborting fetch.")
             else:
                 _logger.error(f"ZKTeco Sync Failed: {response.status_code} - {response.text}")
         except Exception as e:
@@ -56,93 +87,6 @@ class ZktecoSync(models.AbstractModel):
             
         return all_transactions
 
-    @api.model
-    def sync_employees(self):
-        url = self.env['ir.config_parameter'].sudo().get_param('zkteco_integration.api_url')
-        if not url:
-            raise exceptions.UserError("ZKTeco Sync: API URL not configured.")
-        if not url.endswith('/'):
-            url += '/'
-        headers = self._get_api_headers()
-        if not headers:
-            raise exceptions.UserError("ZKTeco Sync: No Auth token found.")
-
-        employees_url = f"{url}personnel/api/employees/"
-        params = {'page_size': 1000}
-        all_employees = []
-        
-        try:
-            response = requests.get(employees_url, headers=headers, params=params, timeout=20)
-            if response.status_code == 404:
-                # Fallback to older API endpoint
-                employees_url = f"{url}iclock/api/employees/"
-                response = requests.get(employees_url, headers=headers, params=params, timeout=20)
-                
-            if response.status_code == 200:
-                data = response.json()
-                all_employees = data.get('data', [])
-                next_url = data.get('next')
-                while next_url:
-                    resp = requests.get(next_url, headers=headers, timeout=20)
-                    if resp.status_code == 200:
-                        next_data = resp.json()
-                        all_employees.extend(next_data.get('data', []))
-                        next_url = next_data.get('next')
-                    else:
-                        break
-            else:
-                raise exceptions.UserError(f"ZKTeco Sync Failed: {response.status_code} - {response.text}")
-        except Exception as e:
-            raise exceptions.UserError(f"API Request Error: {str(e)}")
-
-        if not all_employees:
-            return "No employees found to sync."
-
-        employee_model = self.env['hr.employee']
-        created = 0
-        updated = 0
-        
-        for emp in all_employees:
-            punch_id = emp.get('emp_code')
-            if not punch_id:
-                continue
-                
-            first_name = emp.get('first_name', '')
-            last_name = emp.get('last_name', '')
-            email = emp.get('email', '')
-            mobile = emp.get('mobile', '') or emp.get('cell_phone', '')
-            gender_raw = emp.get('gender', '')
-            hire_date = emp.get('hire_date', '')
-
-            emp_name = f"{first_name} {last_name}".strip()
-            if not emp_name:
-                emp_name = f"ZKTeco Employee ({punch_id})"
-                
-            emp_vals = {
-                'name': emp_name,
-                'punch_id': str(punch_id),
-                'work_email': email,
-                'mobile_phone': mobile,
-            }
-            existing_employee = employee_model.search([('punch_id', '=', str(punch_id))], limit=1)
-            
-            # If not found by punch_id, try to match by Email or Name to update existing employees
-            if not existing_employee:
-                if email:
-                    existing_employee = employee_model.search([('work_email', '=', email)], limit=1)
-                if not existing_employee and emp_name and emp_name != f"ZKTeco Employee ({punch_id})":
-                    existing_employee = employee_model.search([('name', '=ilike', emp_name)], limit=1)
-
-            if existing_employee:
-                # Only update the punch_id, leave existing names/emails untouched
-                existing_employee.write({'punch_id': str(punch_id)})
-                updated += 1
-            else:
-                # User specifically requested NOT to create new employees automatically
-                pass
-
-        _logger.info(f"ZKTeco Employee Sync Completed. Created: {created}, Updated: {updated}")
-        return f"Successfully synced employees! Created: {created}, Updated: {updated}"
 
     @api.model
     def sync_attendance(self):

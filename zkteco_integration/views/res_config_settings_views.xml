@@ -18,9 +18,6 @@
                         <setting id="zkteco_password" string="API Password">
                             <field name="zkteco_password" password="True"/>
                         </setting>
-                        <setting id="zkteco_token_display" string="Current Token" help="This is the automatically generated token used for API requests.">
-                            <field name="zkteco_token" readonly="1"/>
-                        </setting>
                     </block>
                     <block title="Developer Testing Tools" name="zkteco_api_testing_container">
                         <setting id="zkteco_test_connection" string="Test Connection &amp; Generate Token" help="Tests the credentials and saves the authentication token for syncing.">

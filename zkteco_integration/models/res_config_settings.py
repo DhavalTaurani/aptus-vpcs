@@ -9,7 +9,6 @@ class ResConfigSettings(models.TransientModel):
     zkteco_api_url = fields.Char(string='ZKTeco API URL', config_parameter='zkteco_integration.api_url', default='http://89.147.152.188:8080')
     zkteco_username = fields.Char(string='Username', config_parameter='zkteco_integration.username')
     zkteco_password = fields.Char(string='Password', config_parameter='zkteco_integration.password')
-    zkteco_token = fields.Char(string='Current Token', config_parameter='zkteco_integration.token', help="Automatically generated token")
     zkteco_last_sync = fields.Datetime(string='Last Sync Time', config_parameter='zkteco_integration.last_sync')
 
     def action_test_connection(self):
@@ -56,20 +55,3 @@ class ResConfigSettings(models.TransientModel):
         except Exception as e:
             raise exceptions.UserError(f"Connection error: {str(e)}")
 
-
-    def action_sync_employees(self):
-        self.ensure_one()
-        try:
-            result_msg = self.env['zkteco.sync'].sync_employees()
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': 'Employee Sync Complete',
-                    'message': result_msg,
-                    'sticky': False,
-                    'type': 'success',
-                }
-            }
-        except Exception as e:
-            raise exceptions.UserError(str(e))
